@@ -7,10 +7,12 @@ const {
     getSingleProduct
 } = require('../controller/productController');
 
+const {verifyTokenAndAdmin} = require('../middleware/authenticate');
 
-router.post('/create', createProduct);
-router.put('/update/:id', updateProduct);
-router.delete('/delete/:id', deleteProduct);
+
+router.post('/',verifyTokenAndAdmin, createProduct);
+router.put('/:id',verifyTokenAndAdmin, updateProduct);
+router.delete('/:id',verifyTokenAndAdmin, deleteProduct);
 router.get('/single/:id', getSingleProduct);
 router.get('/all', getAllProduct);
 

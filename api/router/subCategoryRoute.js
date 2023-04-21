@@ -4,12 +4,17 @@ const {
     deleteSubCategory,
     updateSubCategory,
     getAllSubCategory
-} = require('../controller/categoryController');
+} = require('../controller/subCategoryController');
+
+const {
+verifyTokenAndAdmin
+} = require('../middleware/authenticate');
 
 
-router.post('/create', createSubCategory);
-router.put('/update/:id', updateSubCategory);
-router.delete('/delete/:id', deleteSubCategory);
+router.post('/', verifyTokenAndAdmin, createSubCategory);
+router.put('/:id', verifyTokenAndAdmin, updateSubCategory);
+router.delete('/:id', verifyTokenAndAdmin, deleteSubCategory);
 router.get('/all', getAllSubCategory);
+
 
 module.exports = router;

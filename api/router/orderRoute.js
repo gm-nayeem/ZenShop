@@ -9,15 +9,24 @@ const {
     getIncome
 } = require('../controller/orderController');
 
-router.post('/create', createOrder);
+const {
+    verifyToken,
+    verifyTokenAndAdmin,
+    verifyTokenAndAuthorization
+} = require('../middleware/authenticate');
 
-router.put('/update/:id', updateOrder);
+router.post('/', verifyToken, createOrder);
 
-router.delete('/delete/:id', deleteOrder);
+router.put('/:id', verifyTokenAndAdmin, updateOrder);
 
-router.get('/single/:userId', getSingleOrder);
+router.delete('/:id', verifyTokenAndAdmin, deleteOrder);
 
-router.get('/all', getAllOrder);
+router.get('/single/:userId', verifyTokenAndAuthorization, getSingleOrder);
 
-// GET MONTHLY INCOME
-router.get('/income', getIncome);
+router.get('/all', verifyTokenAndAdmin, getAllOrder);
+
+// get monthly income
+router.get('/income', verifyTokenAndAdmin, getIncome);
+
+
+module.exports = router;

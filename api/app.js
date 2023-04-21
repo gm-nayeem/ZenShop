@@ -3,11 +3,12 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-require('./config/database');
+require('./config/dbConn');
 
 // internal import 
 const authRoute = require('./router/authRoute')
 const userRoute = require('./router/userRoute')
+const contactRoute = require('./router/contactRoute')
 const productRoute = require('./router/productRoute')
 const orderRoute = require('./router/orderRoute')
 const categoryRoute = require('./router/categoryRoute')
@@ -25,6 +26,7 @@ app.use(express.json())
 // routes
 app.use("/api/auth", authRoute)
 app.use("/api/users", userRoute)
+app.use("/api/contact", contactRoute)
 app.use("/api/products", productRoute)
 app.use("/api/orders", orderRoute)
 app.use("/api/categories", categoryRoute)
@@ -45,9 +47,4 @@ app.use((err, req, res, next) => {
 })
 
 
-// server port 
-const PORT = process.env.PORT || 4500;
-
-app.listen(PORT, () => {
-    console.log(`Server is running successfully`);
-})
+module.exports = app;
