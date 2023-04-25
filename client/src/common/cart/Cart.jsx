@@ -1,6 +1,6 @@
 import React from "react";
 import "./cart.scss";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import {DeleteOutlined} from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { removeItem, resetCart } from "../../redux/cartReducer";
 import { userRequest } from "../../utils/makeRequest";
@@ -8,9 +8,7 @@ import { STRIPE_PUBLIC_KEY } from "../../private/URL";
 import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
-    const { cart, user } = useSelector((state) => state);
-    const { currentUser } = user;
-    const { products } = cart;
+    const { products } = useSelector((state) => state?.cart);
 
     const dispatch = useDispatch();
 
@@ -28,13 +26,20 @@ const Cart = () => {
     const handlePayment = async () => {
         try {
             const stripe = await stripePromise;
-            const res = await userRequest.post("/orders", {
-                userId: currentUser?.user._id,
+            const res = await userRequest.post("/checkout/payment", {
                 products,
-                totalAmount: totalPrice()
-            });
+            }); 
+
+            const stripeId = res.data.stripeSession.id;
+
+            // save stripeSession id
+            localStorage.setItem(
+                "stripeId", 
+                JSON.stringify(stripeId)
+            );
+            
             await stripe.redirectToCheckout({
-                sessionId: res.data.stripeSession.id,
+                sessionId: stripeId,
             });
         } catch (err) {
             console.log(err);
@@ -55,7 +60,7 @@ const Cart = () => {
                                 {item.quantity} x ${item.price}
                             </div>
                         </div>
-                        <DeleteOutlinedIcon
+                        <DeleteOutlined
                             className="delete"
                             onClick={() => dispatch(removeItem({ id: item.id }))}
                         />

@@ -13,6 +13,8 @@ import Login from "./pages/login/Login";
 import ForgotPassword from './pages/ password/forgotPassword/ForgotPassword';
 import ResetPassword from './pages/ password/resetPassword/ResetPassword';
 import Error from "./pages/error/Error";
+import Success from "./pages/success/Success";
+import Cancel from "./pages/cancel/Cancel";
 // import { useSelector } from "react-redux";
 
 const Layout = () => {
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
       {
         path: "/password-reset",
         element: <ResetPassword />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
+      },
+      {
+        path: "/cancel",
+        element: <Cancel />,
       },
       {
         path: "/*",

@@ -1,8 +1,11 @@
 import React from 'react'
+import './cancel.scss';
 
 const Cancel = () => {
   return (
-    <div>Cancel</div>
+    <div className='cancel'>
+      <h1>Payment Cancel</h1>
+    </div>
   )
 }
 

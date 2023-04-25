@@ -13,7 +13,7 @@ const productRoute = require('./router/productRoute')
 const orderRoute = require('./router/orderRoute')
 const categoryRoute = require('./router/categoryRoute')
 const subCategoryRoute = require('./router/subCategoryRoute')
-const paymentRoute = require('./router/stripe')
+const paymentRoute = require('./router/stripeRoute')
 
 const app = express()
 
