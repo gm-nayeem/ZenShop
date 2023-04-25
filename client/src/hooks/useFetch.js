@@ -11,12 +11,12 @@ const useFetch = (url) => {
             try {
                 setLoading(true);
                 const res = await publicRequest.get(url);
-                setData(res.data.data);
+                setData(res.data);
+                setLoading(false);
             } catch (err) {
                 setError(true);
+                setLoading(false);
             }
-            setLoading(false);
-            setError(false);
         };
         fetchData();
     }, [url]);

@@ -17,7 +17,7 @@ const updateUser = async (req, res, next) => {
         );
         res.status(200).json(updatedUser);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -28,7 +28,7 @@ const deleteUser = async (req, res, next) => {
         await User.findByIdAndDelete(id);
         res.status(200).json("User has been deleted...");
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -40,7 +40,7 @@ const getSingleUser = async (req, res, next) => {
         const { password, ...others } = user._doc;
         res.status(200).json(others);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -53,7 +53,7 @@ const getAllUser = async (req, res, next) => {
             : await User.find();
         res.status(200).json(users);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -78,7 +78,7 @@ const getUserStats = async (req, res, next) => {
         ]);
         res.status(200).json(data);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 

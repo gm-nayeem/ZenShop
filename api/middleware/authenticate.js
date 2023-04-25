@@ -1,21 +1,20 @@
 const jwt = require("jsonwebtoken");
+const createError = require('../utils/error');
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.token;
-  if(!authHeader) {
-    return res.status(401).json("You are not authenticated!");
+  if (!authHeader) {
+    next(createError(401, "Access token is required"));
   }
 
   const token = authHeader.split(" ")[1];
-  if(!token) {
-    return res.status(401).json("You are not authenticated!");
+  if (!token) {
+    return next(createError(401, "You are not authenticated!"));
   }
 
   jwt.verify(token, process.env.JWT_SEC, (err, user) => {
-    if (err) {
-      return res.status(403).json("Token is not valid!");
-    }
-    
+    if (err) return next(createError(403, "Token is not valid!"));
+
     req.user = user;
     next();
   });
@@ -24,21 +23,21 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user.id !== req.params.id || !req.user.isAdmin) {
-      return res.status(403).json("You are not alowed to do that!");
-    } 
-
-    next();
+    if ((req.user.id === req.params.id) || req.user.isAdmin) {
+      next();
+    } else {
+      return next(createError(403, "You are not authorized!"));
+    }
   });
 };
 
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (!req.user.isAdmin) {
-      return res.status(403).json("You are not alowed to do that!");
-    } 
-
-    next();
+    if (req.user.isAdmin) {
+      next();
+    } else {
+      return next(createError(403, "You are not authorized!"));
+    }
   });
 };
 

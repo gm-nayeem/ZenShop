@@ -1,18 +1,11 @@
 import Card from "../card/Card";
 import "./featuredProducts.scss";
 import useFetch from "../../hooks/useFetch";
-import {allProduct} from "../../utils/dummyData"
-import { useEffect, useState } from "react";
 
 const FeaturedProducts = ({ type }) => {
-    // const { data, loading, error } = useFetch(
-    //     `/products?populate=*&[filters][type][$eq]=${type}`
-    // );
-
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        setData(allProduct);
-    }, []);
+    const { data, loading, error } = useFetch(
+        `/products/all?type=${type}`
+    );
 
     return (
         <div className="featuredProducts">
@@ -26,11 +19,19 @@ const FeaturedProducts = ({ type }) => {
                     suspendisse ultrices gravida. Risus commodo viverra maecenas.
                 </p>
             </div>
-            <div className="bottom">
-                {
-                    data?.map((item) => <Card item={item} key={item.id} />)
-                }
-            </div>
+            {
+                loading ? (
+                    "Please wait..."
+                ) : error ? (
+                    "Something went wrong"
+                ) : (
+                    <div className="bottom">
+                        {
+                            data && data.map(item => <Card item={item} key={item._id} />)
+                        }
+                    </div>
+                )
+            }
         </div>
     );
 };

@@ -22,7 +22,6 @@ app.use(morgan('dev'))
 app.use(cors())
 app.use(express.json())
 
-
 // routes
 app.use("/api/auth", authRoute)
 app.use("/api/users", userRoute)
@@ -30,21 +29,21 @@ app.use("/api/contact", contactRoute)
 app.use("/api/products", productRoute)
 app.use("/api/orders", orderRoute)
 app.use("/api/categories", categoryRoute)
-app.use("/api/subCategories", subCategoryRoute)
+app.use("/api/subcategories", subCategoryRoute)
 app.use("/api/checkout", paymentRoute)
 
 
-app.get('/', (req, res) => {
-    res.json({
-        message: "Welcome to our E-commerce application"
-    })
-});
-
-// error handling
+// error handle
 app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Something broke!')
-})
+    const errorStatus = err.status || 500;
+    const errorMessage = err.message || "Something went wrong!!";
+    return res.status(errorStatus).json({
+        success: false,
+        status: errorStatus,
+        message: errorMessage,
+        stack: err.stack,
+    });
+});
 
 
 module.exports = app;

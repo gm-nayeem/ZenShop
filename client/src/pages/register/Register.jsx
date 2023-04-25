@@ -1,28 +1,26 @@
 import React, { useState } from 'react'
 import './register.scss';
 import { NavLink } from "react-router-dom"
-// import { publicRequest } from '../../utils/request';
 import { useNavigate } from 'react-router-dom';
+import { register } from '../../redux/apiCalls';
 
 const Register = () => {
-
-  const [passShow, setPassShow] = useState(false);
-  const [cpassShow, setCPassShow] = useState(false);
-  const navigate = useNavigate();
-
-  const [inpval, setInpval] = useState({
-    fname: "",
+  const [user, setUser] = useState({
+    username: "",
     email: "",
     password: "",
     cpassword: ""
   });
+  const [passShow, setPassShow] = useState(false);
+  const [cpassShow, setCPassShow] = useState(false);
+  const navigate = useNavigate();
 
-  const setVal = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setInpval(() => {
+    setUser(() => {
       return {
-        ...inpval,
+        ...user,
         [name]: value
       }
     })
@@ -31,7 +29,15 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(inpval);
+    register(user);
+    navigate('/login');
+
+    setUser({
+      username: "",
+      email: "",
+      password: "",
+      cpassword: ""
+    });
   }
 
   return (
@@ -45,21 +51,21 @@ const Register = () => {
           </div>
           <form>
             <div className="form_input">
-              <label htmlFor="fname">Name</label>
+              <label htmlFor="username">Username</label>
               <input
-                type="text" name="fname" id="fname"
-                value={inpval.fname}
-                placeholder='Enter Your Name'
-                onChange={setVal}
+                type="text" name="username" id="username"
+                value={user.username}
+                placeholder='enter username'
+                onChange={handleChange}
               />
             </div>
             <div className="form_input">
               <label htmlFor="email">Email</label>
               <input
                 type="email" name="email" id="email"
-                value={inpval.email}
-                placeholder='Enter Your Email Address'
-                onChange={setVal}
+                value={user.email}
+                placeholder='enter email'
+                onChange={handleChange}
               />
             </div>
             <div className="form_input">
@@ -67,10 +73,10 @@ const Register = () => {
               <div className="two">
                 <input
                   type={!passShow ? "password" : "text"}
-                  value={inpval.password}
-                  onChange={setVal}
+                  value={user.password}
+                  onChange={handleChange}
                   name="password" id="password"
-                  placeholder='Enter Your password'
+                  placeholder='enter password'
                 />
                 <div className="showpass" onClick={() => setPassShow(!passShow)}>
                   {!passShow ? "Show" : "Hide"}
@@ -82,10 +88,10 @@ const Register = () => {
               <div className="two">
                 <input
                   type={!cpassShow ? "password" : "text"}
-                  value={inpval.cpassword}
-                  onChange={setVal}
+                  value={user.cpassword}
+                  onChange={handleChange}
                   name="cpassword" id="cpassword"
-                  placeholder='Confirm password'
+                  placeholder='confirm password'
                 />
                 <div className="showpass" onClick={() => setCPassShow(!cpassShow)}>
                   {!cpassShow ? "Show" : "Hide"}

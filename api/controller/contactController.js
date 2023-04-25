@@ -1,13 +1,14 @@
 const Contact = require('../models/Contact');
 const transporter = require('../config/nodemailer');
+const createError = require('../utils/error');
 
-const contactController = async () => {
+const contactController = async (req, res, next) => {
     const {
         username, email, phone, message
     } = req.body;
 
     if (!username || !email || !phone || !message) {
-        return res.status(422).json({ error: "fill all the details" })
+        return next(createError(422, "Fill all the details"));
     }
 
     const newContact = new Contact({
@@ -45,10 +46,8 @@ const contactController = async () => {
         });
 
     } catch (error) {
-        res.status(422).json(error);
-        console.log("catch block error");
+        next(err);
     }
-
 }
 
 module.exports = { contactController };

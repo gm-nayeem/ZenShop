@@ -10,7 +10,7 @@ const ProductSchema = mongoose.Schema(
         color: { type: Array },
         price: { type: Number, required: true },
         type: { type: String, default: "normal" },
-        categories: { type: Array },
+        categories: { type: String },
         subCategories: { type: String },
         isUpdated: { type: Boolean, default: false },
         inStock: { type: Boolean, default: true },

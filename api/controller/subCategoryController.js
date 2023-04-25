@@ -1,13 +1,13 @@
 const SubCategory = require('../models/SubCategory');
 
-const createSubCategory = async  (req, res, next) => {
+const createSubCategory = async (req, res, next) => {
     const newSubCategory = new SubCategory(req.body);
 
     try {
         const savedSubCategory = await newSubCategory.save();
         res.status(200).json({ savedSubCategory });
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -23,7 +23,7 @@ const updateSubCategory = async (req, res, next) => {
         );
         res.status(200).json(updatedSubCategory);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
@@ -33,16 +33,28 @@ const deleteSubCategory = async (req, res, next) => {
         await SubCategory.findByIdAndDelete(id);
         res.status(200).json("SubCategory has been deleted...");
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 
 const getAllSubCategory = async (req, res, next) => {
+    const qCategory = req.query.category;
+
     try {
-        const subCategories = await SubCategory.find();
+        let subCategories;
+
+        if (qCategory) {
+            subCategories = await SubCategory.find({
+                categories: {
+                    $in: [qCategory],
+                },
+            });
+        } else {
+            subCategories = await SubCategory.find();
+        }
         res.status(200).json(subCategories);
     } catch (err) {
-        res.status(500).json(err);
+        next(err);
     }
 }
 

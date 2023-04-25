@@ -1,6 +1,7 @@
 import "./app.scss";
-import { 
-  createBrowserRouter, RouterProvider, Outlet 
+import {
+  createBrowserRouter, RouterProvider,
+  Outlet, Navigate
 } from "react-router-dom";
 import Footer from "./common/footer/Footer";
 import Navbar from "./common/navbar/Navbar";
@@ -12,8 +13,11 @@ import Login from "./pages/login/Login";
 import ForgotPassword from './pages/ password/forgotPassword/ForgotPassword';
 import ResetPassword from './pages/ password/resetPassword/ResetPassword';
 import Error from "./pages/error/Error";
+// import { useSelector } from "react-redux";
 
 const Layout = () => {
+  // const { currentUser } = useSelector(state => state.user);
+
   return (
     <div className="app">
       <Navbar />
@@ -33,7 +37,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/products/:id",
+        path: "/products/:category",
         element: <Products />,
       },
       {
@@ -64,7 +68,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-function App() {
+const App = () => {
   return (
     <div>
       <RouterProvider router={router} />

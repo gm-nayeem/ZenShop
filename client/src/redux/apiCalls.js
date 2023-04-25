@@ -2,14 +2,13 @@ import {
     loginStart,
     loginSuccessful,
     loginFailure
-} from './userRedux';
+} from './userReducer';
 import { publicRequest } from "../utils/makeRequest";
 
 // register
 export const register = async (user) => {
     try {
-        const res = await publicRequest.post("/auth/register", user);
-        console.log(res.data);
+        await publicRequest.post("/auth/register", user);
     } catch (err) {
         console.log(err);
     }

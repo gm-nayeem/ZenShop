@@ -2,24 +2,26 @@ const bcrypt = require("bcryptjs");
 const User = require('../models/User');
 const { tokenGenerator } = require('../config/tokenGenerate');
 const transporter = require('../config/nodemailer');
+const createError  = require("../utils/error");
+
 
 // register
-const registerController = async (req, res) => {
+const registerController = async (req, res, next) => {
     const { username, email, password, cpassword } = req.body;
 
     if (!username || !email || !password || !cpassword) {
-        return res.status(422).json({ error: "fill all the details" })
+        return next(createError(422, "Fill all the details" ));
     }
 
     try {
         const preuser = await User.findOne({ email: email });
 
         if (preuser) {
-            return res.status(422).json({ error: "This Email is Already Exist" })
+            return next(createError(404, "User not found!"));
         }
 
         if (password !== cpassword) {
-            return res.status(422).json({ error: "Password and Confirm Password Not Match" })
+            return next(createError(400, "Wrong password or username!"));
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
@@ -36,31 +38,30 @@ const registerController = async (req, res) => {
             message: "User created successfully"
         });
 
-    } catch (error) {
-        res.status(422).json(error);
-        console.log("catch block error");
+    } catch (err) {
+        next(err);
     }
 }
 
 // login
-const loginController = async (req, res) => {
+const loginController = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(422).json({ error: "fill all the details" })
+        return next(createError(422, "Fill all the details" ));
     }
 
     try {
         const userValid = await User.findOne({ email: email });
 
         if (!userValid) {
-            return res.status(401).json({ status: 401, message: "invalid details" });
+            return next(createError(404, "User not found!"));
         }
 
         const isMatch = await bcrypt.compare(password, userValid.password);
 
         if (!isMatch) {
-            return res.status(422).json({ error: "invalid details" })
+            return next(createError(400, "Wrong password or username!"));
         }
 
         // token generate
@@ -74,9 +75,8 @@ const loginController = async (req, res) => {
             token: accessToken
         });
 
-    } catch (error) {
-        res.status(401).json({ status: 401, error });
-        console.log("catch block");
+    } catch (err) {
+        next(err);
     }
 }
 
@@ -86,11 +86,11 @@ const logoutController = (req, res) => {
 }
 
 // send link through email for reset password
-const sendPasswordLink = async (req, res) => {
+const sendPasswordLink = async (req, res, next) => {
     const { email } = req.body;
 
     if (!email) {
-        return res.status(401).json({ status: 401, message: "Enter Your Email" })
+        return next(createError(422, "Fill all the details" ));
     }
 
     try {
@@ -106,7 +106,7 @@ const sendPasswordLink = async (req, res) => {
         );
 
         if (!setusertoken) {
-            return res.status(401).json({ status: 401, message: "invalid user" });
+            return next(createError(401, "You are not authenticated!"));
         }
 
         const mailOptions = {
@@ -118,59 +118,58 @@ const sendPasswordLink = async (req, res) => {
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log("error", error);
-                return res.status(401).send({ status: 401, message: "email not send" })
+                return next(createError(401, "Email not sent!"));
             }
 
             console.log("Email sent", info.response);
             res.status(201).send({ status: 201, message: "Email sent Succsfully" })
         });
 
-    } catch (error) {
-        res.status(401).json({ status: 401, message: "invalid user" })
+    } catch (err) {
+        next(err);
     }
 }
 
 // verify user for forgot password time
-const forgotPassword = async (req, res) => {
+const forgotPassword = async (req, res, next) => {
     const { id, token } = req.params;
 
     try {
         const validuser = await User.findOne({ _id: id, verifyToken: token });
         if (!validuser) {
-            return res.status(401).send({ status: 401, message: "user not exist" })
+            return next(createError(401, "User is not valid!" ));
         }
 
         const verifyToken = jwt.verify(token, process.env.JWT_SEC);
         if (!verifyToken.id) {
-            return res.status(401).send({ status: 401, message: "user not exist" })
+            return next(createError(401, "You are not authenticated!"));
         }
 
         res.status(201).send({ status: 201, message: "User varified" })
 
-    } catch (error) {
-        return res.status(401).send({ status: 401, error });
+    } catch (err) {
+        next(err);
     }
 }
 
 // change password
-const changePassword = async (req, res) => {
+const changePassword = async (req, res, next) => {
     const { id, token } = req.params;
     const { password, cpassword } = req.body;
 
     try {
         const validuser = await User.findOne({ _id: id, verifyToken: token });
         if (!validuser) {
-            return res.status(401).json({ status: 401, message: "user not exist" })
+            return next(createError(401, "User is not valid!" ));
         }
 
         const verifyToken = jwt.verify(token, process.env.JWT_SEC);
         if (!verifyToken.id) {
-            return res.status(401).json({ status: 401, message: "user not exist" })
+            return next(createError(401, "You are not authenticated!"));
         }
 
         if (password !== cpassword) {
-            return res.status(422).json({ error: "Password and Confirm Password Not Match" })
+            return next(createError(422, "Password not match" ));
         }
 
         const newPassword = await bcrypt.hash(password, 10);
@@ -187,8 +186,8 @@ const changePassword = async (req, res) => {
             message: "Password change sucessfully"
         });
 
-    } catch (error) {
-        res.status(401).json({ status: 401, error })
+    } catch (err) {
+        next(err);
     }
 }
 

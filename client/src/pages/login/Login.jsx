@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import './login.scss';
-import { NavLink, useNavigate } from "react-router-dom"
-// import { publicRequest } from '../../utils/request'; 
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { login } from "../../redux/apiCalls";
+
 
 const Login = () => {
-  const [passShow, setPassShow] = useState(false);
-  const [inpval, setInpval] = useState({
+  const [user, setUser] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  const [passShow, setPassShow] = useState(false);
 
-  const setVal = (e) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setInpval(() => {
+    setUser(() => {
       return {
-        ...inpval,
+        ...user,
         [name]: value
       }
     })
@@ -25,7 +29,13 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(inpval);
+    login(dispatch, user);
+    navigate('/');
+
+    setUser({
+      username: "",
+      password: ""
+    });
   }
 
   return (
@@ -42,10 +52,10 @@ const Login = () => {
               <label htmlFor="email">Email</label>
               <input
                 type="email"
-                value={inpval.email}
-                onChange={setVal}
+                value={user.email}
+                onChange={handleChange}
                 name="email" id="email"
-                placeholder='Enter Your Email Address'
+                placeholder='enter email'
               />
             </div>
             <div className="form_input">
@@ -53,10 +63,10 @@ const Login = () => {
               <div className="two">
                 <input
                   type={!passShow ? "password" : "text"}
-                  onChange={setVal}
-                  value={inpval.password}
+                  onChange={handleChange}
+                  value={user.password}
                   name="password" id="password"
-                  placeholder='Enter Your password'
+                  placeholder='enter password'
                 />
                 <div className="showpass" onClick={() => setPassShow(!passShow)}>
                   {!passShow ? "Show" : "Hide"}

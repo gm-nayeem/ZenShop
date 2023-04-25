@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import {
-    KeyboardArrowDown, PersonOutlineOutlined, 
+    KeyboardArrowDown, PersonOutlineOutlined,
     FavoriteBorderOutlined, Search, ShoppingCartOutlined
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import "./navbar.scss";
 import enImage from "../../assets/en.png";
 import Cart from "../cart/Cart";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/userReducer";
 
 const Navbar = () => {
     const [open, setOpen] = useState(false)
     const products = useSelector((state) => state?.cart?.products);
+    const dispatch = useDispatch();
 
     return (
         <div className="navbar">
@@ -49,7 +51,12 @@ const Navbar = () => {
                         <Link className="link" to="/contact">Contact</Link>
                     </div>
                     <div className="item">
-                        <Link className="link" to="/">Stores</Link>
+                        <Link 
+                            className="link" to="/"
+                            onClick={()=> dispatch(logout())}
+                        >
+                            Logout
+                        </Link>
                     </div>
                     <div className="icons">
                         <Search />

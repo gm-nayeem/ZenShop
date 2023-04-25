@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 const Card = ({ item }) => {
 
     return (
-        <Link className="link" to={`/product/${item?.id}`}>
+        <Link className="link" to={`/product/${item?._id}`}>
             <div className="card">
                 <div className="image">
-                    {item?.isNew && <span>New Season</span>}
+                    {item?.isUpdated && <span>New Season</span>}
                     <img
                         src={item.img}
                         alt=""
