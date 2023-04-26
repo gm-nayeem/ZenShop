@@ -52,7 +52,7 @@ const Products = () => {
                     <input
                       type="checkbox"
                       id={item?._id}
-                      value={item?._id}
+                      value={item?.title}
                       onChange={handleChange}
                     />
                     <label htmlFor={item?._id}>{item?.title}</label>
