@@ -32,9 +32,6 @@ export const {
     loginStart,
     loginSuccessful,
     loginFailure,
-    registerStart,
-    registerSuccessful,
-    registerFailure,
     logout
 } = userSlice.actions;
 export default userSlice.reducer;
