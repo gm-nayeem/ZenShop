@@ -1,4 +1,4 @@
-import "./chart.css";
+import "./productChart.scss";
 import {
   LineChart,
   Line,
@@ -25,4 +25,4 @@ const Chart = ({ title, data, grid, dataKey })=> {
   );
 }
 
-export default Chart
+export default Chart;

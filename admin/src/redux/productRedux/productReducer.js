@@ -4,68 +4,73 @@ const productSlice = createSlice({
     name: "product",
     initialState: {
         products: [],
-        isFetching: false,
-        isError: false
+        loading: false,
+        error: false
     },
     reducers: {
         // get all products
         getProductStart: (state) => {
-            state.isFetching = true;
-            state.isError = false;
+            state.loading = true;
+            state.error = false;
         },
         getProductSuccessful: (state, action) => {
-            state.isFetching = false;
+            state.loading = false;
             state.products = action.payload;
         },
         getProductFailure: (state) => {
-            state.isFetching = false;
-            state.isError = true;
+            state.loading = false;
+            state.error = true;
         },
 
         // delete product
         deleteProductStart: (state) => {
-            state.isFetching = true;
-            state.isError = false;
+            state.loading = true;
+            state.error = false;
         },
         deleteProductSuccessful: (state, action) => {
-            state.isFetching = false;
+            state.loading = false;
             state.products.splice(
                 state.products.findIndex(item => item._id === action.payload),
                 1
             )
         },
         deleteProductFailure: (state) => {
-            state.isFetching = false;
-            state.isError = true;
+            state.loading = false;
+            state.error = true;
         },
 
         // update product
         updateProductStart: (state) => {
-            state.isFetching = true;
-            state.isError = false;
+            state.loading = true;
+            state.error = false;
         },
         updateProductSuccessful: (state, action) => {
-            state.isFetching = false;           
+            state.loading = false;           
             const index = state.products.findIndex(item => item._id === action.payload.id);
             state.products[index] = action.payload.product;
         },
         updateProductFailure: (state) => {
-            state.isFetching = false;
-            state.isError = true;
+            state.loading = false;
+            state.error = true;
         },
 
         // add product
         addProductStart: (state) => {
-            state.isFetching = true;
-            state.isError = false;
+            state.loading = true;
+            state.error = false;
         },
         addProductSuccessful: (state, action) => {
-            state.isFetching = false;        
+            state.loading = false;        
             state.products.push(action.payload.savedProduct);
         },
         addProductFailure: (state) => {
-            state.isFetching = false;
-            state.isError = true;
+            state.loading = false;
+            state.error = true;
+        },
+
+        // after logout
+        productInitialize: (state) => {
+            state.products = null
         }
     }
 })
@@ -83,6 +88,6 @@ export const {
     addProductFailure,
     addProductStart,
     addProductSuccessful,
-    testProduct
+    productInitialize
 } = productSlice.actions;
 export default productSlice.reducer;

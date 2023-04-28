@@ -1,56 +1,99 @@
-import "./newUser.css";
+import './newUser.scss';
+import { DriveFolderUploadOutlined } from "@mui/icons-material";
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { publicRequest } from '../../utils/makeRequest';
+import upload from '../../utils/upload';
+import { userInputs } from '../../formSource';
+import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
+
 
 const NewUser = () => {
+  const [file, setFile] = useState("");
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  // set user input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  };
+
+  // sumbit user
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const {
+      username, email, password, cpassword
+    } = user;
+
+    try {
+      const url = await upload(file);
+
+      const newUser = {
+        username,
+        email,
+        password,
+        cpassword,
+        img: url,
+      };
+
+      const res = await publicRequest.post("/auth/register", newUser);
+      res && navigate("/users");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
   return (
-    <div className="newUser">
-      <h1 className="newUserTitle">New User</h1>
-      <form className="newUserForm">
-        <div className="newUserItem">
-          <label>Username</label>
-          <input type="text" placeholder="john" />
+    <div className='new'>
+      <div className="top">
+        <h1>ADD NEW USER</h1>
+      </div>
+      <div className="bottom">
+        <div className="left">
+          <img
+            src={
+              file ? URL.createObjectURL(file) : NO_IMG_ICON
+            }
+            alt=""
+          />
         </div>
-        <div className="newUserItem">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Smith" />
+        <div className="right">
+          <form>
+            <div className="formInput">
+              <label htmlFor='file'>
+                Image: <DriveFolderUploadOutlined className='icon' />
+              </label>
+              <input type="file" name="file" id='file'
+                style={{ display: "none" }}
+                onChange={e => setFile(e.target.files[0])}
+              />
+            </div>
+            {
+              userInputs.map((input, i) => (
+                <div className="formInput" key={i}>
+                  <label>{input.label}</label>
+                  <input
+                    type={input.type}
+                    name={input.name}
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                  />
+                </div>
+              ))
+            }
+            <button onClick={handleSubmit}>Send</button>
+          </form>
         </div>
-        <div className="newUserItem">
-          <label>Email</label>
-          <input type="email" placeholder="john@gmail.com" />
-        </div>
-        <div className="newUserItem">
-          <label>Password</label>
-          <input type="password" placeholder="password" />
-        </div>
-        <div className="newUserItem">
-          <label>Phone</label>
-          <input type="text" placeholder="+1 123 456 78" />
-        </div>
-        <div className="newUserItem">
-          <label>Address</label>
-          <input type="text" placeholder="New York | USA" />
-        </div>
-        <div className="newUserItem">
-          <label>Gender</label>
-          <div className="newUserGender">
-            <input type="radio" name="gender" id="male" value="male" />
-            <label for="male">Male</label>
-            <input type="radio" name="gender" id="female" value="female" />
-            <label for="female">Female</label>
-            <input type="radio" name="gender" id="other" value="other" />
-            <label for="other">Other</label>
-          </div>
-        </div>
-        <div className="newUserItem">
-          <label>Active</label>
-          <select className="newUserSelect" name="active" id="active">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <button className="newUserButton">Create</button>
-      </form>
+      </div>
     </div>
-  );
+  )
 }
 
 export default NewUser;
+

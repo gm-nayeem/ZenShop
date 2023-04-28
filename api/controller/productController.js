@@ -4,8 +4,8 @@ const createProduct = async (req, res, next) => {
     const newProduct = new Product(req.body);
 
     try {
-        const savedProduct = await newProduct.save();
-        res.status(200).json({ savedProduct });
+        await newProduct.save();
+        res.status(200).json("Product created successfully");
     } catch (err) {
         next(err);
     }
@@ -67,7 +67,6 @@ const getAllProduct = async (req, res, next) => {
 
     // console.log("subCat: ", subCat);
 
-
     try {
         let products;
 
@@ -75,10 +74,9 @@ const getAllProduct = async (req, res, next) => {
             products = await Product.find({ type: qType }).sort({ createdAt: -1 }).limit(4);
         }
         else if (qNew) {
-            products = await Product.find().sort({ createdAt: -1 }).limit(1);
+            products = await Product.find().sort({ createdAt: -1 });
         }
         else {
-
             if (subCat.length > 0) {
                 products = await Product.find({
                     categories: qCategory,

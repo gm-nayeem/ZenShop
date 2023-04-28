@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import userReducer from './userReducer';
-import productReducer from './productReducer';
+import authReducer from '../authRedux/authReducer';
+import userReducer from '../userRedux/userReducer';
+import productReducer from '../productRedux/productReducer';
 
 // for specify state
 import {
@@ -22,7 +23,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-    admin: userReducer, 
+    admin: authReducer,
+    user: userReducer,
     product: productReducer
 });
 
@@ -33,9 +35,9 @@ export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
+            serializableCheck: {
+                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+            },
         }),
 })
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./login.css";
 import {useDispatch} from 'react-redux';
-import { login } from "../../redux/apiCalls";
+import { login } from "../../redux/authRedux/authApiCalls";
 import {Link} from 'react-router-dom';
 // import { mobile } from "../responsive";
 
@@ -14,8 +14,9 @@ const Login = () => {
   // const {isFetching, isError} = useSelector(state => state.admin);
 
   const userHandler = (e) => {
+    const {name, value} = e.target;
     setUser(
-      {...user, [e.target.name]: e.target.value}
+      {...user, [name]: value}
     );
   }
 

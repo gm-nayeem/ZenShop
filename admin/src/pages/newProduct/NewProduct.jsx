@@ -1,118 +1,206 @@
+import "./newProduct.scss";
+import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from "react";
-import "./newProduct.css";
-import { addProduct } from "../../redux/apiCalls";
-import {useDispatch} from 'react-redux';
-// import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { productInputs } from "../../formSource";
+import useFetch from "../../hooks/useFetch";
+import { userRequest } from "../../utils/makeRequest";
+import upload from "../../utils/upload";
+import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from "firebase/storage";
-import app from "../../utils/firebase";
 
-const NewProduct = () => {
-  const [inputs, setInputs] = useState({});
-  const [file, setFile] = useState(null);
+const NewHotel = () => {
+  const [files, setFiles] = useState("");
+  const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
-  const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const [subCategories, setSubCategories] = useState([]);
 
+  const {
+    data: categoryData,
+    loading: categoryLoading,
+    error: categoryError
+  } = useFetch("/categories/all");
+
+  const {
+    data: subCategoryData,
+    loading: subCategoryLoading,
+    error: subCategoryError
+  } = useFetch("/subcategories/all");
+
+  const navigate = useNavigate();
+
+  // set product
   const handleChange = (e) => {
-    setInputs(prev => {
-      return {
-        ...prev, [e.target.name]: e.target.value
-      }
-    })
-  }
+    const { name, value } = e.target;
+    setProduct(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
+  // set categories
   const handleCategories = (e) => {
-    setCategories(e.target.value.split(","))
-  }
-
-  const handleClick = (e) => {
-    e.preventDefault();
-
-    // firebase setup for upload file(image) and get file url
-    const fileName = new Date().getTime() + file.name;
-    const storage = getStorage(app);
-    const storageRef = ref(storage, fileName);
-
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        switch (snapshot.state) {
-          case 'paused':
-            console.log('Upload is paused');
-            break;
-          case 'running':
-            console.log('Upload is running');
-            break;
-          default:
-        }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const product = {...inputs, img: downloadURL, categories}
-          // console.log(product)
-          addProduct(dispatch, product);
-          // navigate("/products");
-        });
-      }
+    const value = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
     );
-  }
+    setCategories(value);
+  };
+
+  // set subCategories
+  const handleSubCategories = (e) => {
+    const value = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+    setSubCategories(value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const colorArr = product?.color.split(", ");
+    const sizeArr = product?.size.split(", ");
+
+    try {
+      // get files url lists
+      const lists = await Promise.all(
+        Object.values(files).map(async (file) => {
+          const url = await upload(file);
+          return url;
+        })
+      );
+
+      const newProduct = {
+        ...product,
+        color: colorArr,
+        size: sizeArr,
+        categories: categories[0],
+        subCategories: subCategories[0],
+        img: lists[0],
+        img2: lists[1],
+      };
+
+      const res = await userRequest.post("/products", newProduct);
+      res && navigate("/products");
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
 
   return (
-    <div className="newProduct">
-      <h1 className="addProductTitle">New Product</h1>
-      <form className="addProductForm">
-        <div className="addProductItem">
-          <label>Image</label>
-          <input type="file" name="file" id="file"
-            onChange={(e) => setFile(e.target.files[0])} />
+    <div className='new'>
+      <div className="top">
+        <h1>Add New Product</h1>
+      </div>
+      <div className="bottom">
+        <div className="left">
+          <img
+            src={
+              files ? URL.createObjectURL(files[0]) : NO_IMG_ICON
+            }
+            alt=""
+          />
         </div>
-        <div className="addProductItem">
-          <label>Title</label>
-          <input type="text" name="title" placeholder="Apple Airpods"
-            onChange={handleChange} />
+        <div className="right">
+          <form>
+            <div className="formInput">
+              <label htmlFor='file'>
+                Image: <DriveFolderUploadOutlined className='icon' />
+              </label>
+              <input
+                type="file"
+                name="file"
+                id='file'
+                multiple
+                onChange={e => setFiles(e.target.files)}
+                style={{ display: "none" }}
+              />
+            </div>
+            {
+              productInputs.map((input, i) => (
+                <div className="formInput" key={i}>
+                  <label>{input.label}</label>
+                  <input
+                    type={input.type}
+                    name={input.name}
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                  />
+                </div>
+              ))
+            }
+            <div className="formInput2">
+              <label style={{ marginBottom: "5px" }}>Type</label>
+              <select name="type" id="type" onChange={handleChange}>
+                <option value="normal">Normal</option>
+                <option value="featured">Featured</option>
+                <option value="trending">Trending</option>
+              </select>
+            </div>
+            <div className="formInput2">
+              <label style={{ marginBottom: "5px" }}>IsNew?</label>
+              <select name="isUpdated" id="isUpdated" onChange={handleChange}>
+                <option value={true}>true</option>
+                <option value={false}>false</option>
+              </select>
+            </div>
+            <div className="formInput2">
+              <label style={{ marginBottom: "5px" }}>InStock?</label>
+              <select name="inStock" id="inStock" onChange={handleChange}>
+                <option value={true}>true</option>
+                <option value={false}>false</option>
+              </select>
+            </div>
+            <div className="formInput3">
+              <label>Categories</label>
+              <select
+                name="categories" id="categories"
+                multiple onChange={handleCategories}
+              >
+                {
+                  categoryLoading ? (
+                    "Loading please wait..."
+                  ) : categoryError ? (
+                    "Something went wrong!!"
+                  ) : (
+                    categoryData && categoryData.map(cat => (
+                      <option key={cat._id} value={cat.title}>
+                        {cat.title}
+                      </option>
+                    ))
+                  )
+                }
+              </select>
+            </div>
+            <div className="formInput3">
+              <label>Sub categories</label>
+              <select
+                name="subCategories" id="subCategories"
+                multiple onChange={handleSubCategories}
+              >
+                {
+                  subCategoryLoading ? (
+                    "Loading please wait..."
+                  ) : subCategoryError ? (
+                    "Something went wrong!!"
+                  ) : (
+                    subCategoryData && subCategoryData.map(subCat => (
+                      <option key={subCat._id} value={subCat.title}>
+                        {subCat.title}
+                      </option>
+                    ))
+                  )
+                }
+              </select>
+            </div>
+            <button onClick={handleSubmit}>Send</button>
+          </form>
         </div>
-        <div className="addProductItem">
-          <label>Description</label>
-          <input type="text" name="desc" placeholder="description"
-            onChange={handleChange} />
-        </div>
-        <div className="addProductItem">
-          <label>Price</label>
-          <input type="number" name="price" placeholder="100"
-            onChange={handleChange} />
-        </div>
-        <div className="addProductItem">
-          <label>Categories</label>
-          <input type="text" name="categories"
-            placeholder="jeans, skirts" onChange={handleCategories} />
-        </div>
-        <div className="addProductItem">
-          <label>Stock</label>
-          <select name="inStock" onChange={handleChange}>
-            <option value="true">Choose one</option>
-            <option value="true">Yes</option>
-            <option value="false">False</option>
-          </select>
-        </div>
-        <button onClick={handleClick} className="addProductButton">
-          Create
-        </button>
-      </form>
+      </div>
     </div>
   );
-}
+};
 
-export default NewProduct;
+export default NewHotel;

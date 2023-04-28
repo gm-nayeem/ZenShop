@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import "./product.css";
-import Chart from "../../components/Chart/Chart"
+import "./product.scss";
+import Chart from "../../components/productChart/ProductChart";
 import { Publish } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useState, useEffect, useMemo } from "react";
@@ -15,7 +15,7 @@ const Product = () => {
 
     const product = useSelector(state => state.product.products.find(
         product => product._id === productId
-    ))
+    ));
 
     const MONTHS = useMemo(() => (
         [
@@ -60,9 +60,6 @@ const Product = () => {
         <div className="product">
             <div className="productTitleContainer">
                 <h1 className="productTitle">Product</h1>
-                <Link to="/newproduct">
-                    <button className="productAddButton">Create</button>
-                </Link>
             </div>
             <div className="productTop">
                 <div className="productTopLeft">
@@ -79,21 +76,23 @@ const Product = () => {
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
-                            <span className="productInfoKey" style={{ marginRight: "10px" }}>id:</span>
+                            <span className="productInfoKey" style={{ marginRight: "30px" }}>Id:</span>
                             <span className="productInfoValue">{product._id}</span>
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">sales:</span>
-                            <span className="productInfoValue">5123</span>
+                            <span className="productInfoKey">Sales:</span>
+                            <span className="productInfoValue">${product.price}</span>
                         </div>
                         <div className="productInfoItem">
-                            <span className="productInfoKey">in stock:</span>
-                            <span className="productInfoValue">{product.inStock}</span>
+                            <span className="productInfoKey">In stock:</span>
+                            <span className="productInfoValue">
+                                {product.inStock ? "Stocked" : "Out of stock"}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="productBottom">
+            {/* <div className="productBottom">
                 <form className="productForm">
                     <div className="productFormLeft">
                         <label>Product Name</label>
@@ -119,9 +118,9 @@ const Product = () => {
                         <button className="productButton">Update</button>
                     </div>
                 </form>
-            </div>
+            </div> */}
         </div>
     );
 }
 
-export default Product
+export default Product;

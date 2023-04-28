@@ -5,19 +5,28 @@ import {
   Settings, Lock 
 } from "@mui/icons-material";
 import {useDispatch} from 'react-redux'
-import {logout} from "../../redux/userReducer";
+import {logout} from "../../redux/authRedux/authReducer";
+import {userInitialize} from '../../redux/userRedux/userReducer';
+import {productInitialize} from '../../redux/productRedux/productReducer';
 import {Link} from 'react-router-dom';
 
 
 const Navbar = () => {
   const dispatch = useDispatch();
 
+  // handle logout
+  const handleLogout = () => {
+    dispatch(logout());
+    dispatch(userInitialize());
+    dispatch(productInitialize());
+  }
+
   return (
     <div className='topbar'>
       <div className="topbarWrapper">
         <div className="topLeft">
           <Link to={"/"} className="link">
-          <span className="logo">mernadmin</span>
+          <span className="logo">ZenShop</span>
           </Link>
         </div>
         
@@ -34,7 +43,7 @@ const Navbar = () => {
             <Settings />
           </div>
           <div className="topbarIconContainer"
-            onClick={() => dispatch(logout())}
+            onClick={handleLogout}
           >
             <Lock />
           </div>

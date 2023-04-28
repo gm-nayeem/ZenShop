@@ -27,8 +27,10 @@ const registerController = async (req, res, next) => {
         const hashPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
-            username, email,
-            password: hashPassword
+            username, 
+            email,
+            password: hashPassword,
+            img: req.body?.img || ""
         });
 
         await newUser.save();

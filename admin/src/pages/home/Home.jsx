@@ -1,6 +1,6 @@
 import './home.css';
 import FeaturedInfo from '../../components/featuredInfo/FeaturedInfo'
-import Chart from '../../components/Chart/Chart'
+import Chart from '../../components/productChart/ProductChart'
 import WidgetSm from '../../components/widgetSm/WidgetSm'
 import WidgetLg from '../../components/widgetLg/WidgetLg'
 import { useState, useEffect, useMemo } from 'react';
@@ -47,7 +47,12 @@ const Home = () => {
   return (
     <div className='home'>
       <FeaturedInfo />
-      <Chart data={userStats} title="User Analytics" grid dataKey="Active User" />
+      <Chart 
+        data={userStats} 
+        title="User Analytics" 
+        grid 
+        dataKey="Active User" 
+      />
       <div className="homeWidgets">
         <WidgetSm />
         <WidgetLg />
