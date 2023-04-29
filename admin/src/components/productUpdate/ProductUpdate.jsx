@@ -4,7 +4,7 @@ import { Publish } from "@mui/icons-material";
 import { DEFAULT_IMG_URL } from "../../private/URL";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import {updateProduct} from '../../redux/productRedux/productApiCalls';
+import { updateProduct } from '../../redux/productRedux/productApiCalls';
 // firebase
 import {
   getStorage,
@@ -17,6 +17,7 @@ import app from '../../config/firebase';
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
   const [updatedProductFiles, setUpdatedProductFiles] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
   const [uploaded, setUploaded] = useState(0);
 
   const dispatch = useDispatch();
@@ -33,6 +34,9 @@ const ProductUpdate = ({ product }) => {
 
   // multiple file upload using firebase
   const upload = (items) => {
+    let count = 0;
+    setFileLoading(true);
+
     items.forEach(item => {
       // firebase setup
       const fileName = new Date().getTime() + item.label + item.file.name;
@@ -59,11 +63,13 @@ const ProductUpdate = ({ product }) => {
               }
             });
 
+            count += 1;
+            count === 2 && setFileLoading(false);
             setUploaded(prev => prev + 1);
           });
         }
       );
-    })
+    });
   }
 
   // handle upload
@@ -82,10 +88,13 @@ const ProductUpdate = ({ product }) => {
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    updatedProduct.color = updatedProduct.color.split(",");
-    updatedProduct.size = updatedProduct.size.split(",");
+    if (updatedProduct.color) {
+      updatedProduct["color"] = updatedProduct?.color?.split(",");
+    }
+    if (updatedProduct.size) {
+      updatedProduct["size"] = updatedProduct?.size?.split(",");
+    }
 
-    console.log("updatedProduct", updatedProduct);
 
     // update user
     // Object.keys(updatedProduct).forEach((key) => {
@@ -96,10 +105,19 @@ const ProductUpdate = ({ product }) => {
     //   })
     // });
 
-    // updateProduct(dispatch, product?._id, product);
-    // navigate("/products");
-  }
+    const sendProduct = {
+      ...product,
+      ...updatedProduct
+    }
 
+    // console.log("sendProduct", sendProduct);
+
+    updateProduct(dispatch, sendProduct?._id, sendProduct);
+
+    setTimeout(() => {
+      navigate("/products");
+    }, 1000);
+  }
 
   return (
     <div className="productUpdate">
@@ -199,7 +217,9 @@ const ProductUpdate = ({ product }) => {
               />
             </div>
             {
-              uploaded === 2 ? (
+              fileLoading ? (
+                <button className="productUpdateButton">Uploading...</button>
+              ) : uploaded === 2 ? (
                 <button className="productUpdateButton" onClick={handleUpdate}>Update</button>
               ) : (
                 <button className="productUpdateButton" onClick={handleUpload}>Upload</button>

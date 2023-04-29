@@ -3,14 +3,22 @@ import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from '../../utils/makeRequest';
-import upload from "../../config/upload";
 import { userInputs } from '../../formSource';
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
-
+// firebase
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
+import app from "../../config/firebase";
 
 const NewUser = () => {
-  const [file, setFile] = useState("");
   const [user, setUser] = useState({});
+  const [file, setFile] = useState("");
+  const [fileLoading, setFileLoading] = useState(false);
+  const [uploaded, setUploaded] = useState(0);
   const navigate = useNavigate();
 
   // set user input
@@ -22,23 +30,59 @@ const NewUser = () => {
     }))
   };
 
+  // file upload using firebase
+  const handleUpload = (e) => {
+    e.preventDefault();
+
+    setFileLoading(true);
+
+    // firebase setup
+    const fileName = new Date().getTime() + file.name;
+    const storage = getStorage(app);
+
+    const storageRef = ref(storage, `/users/${fileName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+      },
+      (err) => {
+        // Handle unsuccessful uploads
+        console.log(err.message);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUser(prev => {
+            return {
+              ...prev,
+              "profilePic": downloadURL
+            }
+          });
+
+          setFileLoading(false);
+          setUploaded(prev => prev + 1);
+        });
+      }
+    );
+  };
+
   // sumbit user
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const {
-      username, email, password, cpassword
+      username, email, password, cpassword, profilePic
     } = user;
 
     try {
-      const url = await upload(file);
-
       const newUser = {
         username,
         email,
         password,
         cpassword,
-        img: url,
+        profilePic
       };
 
       const res = await publicRequest.post("/auth/register", newUser);
@@ -63,7 +107,15 @@ const NewUser = () => {
               }
               alt=""
             />
-            <button onClick={handleSubmit}>Upload</button>
+            {
+              fileLoading ? (
+                <button className="userUpdateButton">Uploading...</button>
+              ) : uploaded === 1 ? (
+                <button className="userUpdateButton" onClick={handleSubmit}>Update</button>
+              ) : (
+                <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
+              )
+            }
           </div>
         </div>
         <div className="right">

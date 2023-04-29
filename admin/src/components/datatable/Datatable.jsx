@@ -11,6 +11,7 @@ import useFetch from '../../hooks/useFetch';
 const Datatable = ({ columns }) => {
     const location = useLocation();
     const path = location.pathname.split("/")[1];
+    
     const [lists, setLists] = useState([]);
     const dispatch = useDispatch();
 

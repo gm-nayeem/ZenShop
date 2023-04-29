@@ -5,15 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { productInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import { userRequest } from "../../utils/makeRequest";
-import upload from "../../config/upload";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
+// firebase
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
+import app from "../../config/firebase";
 
 
 const NewHotel = () => {
-  const [files, setFiles] = useState("");
   const [product, setProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [files, setFiles] = useState("");
+  const [fileLoading, setFileLoading] = useState(false);
+  const [uploaded, setUploaded] = useState(0);
 
   const {
     data: categoryData,
@@ -56,29 +65,71 @@ const NewHotel = () => {
     setSubCategories(value);
   };
 
+  // multiple file upload using firebase
+  const upload = (items) => {
+    let count = 0;
+    setFileLoading(true);
+
+    items.forEach(item => {
+      // firebase setup
+      const fileName = new Date().getTime() + item.label + item.file.name;
+      const storage = getStorage(app);
+
+      const storageRef = ref(storage, `/products/${fileName}`);
+      const uploadTask = uploadBytesResumable(storageRef, item.file);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (err) => {
+          // Handle unsuccessful uploads
+          console.log(err.message);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setProduct(prev => {
+              return {
+                ...prev,
+                [item.label]: downloadURL
+              }
+            });
+
+            count += 1;
+            count === 2 && setFileLoading(false);
+            setUploaded(prev => prev + 1);
+          });
+        }
+      );
+    })
+  }
+
+  // handle upload
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+    const productImg = Object.values(files).map(file => file);
+
+    upload([
+      { file: productImg[0], label: "img" },
+      { file: productImg[1], label: "img2" },
+    ]);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const colorArr = product?.color.split(",");
-    const sizeArr = product?.size.split(",");
+    const colorArr = product?.color?.split(",");
+    const sizeArr = product?.size?.split(",");
 
     try {
-      // get files url lists
-      const lists = await Promise.all(
-        Object.values(files).map(async (file) => {
-          const url = await upload(file);
-          return url;
-        })
-      );
-
       const newProduct = {
         ...product,
         color: colorArr,
         size: sizeArr,
         categories: categories[0],
-        subCategories: subCategories[0],
-        img: lists[0],
-        img2: lists[1],
+        subCategories: subCategories[0]
       };
 
       const res = await userRequest.post("/products", newProduct);
@@ -109,7 +160,15 @@ const NewHotel = () => {
               }
               alt=""
             />
-            <button onClick={handleSubmit}>Upload</button>
+            {
+              fileLoading ? (
+                <button className="productUpdateButton">Uploading...</button>
+              ) : uploaded === 2 ? (
+                <button className="productUpdateButton" onClick={handleSubmit}>Submit</button>
+              ) : (
+                <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
+              )
+            }
           </div>
         </div>
         <div className="right">

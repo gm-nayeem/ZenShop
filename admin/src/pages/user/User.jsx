@@ -42,7 +42,7 @@ const User = () => {
         <div className="userLeft">
           <div className="userInfoTop">
             <img
-              src={user?.img || DEFAULT_IMG_URL}
+              src={user?.profilePic || DEFAULT_IMG_URL}
               alt=""
               className="userInfoImg"
             />

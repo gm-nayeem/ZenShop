@@ -30,7 +30,7 @@ const registerController = async (req, res, next) => {
             username, 
             email,
             password: hashPassword,
-            img: req.body?.img || ""
+            profilePic: req.body?.profilePic || ""
         });
 
         await newUser.save();

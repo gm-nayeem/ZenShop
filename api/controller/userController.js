@@ -3,11 +3,12 @@ const User = require('../models/User');
 
 const updateUser = async (req, res, next) => {
     const id = req.params.id;
+    console.log("id: ", id);
 
     try {
-        if (req.body.password) {
-            req.body.password = await bcrypt.hash(password, 10);
-        }
+        // if (req.body.password) {
+        //     req.body.password = await bcrypt.hash(password, 10);
+        // }
 
         const updatedUser = await User.findByIdAndUpdate(id,
             {
@@ -15,7 +16,9 @@ const updateUser = async (req, res, next) => {
             },
             { new: true }
         );
-        res.status(200).json("User updated successfully");
+        console.log("updated User: ", updatedUser);
+
+        res.status(200).json(updatedUser);
     } catch (err) {
         next(err);
     }

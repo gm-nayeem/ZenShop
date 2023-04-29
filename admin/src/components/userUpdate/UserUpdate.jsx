@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './userUpdate.scss';
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Publish } from "@mui/icons-material";
 import { updateUser } from "../../redux/userRedux/userApiCalls";
+import { DEFAULT_IMG_URL } from '../../private/URL';
 // firebase
 import {
   getStorage,
@@ -14,9 +15,10 @@ import {
 import app from '../../config/firebase';
 
 
-const UserUpdate = ({user}) => {
+const UserUpdate = ({ user }) => {
   const [updatedUser, setUpdatedUser] = useState({});
   const [updatedProfilePic, setUpdatedProfilePic] = useState(null);
+  const [fileLoading, setFileLoading] = useState(false);
   const [uploaded, setUploaded] = useState(0);
 
   const dispatch = useDispatch();
@@ -34,6 +36,8 @@ const UserUpdate = ({user}) => {
   // file upload using firebase
   const handleUpload = (e) => {
     e.preventDefault();
+
+    setFileLoading(true);
 
     // firebase setup
     const fileName = new Date().getTime() + updatedProfilePic.name;
@@ -56,10 +60,11 @@ const UserUpdate = ({user}) => {
           setUpdatedUser(prev => {
             return {
               ...prev,
-              "img": downloadURL
+              "profilePic": downloadURL
             }
           });
 
+          setFileLoading(false);
           setUploaded(prev => prev + 1);
         });
       }
@@ -70,20 +75,18 @@ const UserUpdate = ({user}) => {
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    console.log("updateUser: ", updateUser);
+    const sendUser = {
+      ...user,
+      ...updatedUser
+    }
 
-    // // update user
-    // Object.keys(updatedUser).forEach((key) => {
-    //   Object.keys(user).forEach((key2) => {
-    //     if (key === key2) {
-    //       user[key2] = updatedUser[key]
-    //     }
-    //   })
-    // });
+    updateUser(dispatch, sendUser._id, sendUser);
 
-    // updateUser(dispatch, user?._id, user);
-    // navigate("/users");
+    setTimeout(() => {
+      navigate("/users");
+    }, 1000);
   }
+
 
   return (
     <div className="userUpdate">
@@ -126,7 +129,7 @@ const UserUpdate = ({user}) => {
           <div className="userUpdateUpload">
             <img
               className="userUpdateImg"
-              src={user?.img || DEFAULT_IMG_URL}
+              src={user?.profilePic || DEFAULT_IMG_URL}
               alt=""
             />
             <label htmlFor="file">
@@ -138,7 +141,9 @@ const UserUpdate = ({user}) => {
             />
           </div>
           {
-            uploaded === 1 ? (
+            fileLoading ? (
+              <button className="userUpdateButton">Uploading...</button>
+            ) : uploaded === 1 ? (
               <button className="userUpdateButton" onClick={handleUpdate}>Update</button>
             ) : (
               <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
