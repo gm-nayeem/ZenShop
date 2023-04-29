@@ -1,17 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./product.scss";
 import Chart from "../../components/productChart/ProductChart";
-import { Publish } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { useState, useEffect, useMemo } from "react";
 import { userRequest } from "../../utils/makeRequest";
+import ProductUpdate from "../../components/productUpdate/ProductUpdate";
 
 
 const Product = () => {
-    const location = useLocation();
-    const productId = location.pathname.split("/")[2];
-
     const [pStats, setPStats] = useState([]);
+    const productId = useParams().productId;
 
     const product = useSelector(state => state.product.products.find(
         product => product._id === productId
@@ -34,6 +32,7 @@ const Product = () => {
         ]
     ), []);
 
+    // set product stats
     useEffect(() => {
         const getStats = async () => {
             try {
@@ -56,6 +55,7 @@ const Product = () => {
         getStats();
     }, [productId, MONTHS]);
 
+
     return (
         <div className="product">
             <div className="productTitleContainer">
@@ -71,54 +71,30 @@ const Product = () => {
                 </div>
                 <div className="productTopRight">
                     <div className="productInfoTop">
-                        <img src={product.img} alt="" className="productInfoImg" />
-                        <span className="productName">{product.title}</span>
+                        <img src={product?.img} alt="" className="productInfoImg" />
+                        <span className="productName">{product?.title}</span>
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
                             <span className="productInfoKey" style={{ marginRight: "30px" }}>Id:</span>
-                            <span className="productInfoValue">{product._id}</span>
+                            <span className="productInfoValue">{product?._id}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">Sales:</span>
-                            <span className="productInfoValue">${product.price}</span>
+                            <span className="productInfoValue">${product?.price}</span>
                         </div>
                         <div className="productInfoItem">
                             <span className="productInfoKey">In stock:</span>
                             <span className="productInfoValue">
-                                {product.inStock ? "Stocked" : "Out of stock"}
+                                {product?.inStock ? "Stocked" : "Out of stock"}
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <div className="productBottom">
-                <form className="productForm">
-                    <div className="productFormLeft">
-                        <label>Product Name</label>
-                        <input type="text" placeholder={product.title} />
-                        <label>Product Description</label>
-                        <input type="text" placeholder={product.desc} />
-                        <label>Price</label>
-                        <input type="text" placeholder={product.price} />
-                        <label>In Stock</label>
-                        <select name="inStock" id="idStock">
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </div>
-                    <div className="productFormRight">
-                        <div className="productUpload">
-                            <img src={product.img} alt="" className="productUploadImg" />
-                            <label for="file">
-                                <Publish />
-                            </label>
-                            <input type="file" id="file" style={{ display: "none" }} />
-                        </div>
-                        <button className="productButton">Update</button>
-                    </div>
-                </form>
-            </div> */}
+            <div className="productBottom">
+                <ProductUpdate product={product} />
+            </div>
         </div>
     );
 }

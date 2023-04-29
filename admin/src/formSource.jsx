@@ -64,12 +64,12 @@ export const productInputs = [
         name: "size",
         label: "Size",
         type: "text",
-        placeholder: "M, L, XL",
+        placeholder: "M,L,XL",
     },
     {
         name: "color",
         label: "Color",
         type: "text",
-        placeholder: "red, green, blue",
+        placeholder: "red,green,blue",
     },
 ];

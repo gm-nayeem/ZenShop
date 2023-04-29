@@ -59,8 +59,8 @@ const NewHotel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const colorArr = product?.color.split(", ");
-    const sizeArr = product?.size.split(", ");
+    const colorArr = product?.color.split(",");
+    const sizeArr = product?.size.split(",");
 
     try {
       // get files url lists

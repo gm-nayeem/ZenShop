@@ -33,7 +33,7 @@ export const addUser = async (dispatch, user) => {
 export const updateUser = async (dispatch, id, user) => {
     dispatch(updateUserStart());
     try {
-        const res = await userRequest.put("/users", user);
+        const res = await userRequest.put(`/users/${id}`, user);
         dispatch(updateUserSuccessful({ id, user }));
     } catch (err) {
         dispatch(updateUserFailure());

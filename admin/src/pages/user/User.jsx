@@ -1,35 +1,37 @@
+import "./user.scss";
 import {
   CalendarToday,
-  LocationSearching,
   MailOutline,
   PermIdentity,
   PhoneAndroid,
-  Publish,
+  // LocationSearching,
 } from "@mui/icons-material";
 import Chart from '../../components/userChart/UserChart';
-import { Link, useLocation } from "react-router-dom";
-import "./user.scss";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {DEFAULT_IMG_URL} from "../../private/URL";
+import { DEFAULT_IMG_URL } from "../../private/URL";
+import UserUpdate from "../../components/userUpdate/UserUpdate";
 
 
 const User = () => {
-  const location = useLocation();
-  const userId = location.pathname.split("/")[2];
+  const userId = useParams().userId;
 
   const user = useSelector(state => state.user.users.find(
     user => user._id === userId
   ));
 
-  let date = new Date(user?.createdAt).getDate();
-  let month = new Date(user?.createdAt).getMonth() + 1;
-  const year = new Date(user?.createdAt).getFullYear();
+  // get date from createdAt
+  const getFullDate = (time) => {
+    let date = new Date(time).getDate();
+    let month = new Date(time).getMonth() + 1;
+    const year = new Date(time).getFullYear();
 
-  date = date.toString().length === 1 ? ("0" + date) : date;
-  month = month.toString().length === 1 ? ("0" + month) : month;
-  const fullDate = date + '.' + month + '.' + year;
+    date = date.toString().length === 1 ? ("0" + date) : date;
+    month = month.toString().length === 1 ? ("0" + month) : month;
 
-  // console.log();
+    const fullDate = date + '.' + month + '.' + year;
+    return fullDate;
+  }
 
   return (
     <div className="user">
@@ -56,12 +58,16 @@ const User = () => {
             </div>
             <div className="userInfoItem">
               <CalendarToday className="userInfoIcon" />
-              <span className="userInfoValue">{fullDate}</span>
+              <span className="userInfoValue">
+                {getFullDate(user?.createdAt)}
+              </span>
             </div>
             <span className="userInfoTitle">Contact Details</span>
             <div className="userInfoItem">
               <PhoneAndroid className="userInfoIcon" />
-              <span className="userInfoValue">+1 123 456 67</span>
+              <span className="userInfoValue">
+                {user?.phone || "+880 1303 110760"}
+              </span>
             </div>
             <div className="userInfoItem">
               <MailOutline className="userInfoIcon" />
@@ -77,7 +83,9 @@ const User = () => {
           <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
         </div>
       </div>
-      <div className="userBottom"></div>
+      <div className="userBottom">
+        <UserUpdate user={user} />
+      </div>
     </div>
   );
 }
