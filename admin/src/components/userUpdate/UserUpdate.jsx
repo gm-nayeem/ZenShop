@@ -70,17 +70,19 @@ const UserUpdate = ({user}) => {
   const handleUpdate = (e) => {
     e.preventDefault();
 
-    // update user
-    Object.keys(updatedUser).forEach((key) => {
-      Object.keys(user).forEach((key2) => {
-        if (key === key2) {
-          user[key2] = updatedUser[key]
-        }
-      })
-    });
+    console.log("updateUser: ", updateUser);
 
-    updateUser(dispatch, user?._id, user);
-    navigate("/users");
+    // // update user
+    // Object.keys(updatedUser).forEach((key) => {
+    //   Object.keys(user).forEach((key2) => {
+    //     if (key === key2) {
+    //       user[key2] = updatedUser[key]
+    //     }
+    //   })
+    // });
+
+    // updateUser(dispatch, user?._id, user);
+    // navigate("/users");
   }
 
   return (

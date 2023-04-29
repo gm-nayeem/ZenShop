@@ -1,13 +1,14 @@
 import { initializeApp } from "firebase/app";
+import { FIREBASE_API_KEY, FIREBASE_APP_ID } from "../private/URL";
 
 // Web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBrr09oKGgKZZOwf2eeR8foep-cmwhS_mk",
-  authDomain: "react-e-commerce-app-56a5a.firebaseapp.com",
-  projectId: "react-e-commerce-app-56a5a",
-  storageBucket: "react-e-commerce-app-56a5a.appspot.com",
-  messagingSenderId: "912557712643",
-  appId: "1:912557712643:web:c0f0bd57351d12a62cb536"
+  apiKey: FIREBASE_API_KEY,
+  authDomain: "zenshop-a95d9.firebaseapp.com",
+  projectId: "zenshop-a95d9",
+  storageBucket: "zenshop-a95d9.appspot.com",
+  messagingSenderId: "378539980411",
+  appId: FIREBASE_APP_ID
 };
 
 // Initialize Firebase

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { productInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import { userRequest } from "../../utils/makeRequest";
-import upload from "../../utils/upload";
+import upload from "../../config/upload";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
 
@@ -58,7 +58,7 @@ const NewHotel = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const colorArr = product?.color.split(",");
     const sizeArr = product?.size.split(",");
 
@@ -96,12 +96,21 @@ const NewHotel = () => {
       </div>
       <div className="bottom">
         <div className="left">
-          <img
-            src={
-              files ? URL.createObjectURL(files[0]) : NO_IMG_ICON
-            }
-            alt=""
-          />
+          <div className="leftWrapper">
+            <img
+              src={
+                files ? URL.createObjectURL(files[0]) : NO_IMG_ICON
+              }
+              alt=""
+            />
+            <img
+              src={
+                files ? URL.createObjectURL(files[1]) : NO_IMG_ICON
+              }
+              alt=""
+            />
+            <button onClick={handleSubmit}>Upload</button>
+          </div>
         </div>
         <div className="right">
           <form>
@@ -195,7 +204,6 @@ const NewHotel = () => {
                 }
               </select>
             </div>
-            <button onClick={handleSubmit}>Send</button>
           </form>
         </div>
       </div>

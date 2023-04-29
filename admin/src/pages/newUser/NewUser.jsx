@@ -3,7 +3,7 @@ import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from '../../utils/makeRequest';
-import upload from '../../utils/upload';
+import upload from "../../config/upload";
 import { userInputs } from '../../formSource';
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
@@ -56,12 +56,15 @@ const NewUser = () => {
       </div>
       <div className="bottom">
         <div className="left">
-          <img
-            src={
-              file ? URL.createObjectURL(file) : NO_IMG_ICON
-            }
-            alt=""
-          />
+          <div className="leftWrapper">
+            <img
+              src={
+                file ? URL.createObjectURL(file) : NO_IMG_ICON
+              }
+              alt=""
+            />
+            <button onClick={handleSubmit}>Upload</button>
+          </div>
         </div>
         <div className="right">
           <form>
@@ -87,7 +90,6 @@ const NewUser = () => {
                 </div>
               ))
             }
-            <button onClick={handleSubmit}>Send</button>
           </form>
         </div>
       </div>

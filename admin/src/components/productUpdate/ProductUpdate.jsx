@@ -4,10 +4,19 @@ import { Publish } from "@mui/icons-material";
 import { DEFAULT_IMG_URL } from "../../private/URL";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import {updateProduct} from '../../redux/productRedux/productApiCalls';
+// firebase
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
+import app from '../../config/firebase';
 
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
-  const [updatedProductPic, setUpdatedProductPic] = useState(null);
+  const [updatedProductFiles, setUpdatedProductFiles] = useState(null);
   const [uploaded, setUploaded] = useState(0);
 
   const dispatch = useDispatch();
@@ -22,12 +31,51 @@ const ProductUpdate = ({ product }) => {
     }));
   };
 
+  // multiple file upload using firebase
+  const upload = (items) => {
+    items.forEach(item => {
+      // firebase setup
+      const fileName = new Date().getTime() + item.label + item.file.name;
+      const storage = getStorage(app);
+
+      const storageRef = ref(storage, `/products/${fileName}`);
+      const uploadTask = uploadBytesResumable(storageRef, item.file);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (err) => {
+          // Handle unsuccessful uploads
+          console.log(err.message);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setUpdatedProduct(prev => {
+              return {
+                ...prev,
+                [item.label]: downloadURL
+              }
+            });
+
+            setUploaded(prev => prev + 1);
+          });
+        }
+      );
+    })
+  }
 
   // handle upload
   const handleUpload = async (e) => {
-    const files = Object.values(updatedProductPic).map(file => file.name);
+    e.preventDefault();
 
-    // console.log(files);
+    const files = Object.values(updatedProductFiles).map(file => file);
+
+    upload([
+      { file: files[0], label: "img" },
+      { file: files[1], label: "img2" },
+    ])
   }
 
   // handle update
@@ -37,16 +85,18 @@ const ProductUpdate = ({ product }) => {
     updatedProduct.color = updatedProduct.color.split(",");
     updatedProduct.size = updatedProduct.size.split(",");
 
-    // update user
-    Object.keys(updatedProduct).forEach((key) => {
-      Object.keys(product).forEach((key2) => {
-        if (key === key2) {
-          product[key2] = updatedProduct[key]
-        }
-      })
-    });
+    console.log("updatedProduct", updatedProduct);
 
-    // updateUser(dispatch, product?._id, product);
+    // update user
+    // Object.keys(updatedProduct).forEach((key) => {
+    //   Object.keys(product).forEach((key2) => {
+    //     if (key === key2) {
+    //       product[key2] = updatedProduct[key]
+    //     }
+    //   })
+    // });
+
+    // updateProduct(dispatch, product?._id, product);
     // navigate("/products");
   }
 
@@ -142,14 +192,14 @@ const ProductUpdate = ({ product }) => {
               <label htmlFor="file">
                 <Publish className="productUpdateIcon" />
               </label>
-              <input multiple type="file" 
+              <input multiple type="file"
                 name="file" id="file"
                 style={{ display: "none" }}
-                onChange={(e) => setUpdatedProductPic(e.target.files)}
+                onChange={(e) => setUpdatedProductFiles(e.target.files)}
               />
             </div>
             {
-              uploaded === 1 ? (
+              uploaded === 2 ? (
                 <button className="productUpdateButton" onClick={handleUpdate}>Update</button>
               ) : (
                 <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
