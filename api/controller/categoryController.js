@@ -1,7 +1,7 @@
 const Category = require('../models/Category');
 const createError = require('../utils/error');
 
-const createCategory = async  (req, res, next) => {
+const createCategory = async (req, res, next) => {
     const newCategory = new Category(req.body);
 
     try {
@@ -39,8 +39,11 @@ const deleteCategory = async (req, res, next) => {
 }
 
 const getAllCategory = async (req, res, next) => {
+    const query = req.query?.new;
     try {
-        const categories = await Category.find();
+        const categories = query 
+            ? await Category.find().sort({createdAt: 1})
+            : await Category.find()
         res.status(200).json(categories);
     } catch (err) {
         next(err);

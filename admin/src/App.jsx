@@ -1,8 +1,8 @@
 import React from 'react'
 import './app.scss'
-import { 
-  BrowserRouter as Router, 
-  Routes, Route, Navigate 
+import {
+  BrowserRouter as Router,
+  Routes, Route, Navigate
 } from 'react-router-dom';
 
 // pages
@@ -19,7 +19,8 @@ import Error from "./pages/error/Error"
 
 import { useSelector } from 'react-redux';
 import {
-  userColumns, productColumns, orderColumns
+  userColumns, productColumns, orderColumns,
+  categoryColumns, subCategoryColumns
 } from './datatableSource';
 
 const App = () => {
@@ -42,21 +43,35 @@ const App = () => {
               <Sidebar />
               <Routes>
                 <Route exact path='/' element={<Home />} />
-                <Route 
-                  path='/users' 
-                  element={<List columns={userColumns}/>} 
+                <Route
+                  path='/users'
+                  element={<List columns={userColumns} />}
                 />
                 <Route path='/users/:userId' element={<User />} />
-                <Route 
-                  path='/users/new' 
-                  element={<NewUser/>} 
+                <Route
+                  path='/users/new'
+                  element={<NewUser />}
                 />
-                <Route 
-                  path='/products' 
-                  element={<List columns={productColumns}/>} 
+                
+                <Route
+                  path='/products'
+                  element={<List columns={productColumns} />}
                 />
                 <Route path='/products/:productId' element={<Product />} />
                 <Route path='/products/new' element={<NewProduct />} />
+
+                <Route
+                  path='/orders'
+                  element={<List columns={orderColumns} />}
+                />
+                <Route
+                  path='/categories'
+                  element={<List columns={categoryColumns} />}
+                />
+                <Route
+                  path='/subcategories'
+                  element={<List columns={subCategoryColumns} />}
+                />
               </Routes>
             </div>
           </>

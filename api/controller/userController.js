@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 const updateUser = async (req, res, next) => {
     const id = req.params.id;
-    console.log("id: ", id);
+    // console.log("id: ", id);
 
     try {
         // if (req.body.password) {
@@ -52,7 +52,7 @@ const getAllUser = async (req, res, next) => {
 
     try {
         const users = query
-            ? await User.find().sort({ _id: -1 })
+            ? await User.find().sort({ createdAt: -1 })
             : await User.find();
         res.status(200).json(users);
     } catch (err) {

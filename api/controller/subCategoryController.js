@@ -38,12 +38,15 @@ const deleteSubCategory = async (req, res, next) => {
 }
 
 const getAllSubCategory = async (req, res, next) => {
-    const qCategory = req.query.category;
+    const qCategory = req.query?.category;
+    const qNew = req.query?.new;
 
     try {
         let subCategories;
 
-        if (qCategory) {
+        if (qNew) {
+            subCategories = await SubCategory.find().sort({createdAt: 1})
+        } else if (qCategory) {
             subCategories = await SubCategory.find({
                 categories: {
                     $in: [qCategory],

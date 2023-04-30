@@ -2,8 +2,8 @@ import './datatable.scss';
 import { DataGrid } from '@mui/x-data-grid';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {deleteUser} from '../../redux/userRedux/userApiCalls';
-import {deleteProduct} from '../../redux/productRedux/productApiCalls';
+import { deleteUser } from '../../redux/userRedux/userApiCalls';
+import { deleteProduct } from '../../redux/productRedux/productApiCalls';
 import { useDispatch } from 'react-redux';
 import useFetch from '../../hooks/useFetch';
 
@@ -11,13 +11,13 @@ import useFetch from '../../hooks/useFetch';
 const Datatable = ({ columns }) => {
     const location = useLocation();
     const path = location.pathname.split("/")[1];
-    
+
     const [lists, setLists] = useState([]);
     const dispatch = useDispatch();
 
     const { data, loading, error } = useFetch(
-        `/${path}/all?new=true`, 
-        path==="users" && "userRequest"
+        `/${path}/all?new=true`,
+        (path === "users" || path === "orders") && "userRequest"
     );
 
     // set data
@@ -27,9 +27,9 @@ const Datatable = ({ columns }) => {
 
     // handle delete
     const handleDelete = async (id) => {
-        if(path === 'users') {
+        if (path === 'users') {
             deleteUser(dispatch, id)
-        } else if(path === 'products') {
+        } else if (path === 'products') {
             deleteProduct(dispatch, id)
         }
     }
@@ -37,9 +37,9 @@ const Datatable = ({ columns }) => {
     // create action column
     const actionColumn = [
         {
-            field: "action", 
-            headerName: "Action", 
-            width: 200, 
+            field: "action",
+            headerName: "Action",
+            width: 200,
             renderCell: (params) => {
                 return (
                     <div className="cellAction">
