@@ -73,3 +73,19 @@ export const productInputs = [
         placeholder: "red,green,blue",
     },
 ];
+
+
+export const categoryInputs = [
+    {
+        name: "title",
+        label: "Title",
+        type: "text",
+        placeholder: "women",
+    },
+    {
+        name: "desc",
+        label: "Descriptin",
+        type: "text",
+        placeholder: "women category",
+    },
+];

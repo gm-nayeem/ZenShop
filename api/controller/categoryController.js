@@ -5,8 +5,8 @@ const createCategory = async (req, res, next) => {
     const newCategory = new Category(req.body);
 
     try {
-        const savedCategory = await newCategory.save();
-        res.status(200).json(savedCategory);
+        await newCategory.save();
+        res.status(200).json("Category created successfully");
     } catch (err) {
         next(err);
     }
@@ -38,6 +38,17 @@ const deleteCategory = async (req, res, next) => {
     }
 }
 
+const getSingleCategory = async (req, res, next) => {
+    const categoryId = req.params?.id;
+
+    try {
+        const category = await Category.findById(categoryId);
+        res.status(200).json(category);
+    } catch (err) {
+        next(err);
+    }
+}
+
 const getAllCategory = async (req, res, next) => {
     const query = req.query?.new;
     try {
@@ -54,5 +65,6 @@ module.exports = {
     createCategory,
     deleteCategory,
     updateCategory,
+    getSingleCategory,
     getAllCategory
 }

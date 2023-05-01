@@ -4,6 +4,7 @@ const {
     createOrder,
     updateOrder,
     deleteOrder,
+    findOrder,
     getSingleOrder,
     getAllOrder,
     getIncome
@@ -20,6 +21,8 @@ router.post('/', verifyToken, createOrder);
 router.put('/:id', verifyTokenAndAdmin, updateOrder);
 
 router.delete('/:id', verifyTokenAndAdmin, deleteOrder);
+
+router.get('/find/:id', verifyTokenAndAdmin, findOrder);
 
 router.get('/single/:userId', verifyTokenAndAuthorization, getSingleOrder);
 

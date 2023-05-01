@@ -37,6 +37,17 @@ const deleteSubCategory = async (req, res, next) => {
     }
 }
 
+const getSingleSubCategory = async (req,res ,next) => {
+    const id = req.params.id;
+
+    try {
+        const subCategory = await SubCategory.findById(id);
+        res.status(200).json(subCategory);
+    } catch (err) {
+        next(err);
+    }
+}
+
 const getAllSubCategory = async (req, res, next) => {
     const qCategory = req.query?.category;
     const qNew = req.query?.new;
@@ -65,5 +76,6 @@ module.exports = {
     createSubCategory,
     deleteSubCategory,
     updateSubCategory,
+    getSingleSubCategory,
     getAllSubCategory
 }

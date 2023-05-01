@@ -12,10 +12,15 @@ import User from './pages/user/User'
 import Product from './pages/product/Product'
 import NewUser from './pages/newUser/NewUser'
 import NewProduct from './pages/newProduct/NewProduct'
+import Order from './pages/order/Order';
+import Category from './pages/category/Category';
+import NewCategory from './pages/newCategory/NewCategory';
+import SubCategory from './pages/subCategory/SubCategory';
+import NewSubCategory from './pages/newSubCategory/NewSubCategory';
 import Topbar from './common/topbar/Topbar'
 import Sidebar from './common/sidebar/Sidebar'
 import Login from './pages/login/Login'
-import Error from "./pages/error/Error"
+// import Error from "./pages/error/Error"
 
 import { useSelector } from 'react-redux';
 import {
@@ -64,14 +69,22 @@ const App = () => {
                   path='/orders'
                   element={<List columns={orderColumns} />}
                 />
+                <Route path='/orders/:orderId' element={<Order />} />
+
                 <Route
                   path='/categories'
                   element={<List columns={categoryColumns} />}
                 />
+                <Route path='/categories/:categoryId' element={<Category />} />
+                <Route path='/categories/new' element={<NewCategory />} />
+
                 <Route
                   path='/subcategories'
                   element={<List columns={subCategoryColumns} />}
                 />
+                <Route path='/subcategories/:subCategoryId' element={<SubCategory />} />
+                <Route path='/subcategories/new' element={<NewSubCategory />} />
+
               </Routes>
             </div>
           </>

@@ -44,13 +44,16 @@
                 margin-top: 20px;
 
                 .productInfoItem {
-                    width: 150px;
                     display: flex;
-                    justify-content: space-between;
                     margin: 13px 0px;
                     color: #444;
 
+                    .productInfoKey {
+                        flex: 1;
+                    }
+
                     .productInfoValue {
+                        flex: 4;
                         font-weight: 300;
                     }
                 }

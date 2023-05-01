@@ -69,9 +69,13 @@ const Datatable = ({ columns }) => {
                     <div className="datatable">
                         <div className="datatableTitle">
                             <span>{path}</span>
-                            <Link to={`/${path}/new`} className='link linkStyle'>
-                                <button> Add New</button>
-                            </Link>
+                            {
+                                path !== "orders" && (
+                                    <Link to={`/${path}/new`} className='link linkStyle'>
+                                        <button> Add New</button>
+                                    </Link>
+                                )
+                            }
                         </div>
                         <DataGrid
                             rows={lists}

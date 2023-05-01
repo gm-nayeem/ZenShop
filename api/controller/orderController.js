@@ -41,6 +41,17 @@ const deleteOrder = async (req, res, next) => {
     }
 }
 
+const findOrder = async (req, res, next) => {
+    const orderId = req.params?.id;
+
+    try {
+        const order = await Order.findById(orderId);
+        res.status(200).json(order);
+    } catch (err) {
+        next(err);
+    }
+}
+
 const getSingleOrder = async (req, res, next) => {
     const userId = req.params.userId;
 
@@ -105,6 +116,7 @@ module.exports = {
     createOrder,
     updateOrder,
     deleteOrder,
+    findOrder,
     getSingleOrder,
     getAllOrder,
     getIncome

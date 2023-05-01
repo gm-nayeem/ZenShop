@@ -76,7 +76,7 @@ const Product = () => {
                     </div>
                     <div className="productInfoBottom">
                         <div className="productInfoItem">
-                            <span className="productInfoKey" style={{ marginRight: "30px" }}>Id:</span>
+                            <span className="productInfoKey">Id:</span>
                             <span className="productInfoValue">{product?._id}</span>
                         </div>
                         <div className="productInfoItem">
