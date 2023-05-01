@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import './productUpdate.scss';
 import { Publish } from "@mui/icons-material";
 import { DEFAULT_IMG_URL } from "../../private/URL";
-import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { updateProduct } from '../../redux/productRedux/productApiCalls';
 // firebase
 import {
   getStorage,
@@ -13,6 +11,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from '../../config/firebase';
+import { userRequest } from '../../utils/makeRequest';
 
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
@@ -20,7 +19,6 @@ const ProductUpdate = ({ product }) => {
   const [fileLoading, setFileLoading] = useState(false);
   const [uploaded, setUploaded] = useState(0);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // handle change
@@ -85,7 +83,7 @@ const ProductUpdate = ({ product }) => {
   }
 
   // handle update
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     if (updatedProduct.color) {
@@ -95,28 +93,18 @@ const ProductUpdate = ({ product }) => {
       updatedProduct["size"] = updatedProduct?.size?.split(",");
     }
 
-
-    // update user
-    // Object.keys(updatedProduct).forEach((key) => {
-    //   Object.keys(product).forEach((key2) => {
-    //     if (key === key2) {
-    //       product[key2] = updatedProduct[key]
-    //     }
-    //   })
-    // });
-
     const sendProduct = {
       ...product,
       ...updatedProduct
     }
-
     // console.log("sendProduct", sendProduct);
 
-    updateProduct(dispatch, sendProduct?._id, sendProduct);
-
-    setTimeout(() => {
-      navigate("/products");
-    }, 1000);
+    try {
+      const res = await userRequest.put(`/products/${product._id}`, sendProduct);
+      res && navigate("/products");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

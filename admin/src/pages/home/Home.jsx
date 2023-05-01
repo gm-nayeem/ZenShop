@@ -1,4 +1,4 @@
-import './home.css';
+import './home.scss';
 import FeaturedInfo from '../../components/featuredInfo/FeaturedInfo'
 import Chart from '../../components/productChart/ProductChart'
 import WidgetSm from '../../components/widgetSm/WidgetSm'
@@ -26,6 +26,7 @@ const Home = () => {
     ]
   ), []);
 
+  // set user stats
   useEffect(() => {
     const getStats = async () => {
       try {

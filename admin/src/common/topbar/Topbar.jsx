@@ -5,9 +5,7 @@ import {
   Settings, Lock 
 } from "@mui/icons-material";
 import {useDispatch} from 'react-redux'
-import {logout} from "../../redux/authRedux/authReducer";
-import {userInitialize} from '../../redux/userRedux/userReducer';
-import {productInitialize} from '../../redux/productRedux/productReducer';
+import {logout} from "../../redux/userReducer";
 import {Link} from 'react-router-dom';
 
 
@@ -17,8 +15,6 @@ const Navbar = () => {
   // handle logout
   const handleLogout = () => {
     dispatch(logout());
-    dispatch(userInitialize());
-    dispatch(productInitialize());
   }
 
   return (

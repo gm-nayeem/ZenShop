@@ -61,7 +61,7 @@ const CategoryUpdate = ({ subCategory }) => {
             placeholder={subCategory?.title}
             className="subCategoryUpdateInput"
             required
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => seTitle(e.target.value)}
           />
         </div>
         <div className="subCategoryUpdateItem">

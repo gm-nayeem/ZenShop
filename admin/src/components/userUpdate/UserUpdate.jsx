@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import './userUpdate.scss';
-import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Publish } from "@mui/icons-material";
-import { updateUser } from "../../redux/userRedux/userApiCalls";
 import { DEFAULT_IMG_URL } from '../../private/URL';
 // firebase
 import {
@@ -13,6 +11,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from '../../config/firebase';
+import { userRequest } from '../../utils/makeRequest';
 
 
 const UserUpdate = ({ user }) => {
@@ -20,8 +19,6 @@ const UserUpdate = ({ user }) => {
   const [updatedProfilePic, setUpdatedProfilePic] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
   const [uploaded, setUploaded] = useState(0);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // handle change
@@ -72,7 +69,7 @@ const UserUpdate = ({ user }) => {
   };
 
   // handle update
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     const sendUser = {
@@ -80,11 +77,12 @@ const UserUpdate = ({ user }) => {
       ...updatedUser
     }
 
-    updateUser(dispatch, sendUser._id, sendUser);
-
-    setTimeout(() => {
-      navigate("/users");
-    }, 1000);
+    try {
+      const res = await userRequest.put(`/users/${user._id}`, sendUser);
+      res && navigate("/users");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 

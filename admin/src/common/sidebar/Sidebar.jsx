@@ -18,9 +18,7 @@ import {
 } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { logout } from "../../redux/authRedux/authReducer";
-import { userInitialize } from '../../redux/userRedux/userReducer';
-import { productInitialize } from '../../redux/productRedux/productReducer';
+import { logout } from "../../redux/userReducer";
 
 
 const Sidebar = () => {
@@ -29,8 +27,6 @@ const Sidebar = () => {
     // handle logout
     const handleLogout = () => {
         dispatch(logout());
-        dispatch(userInitialize());
-        dispatch(productInitialize());
     }
 
     return (

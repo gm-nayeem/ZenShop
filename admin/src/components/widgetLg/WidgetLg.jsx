@@ -1,51 +1,28 @@
-import { useState, useEffect } from "react";
-import "./widgetLg.css";
-import { userRequest } from '../../utils/makeRequest';
-import {format} from 'timeago.js';
+import "./widgetLg.scss";
+import Table from "../table/Table";
+import useFetch from "../../hooks/useFetch";
 
 const WidgetLg = () => {
-    const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        const getOrders = async () => {
-            try {
-                const res = await userRequest.get("/orders");
-                setOrders(res.data);
-            } catch (err) {
-                console.log(err.message)
-            }
-        }
-        getOrders();
-    }, []);
-
-    const Button = ({ type }) => {
-        return <button className={"widgetLgButton " + type}>{type}</button>;
-    };
+    const {
+        data, loading, error
+    } = useFetch('/orders/all?new=true', 'userRequest');
 
     return (
         <div className="widgetLg">
-            <span className="widgetLgTitle">Latest transactions</span>
-            <table className="widgetLgTable">
-                <tr className="widgetLgTr">
-                    <th className="widgetLgTh">Customer</th>
-                    <th className="widgetLgTh">Date</th>
-                    <th className="widgetLgTh">Amount</th>
-                    <th className="widgetLgTh">Status</th>
-                </tr>
-                {
-                    orders.map(order => (
-                        <tr className="widgetLgTr" key={order._id}>
-                            <td className="widgetLgUser">
-                                <span className="widgetLgName">{order.userId}</span>
-                            </td>
-                            <td className="widgetLgDate">{format(order.createdAt)}</td>
-                            <td className="widgetLgAmount">${order.amount}</td>
-                            <td className="widgetLgStatus">
-                                <Button type={order.status} />
-                            </td>
-                        </tr>
-                    ))
-                }
-            </table>
+            {
+                loading ? (
+                    "Loading..."
+                ) : error ? (
+                    "Something went wrong!"
+                ) : (
+                    <>
+                        <span className="widgetLgTitle">Latest Transactions</span>
+                        <div className="tableContainer">
+                            <Table data={data} />
+                        </div>
+                    </>
+                )
+            }
         </div>
     );
 }

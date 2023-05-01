@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./login.css";
 import {useDispatch} from 'react-redux';
-import { login } from "../../redux/authRedux/authApiCalls";
+import { login } from "../../redux/apiCalls";
 import {Link} from 'react-router-dom';
 // import { mobile } from "../responsive";
 

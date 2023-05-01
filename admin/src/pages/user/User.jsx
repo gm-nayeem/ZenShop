@@ -8,17 +8,35 @@ import {
 } from "@mui/icons-material";
 import Chart from '../../components/userChart/UserChart';
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { DEFAULT_IMG_URL } from "../../private/URL";
 import UserUpdate from "../../components/userUpdate/UserUpdate";
+import { useEffect, useState } from "react";
+import { userRequest } from "../../utils/makeRequest";
 
 
 const User = () => {
   const userId = useParams().userId;
+  const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const user = useSelector(state => state.user.users.find(
-    user => user._id === userId
-  ));
+  // fetch single user
+  useEffect(() => {
+    const getUser = async () => {
+      setLoading(true);
+      try {
+        const res = await userRequest.get(`/users/single/${userId}`);
+        res && setUser(res.data);
+
+        setLoading(false);
+        setError(false);
+      } catch (err) {
+        console.log(err.message);
+        setError(true);
+      }
+    }
+    getUser();
+  }, [userId]);
 
   // get date from createdAt
   const getFullDate = (time) => {
@@ -35,57 +53,67 @@ const User = () => {
 
   return (
     <div className="user">
-      <div className="userTitleContainer">
-        <h1 className="userTitle">User</h1>
-      </div>
-      <div className="userTop">
-        <div className="userLeft">
-          <div className="userInfoTop">
-            <img
-              src={user?.profilePic || DEFAULT_IMG_URL}
-              alt=""
-              className="userInfoImg"
-            />
-            <div className="userInfoTitle">
-              <span className="username">{user?.username}</span>
+      {
+        loading ? (
+          "Loading..."
+        ) : error ? (
+          "Something went wrong!"
+        ) : (
+          <>
+            <div className="userTitleContainer">
+              <h1 className="userTitle">User</h1>
             </div>
-          </div>
-          <div className="userInfoBottom">
-            <span className="userInfoTitle">Account Details</span>
-            <div className="userInfoItem">
-              <PermIdentity className="userInfoIcon" />
-              <span className="userInfoValue">{user?.username}</span>
-            </div>
-            <div className="userInfoItem">
-              <CalendarToday className="userInfoIcon" />
-              <span className="userInfoValue">
-                {getFullDate(user?.createdAt)}
-              </span>
-            </div>
-            <span className="userInfoTitle">Contact Details</span>
-            <div className="userInfoItem">
-              <PhoneAndroid className="userInfoIcon" />
-              <span className="userInfoValue">
-                {user?.phone || "+880 1303 110760"}
-              </span>
-            </div>
-            <div className="userInfoItem">
-              <MailOutline className="userInfoIcon" />
-              <span className="userInfoValue">{user?.email}</span>
-            </div>
-            {/* <div className="userInfoItem">
+            <div className="userTop">
+              <div className="userLeft">
+                <div className="userInfoTop">
+                  <img
+                    src={user?.profilePic || DEFAULT_IMG_URL}
+                    alt=""
+                    className="userInfoImg"
+                  />
+                  <div className="userInfoTitle">
+                    <span className="username">{user?.username}</span>
+                  </div>
+                </div>
+                <div className="userInfoBottom">
+                  <span className="userInfoTitle">Account Details</span>
+                  <div className="userInfoItem">
+                    <PermIdentity className="userInfoIcon" />
+                    <span className="userInfoValue">{user?.username}</span>
+                  </div>
+                  <div className="userInfoItem">
+                    <CalendarToday className="userInfoIcon" />
+                    <span className="userInfoValue">
+                      {getFullDate(user?.createdAt)}
+                    </span>
+                  </div>
+                  <span className="userInfoTitle">Contact Details</span>
+                  <div className="userInfoItem">
+                    <PhoneAndroid className="userInfoIcon" />
+                    <span className="userInfoValue">
+                      {user?.phone || "+880 1303 110760"}
+                    </span>
+                  </div>
+                  <div className="userInfoItem">
+                    <MailOutline className="userInfoIcon" />
+                    <span className="userInfoValue">{user?.email}</span>
+                  </div>
+                  {/* <div className="userInfoItem">
               <LocationSearching className="userInfoIcon" />
               <span className="userInfoValue">New York | USA</span>
             </div> */}
-          </div>
-        </div>
-        <div className="userRight">
-          <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
-        </div>
-      </div>
-      <div className="userBottom">
-        <UserUpdate user={user} />
-      </div>
+                </div>
+              </div>
+              <div className="userRight">
+                <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
+              </div>
+            </div>
+            <div className="userBottom">
+              <UserUpdate user={user} />
+            </div>
+          </>
+        )
+      }
     </div>
   );
 }
