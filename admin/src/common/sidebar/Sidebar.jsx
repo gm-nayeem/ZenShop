@@ -16,17 +16,20 @@ import {
     Dashboard,
     SettingsApplications,
 } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/userReducer";
 
 
 const Sidebar = () => {
+    const { user } = useSelector(state => state.admin.currentUser);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // handle logout
     const handleLogout = () => {
         dispatch(logout());
+        navigate('/login');
     }
 
     return (
@@ -115,10 +118,15 @@ const Sidebar = () => {
                         </li>
 
                         <h3 className="sidebarTitle">USER</h3>
-                        <li className="sidebarListItem">
-                            <AccountCircleOutlined className="sidebarIcon" />
-                            <span>Profile</span>
-                        </li>
+                        <Link 
+                            to={`/users/${user._id}`}
+                            className="link"
+                        >
+                            <li className="sidebarListItem">
+                                <AccountCircleOutlined className="sidebarIcon" />
+                                <span>Profile</span>
+                            </li>
+                        </Link>
                         <li className="sidebarListItem">
                             <SettingsApplications className="sidebarIcon" />
                             <span>Settings</span>

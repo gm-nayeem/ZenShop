@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import "./product.scss";
-import Chart from "../../components/productChart/ProductChart";
+import Chart from "../../components/lineChart/LineChart";
 import { useState, useEffect, useMemo } from "react";
 import { userRequest } from "../../utils/makeRequest";
 import ProductUpdate from "../../components/productUpdate/ProductUpdate";
@@ -82,7 +82,7 @@ const Product = () => {
                 ) : (
                     <>
                         <div className="productTitleContainer">
-                            <h1 className="productTitle">Product</h1>
+                            <h2 className="productTitle">Product</h2>
                         </div>
                         <div className="productTop">
                             <div className="productTopLeft">

@@ -1,4 +1,4 @@
-import "./productChart.scss";
+import "./lineChart.scss";
 import {
   LineChart,
   Line,
@@ -11,8 +11,8 @@ import {
 const Chart = ({ title, data, grid, dataKey })=> {
 
   return (
-    <div className="chart">
-      <h2 className="chartTitle">{title}</h2>
+    <div className="lineChart">
+      <span className="chartTitle">{title}</span>
       <ResponsiveContainer width="100%" aspect={4 / 1}>
         <LineChart data={data}>
           <XAxis dataKey="name" stroke="#5550bd" />

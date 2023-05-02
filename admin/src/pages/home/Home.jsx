@@ -1,6 +1,8 @@
 import './home.scss';
 import FeaturedInfo from '../../components/featuredInfo/FeaturedInfo'
-import Chart from '../../components/productChart/ProductChart'
+import Featured from '../../components/featured/Featured'
+import AreaChart from '../../components/areaChart/AreaChart'
+import LineChart from '../../components/lineChart/LineChart'
 import WidgetSm from '../../components/widgetSm/WidgetSm'
 import WidgetLg from '../../components/widgetLg/WidgetLg'
 import { useState, useEffect, useMemo } from 'react';
@@ -31,13 +33,13 @@ const Home = () => {
     const getStats = async () => {
       try {
         const res = await userRequest.get("/users/stats");
-        res.data.map(item => 
+        res.data.map(item =>
           setUserStats(prev => [
             ...prev,
             { name: MONTHS[item._id - 1], "Active User": item.total }
-          ])           
+          ])
         );
-      } catch(err) {
+      } catch (err) {
         console.log(err.message);
       }
     }
@@ -48,12 +50,19 @@ const Home = () => {
   return (
     <div className='home'>
       <FeaturedInfo />
-      <Chart 
+
+      <div className="charts">
+        <Featured />
+        <AreaChart aspect={2 / 1} title="Last 6  Months (Revenue)" />
+      </div>
+
+      <LineChart 
         data={userStats} 
         title="User Analytics" 
         grid 
         dataKey="Active User" 
       />
+
       <div className="homeWidgets">
         <WidgetSm />
         <WidgetLg />

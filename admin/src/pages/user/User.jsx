@@ -6,7 +6,7 @@ import {
   PhoneAndroid,
   // LocationSearching,
 } from "@mui/icons-material";
-import Chart from '../../components/userChart/UserChart';
+import Chart from '../../components/areaChart/AreaChart';
 import { useParams } from "react-router-dom";
 import { DEFAULT_IMG_URL } from "../../private/URL";
 import UserUpdate from "../../components/userUpdate/UserUpdate";
@@ -61,7 +61,11 @@ const User = () => {
         ) : (
           <>
             <div className="userTitleContainer">
-              <h1 className="userTitle">User</h1>
+              <h2 className="userTitle">
+                {
+                  user?.isAdmin ? "Admin" : "User"
+                }
+              </h2>
             </div>
             <div className="userTop">
               <div className="userLeft">
@@ -104,9 +108,13 @@ const User = () => {
             </div> */}
                 </div>
               </div>
-              <div className="userRight">
-                <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
-              </div>
+              {
+                !user?.isAdmin && (
+                  <div className="userRight">
+                    <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
+                  </div>
+                )
+              }
             </div>
             <div className="userBottom">
               <UserUpdate user={user} />

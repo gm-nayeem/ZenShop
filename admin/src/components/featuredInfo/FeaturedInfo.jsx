@@ -1,4 +1,4 @@
-import "./featuredInfo.css";
+import "./featuredInfo.scss";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -24,7 +24,7 @@ const FeaturedInfo = () => {
     // console.log(income[1]?.total);
 
     return (
-        <div className="featured">
+        <div className="featuredInfo">
             <div className="featuredItem">
                 <span className="featuredTitle">Revanue</span>
                 <div className="featuredMoneyContainer">

@@ -13,14 +13,14 @@ const Login = () => {
   const dispatch = useDispatch();
   // const {isFetching, isError} = useSelector(state => state.admin);
 
-  const userHandler = (e) => {
+  const handleChange = (e) => {
     const {name, value} = e.target;
     setUser(
       {...user, [name]: value}
     );
   }
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     login(dispatch, {email, password});
@@ -38,23 +38,17 @@ const Login = () => {
         <h1 className="loginTitle">SIGN IN</h1>
         <form className="loginForm">
           <input type="email" placeholder="email" value={email} name="email" 
-            required onChange={userHandler}        
+            required onChange={handleChange}        
           />
           <input placeholder="password" type="password" name="password" value={password} 
-            required onChange={userHandler} 
+            required onChange={handleChange} 
           />
-          <button className="loginButton" onClick={handleClick}>
+          <button className="loginButton" onClick={handleSubmit}>
             LOGIN
           </button>
           {/* {
             isError && <p className="loginFormError">Something went wrong...</p>
           } */}
-          <Link className="link">
-            <p className="loginFormLink">DO NOT YOU REMEMBER THE PASSWORD?</p>
-          </Link>
-          <Link className="link">
-            <p className="loginFormLink">CREATE A NEW ACCOUNT</p>
-          </Link>
         </form>
       </div>
     </div>

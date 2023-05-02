@@ -17,7 +17,7 @@ import Category from './pages/category/Category';
 import NewCategory from './pages/newCategory/NewCategory';
 import SubCategory from './pages/subCategory/SubCategory';
 import NewSubCategory from './pages/newSubCategory/NewSubCategory';
-import Topbar from './common/topbar/Topbar'
+import Navbar from './common/navbar/Navbar';
 import Sidebar from './common/sidebar/Sidebar'
 import Login from './pages/login/Login'
 // import Error from "./pages/error/Error"
@@ -43,7 +43,7 @@ const App = () => {
       {
         admin ? (
           <>
-            <Topbar />
+            <Navbar />
             <div className="container">
               <Sidebar />
               <Routes>

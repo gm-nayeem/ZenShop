@@ -1,4 +1,4 @@
-import './userChart.scss';
+import './areaChart.scss';
 import {
   AreaChart,
   Area,
@@ -20,7 +20,7 @@ const data = [
 const Chart = ({aspect, title}) => {
 
   return (
-    <div className='chart'>
+    <div className='areaChart'>
       <div className="title">{title}</div>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart width={730} height={250} data={data}
