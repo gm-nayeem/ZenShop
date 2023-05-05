@@ -9,14 +9,22 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
 
-const Product = () => {
+const Product = ({user}) => {
   const id = useParams().id;
   const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
-
   const dispatch = useDispatch();
 
   const { data, loading, error } = useFetch(`/products/single/${id}`);
+
+  // product add to cart
+  const handleCart = (cartProduct) => {
+    if (user) {
+      dispatch(addToCart(cartProduct));
+    } else {
+      alert("First login your account");
+    }
+  }
 
   return (
     <div className="product">
@@ -38,6 +46,11 @@ const Product = () => {
                   src={data?.img2}
                   alt=""
                   onClick={(e) => setSelectedImg("img2")}
+                />
+                <img
+                  src={data?.img}
+                  alt=""
+                  onClick={(e) => setSelectedImg("img")}
                 />
               </div>
               <div className="mainImg">
@@ -64,17 +77,14 @@ const Product = () => {
               </div>
               <button
                 className="add"
-                onClick={() =>
-                  dispatch(
-                    addToCart({
-                      id: data._id,
-                      title: data.title,
-                      desc: data.desc,
-                      img: data.img,
-                      quantity,
-                      price: data.price,
-                    })
-                  )
+                onClick={() => handleCart({
+                  id: data._id,
+                  title: data.title,
+                  desc: data.desc,
+                  img: data.img,
+                  quantity,
+                  price: data.price,
+                })
                 }
               >
                 <AddShoppingCart /> ADD TO CART
@@ -104,7 +114,7 @@ const Product = () => {
           </>
         )
       }
-    </div>
+    </div >
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import "./footer.scss";
 import paymentImage from "../../assets/payment.png";
-
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -44,7 +44,9 @@ const Footer = () => {
             </div>
             <div className="bottom">
                 <div className="left">
-                    <span className="logo">ZenShop</span>
+                    <Link to="/" className="link">
+                        <span className="logo">ZenShop</span>
+                    </Link>
                     <span className="copyright">
                         © Copyright 2023. All Rights Reserved
                     </span>

@@ -1,5 +1,19 @@
-.container {
+.layout {
     display: flex;
+    flex-direction: column;
+
+    .container {
+        display: flex;
+    
+        .sidebar {
+            flex: 1;
+        }
+    
+        .mainContent {
+            flex: 4;
+            padding: 20px;
+        }
+    }
 }
 
 .link {

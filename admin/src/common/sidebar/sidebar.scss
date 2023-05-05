@@ -1,11 +1,10 @@
 .sidebar {
-    flex: 1;
-    // border-right: 0.5px solid rgb(230, 227, 227);
     height: calc(100vh - 60px);
     background-color: rgb(251, 251, 255);
     overflow-y: scroll;
     position: sticky;
     top: 60px;
+    // border-right: 0.5px solid rgb(230, 227, 227);
 
     &::-webkit-scrollbar {
         width: 5px;

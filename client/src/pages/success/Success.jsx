@@ -3,7 +3,7 @@ import './success.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { userRequest } from '../../utils/makeRequest';
 import { resetCart } from '../../redux/cartReducer';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // demo order
 let order = {
@@ -14,7 +14,7 @@ let order = {
 };
 
 const Success = () => {
-  const { user, cart } = useSelector((state) => state);
+  const { user, cart } = useSelector(state => state);
   const dispatch = useDispatch();
 
   // set total price
@@ -41,7 +41,7 @@ const Success = () => {
     }
   ));
 
-
+  // create order
   useEffect(() => {
     const orderCreate = async () => {
       await userRequest.post('/orders', { order });
@@ -56,9 +56,9 @@ const Success = () => {
   return (
     <div className='success'>
       <h1>Payment Succeeded</h1>
-      <Link 
-        to="/" 
-        style={{textDecoration: "none"}}
+      <Link
+        to="/"
+        style={{ textDecoration: "none" }}
       >
         <span>Back To Home Page</span>
       </Link>
