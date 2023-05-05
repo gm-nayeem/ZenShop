@@ -63,6 +63,7 @@
 
             .icons {
                 display: flex;
+                align-items: center;
                 gap: 25px;
 
                 .icon {
@@ -88,29 +89,43 @@
                         justify-content: center;
                     }
                 }
+            }
 
-                .profile {
+            .profileImg {
 
-                    .options {
-                        display: none;
-                        background-color: #0b0b0b;
-                        border-radius: 5px;
-                        color: white;
-                        padding: 15px 20px;
+                img {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
 
-                        span {
-                            cursor: pointer;
-                        }
+            .profile {
+
+                .icon {
+                    cursor: pointer;
+                }
+
+                .options {
+                    display: none;
+                    background-color: #0b0b0b;
+                    border-radius: 5px;
+                    color: white;
+                    padding: 15px 20px;
+
+                    span {
+                        cursor: pointer;
                     }
+                }
 
-                    &.show .options {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 15px;
-                        position: absolute;
-                        top: 70px;
-                        right: 15px;
-                    }
+                &.show .options {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                    position: absolute;
+                    top: 70px;
+                    right: 15px;
                 }
             }
         }

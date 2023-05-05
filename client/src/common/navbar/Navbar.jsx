@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import {
-    KeyboardArrowDown, PersonOutlineOutlined,
-    FavoriteBorderOutlined, ShoppingCartOutlined, ArrowDropDown
+    KeyboardArrowDown, FavoriteBorderOutlined, 
+    ShoppingCartOutlined, ArrowDropDown
+    // PersonOutlineOutlined
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import enImage from "../../assets/en.png";
@@ -10,8 +11,9 @@ import Cart from "../cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userReducer";
 import useFetch from '../../hooks/useFetch';
+import { DEFAULT_IMG_URL } from "../../private/URL";
 
-const Navbar = ({user}) => {
+const Navbar = ({ user }) => {
     const products = useSelector((state) => state?.cart?.products);
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false);
@@ -45,8 +47,8 @@ const Navbar = ({user}) => {
                     </div>
                     <div className="item">
                         <span>Categoreis</span>
-                        <KeyboardArrowDown 
-                            className="icon" 
+                        <KeyboardArrowDown
+                            className="icon"
                             onClick={() => setCatShow(!catShow)}
                         />
                         {
@@ -75,15 +77,12 @@ const Navbar = ({user}) => {
                             )
                         }
                     </div>
-                    <div className="item">
+                    {/* <div className="item">
                         <Link className="link" to="/products/1">Women</Link>
                     </div>
                     <div className="item">
                         <Link className="link" to="/products/2">Men</Link>
-                    </div>
-                    <div className="item">
-                        <Link className="link" to="/products/3">Children</Link>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="center">
                     <Link className="link" to="/">ZenShop</Link>
@@ -93,13 +92,12 @@ const Navbar = ({user}) => {
                         <Link className="link" to="/">Homepage</Link>
                     </div>
                     <div className="item">
-                        <Link className="link" to="/">About</Link>
+                        <Link className="link" to="/about">About</Link>
                     </div>
                     <div className="item">
                         <Link className="link" to="/contact">Contact</Link>
                     </div>
                     <div className="icons">
-                        <PersonOutlineOutlined className="icon" />
                         <FavoriteBorderOutlined className="icon" />
                         <div className="cartIcon" onClick={() => setOpen(!open)}>
                             <ShoppingCartOutlined className="icon" />
@@ -111,35 +109,41 @@ const Navbar = ({user}) => {
                                 )
                             }
                         </div>
-                        <div className={show ? "profile show" : "profile"}>
-                            <ArrowDropDown
-                                className="icon"
-                                onClick={() => setShow(!show)}
-                            />
-                            <div className="options">
-                                {
-                                    !user ? (
-                                        <>
-                                            <Link to='/login' className="link">
-                                                <span onClick={() => setShow(!show)}>Login</span>
-                                            </Link>
-                                            <Link to='/register' className="link">
-                                                <span onClick={() => setShow(!show)}>Register</span>
-                                            </Link>
-                                        </>
+                    </div>
+                    <div className="profileImg">
+                        <img
+                            src={user?.profilePic || DEFAULT_IMG_URL}
+                            alt=""
+                        />
+                    </div>
+                    <div className={show ? "profile show" : "profile"}>
+                        <ArrowDropDown
+                            className="icon"
+                            onClick={() => setShow(!show)}
+                        />
+                        <div className="options">
+                            {
+                                !user ? (
+                                    <>
+                                        <Link to='/login' className="link">
+                                            <span onClick={() => setShow(!show)}>Login</span>
+                                        </Link>
+                                        <Link to='/register' className="link">
+                                            <span onClick={() => setShow(!show)}>Register</span>
+                                        </Link>
+                                    </>
 
-                                    ) : (
-                                        <>
-                                            <Link to={`/users/${user?._id}`} className="link">
-                                                <span onClick={() => setShow(!show)}>Profile</span>
-                                            </Link>
-                                            <span onClick={handleLogout}>
-                                                Logout
-                                            </span>
-                                        </>
-                                    )
-                                }
-                            </div>
+                                ) : (
+                                    <>
+                                        <Link to={`/profile/${user?._id}`} className="link">
+                                            <span onClick={() => setShow(!show)}>Profile</span>
+                                        </Link>
+                                        <span onClick={handleLogout}>
+                                            Logout
+                                        </span>
+                                    </>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

@@ -4,6 +4,9 @@ import {
 } from "react-router-dom";
 import Footer from "../common/footer/Footer";
 import Navbar from "../common/navbar/Navbar";
+import Profile from "../pages/profile/Profile";
+import About from "../pages/about/About";
+import Contact from "../pages/contact/Contact";
 import Home from "../pages/home/Home";
 import Product from "../pages/product/Product";
 import Products from "../pages/products/Products";
@@ -40,6 +43,18 @@ const Index = () => {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/profile/:id",
+          element: <Profile />,
+        },
+        {
+          path: "/about",
+          element: <About />,
+        },
+        {
+          path: "/contact",
+          element: <Contact />,
         },
         {
           path: "/products/:category",
