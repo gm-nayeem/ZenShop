@@ -17,7 +17,7 @@ const CategoryUpdate = ({ category }) => {
   const [updatedCategory, setUpdatedCategory] = useState({});
   const [updatedCategoryFile, setUpdatedCategoryFile] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
-  const [uploaded, setUploaded] = useState(1);
+  const [uploaded, setUploaded] = useState(0);
 
   const navigate = useNavigate();
 
@@ -37,11 +37,11 @@ const CategoryUpdate = ({ category }) => {
     setFileLoading(true);
 
     // firebase setup
-    const fileName = new Date().getTime() + updatedProfilePic.name;
+    const fileName = new Date().getTime() + updatedCategoryFile.name;
     const storage = getStorage(app);
 
     const storageRef = ref(storage, `/users/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, updatedProfilePic);
+    const uploadTask = uploadBytesResumable(storageRef, updatedCategoryFile);
 
     uploadTask.on('state_changed',
       (snapshot) => {

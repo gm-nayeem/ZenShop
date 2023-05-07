@@ -114,6 +114,7 @@ const NewHotel = () => {
     upload([
       { file: productImg[0], label: "img" },
       { file: productImg[1], label: "img2" },
+      { file: productImg[2], label: "img3" },
     ]);
   }
 
@@ -160,10 +161,16 @@ const NewHotel = () => {
               }
               alt=""
             />
+            <img
+              src={
+                files ? URL.createObjectURL(files[2]) : NO_IMG_ICON
+              }
+              alt=""
+            />
             {
               fileLoading ? (
                 <button className="productUpdateButton">Uploading...</button>
-              ) : uploaded === 2 ? (
+              ) : uploaded === 3 ? (
                 <button className="productUpdateButton" onClick={handleSubmit}>Submit</button>
               ) : (
                 <button className="productUpdateButton" onClick={handleUpload}>Upload</button>

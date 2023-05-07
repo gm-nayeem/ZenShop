@@ -18,7 +18,7 @@ const NewUser = () => {
   const [newCategory, setNewCategory] = useState({});
   const [file, setFile] = useState("");
   const [fileLoading, setFileLoading] = useState(false);
-  const [uploaded, setUploaded] = useState(1);
+  const [uploaded, setUploaded] = useState(0);
   const navigate = useNavigate();
 
   // set user input

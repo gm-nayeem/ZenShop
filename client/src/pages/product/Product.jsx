@@ -40,17 +40,17 @@ const Product = ({user}) => {
                 <img
                   src={data?.img}
                   alt=""
-                  onClick={(e) => setSelectedImg("img")}
+                  onClick={() => setSelectedImg("img")}
                 />
                 <img
                   src={data?.img2}
                   alt=""
-                  onClick={(e) => setSelectedImg("img2")}
+                  onClick={() => setSelectedImg("img2")}
                 />
                 <img
-                  src={data?.img}
+                  src={data?.img3}
                   alt=""
-                  onClick={(e) => setSelectedImg("img")}
+                  onClick={() => setSelectedImg("img3")}
                 />
               </div>
               <div className="mainImg">

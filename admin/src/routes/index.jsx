@@ -105,7 +105,7 @@ const Index = () => {
                     element: <List columns={categoryColumns} />,
                 },
                 {
-                    path: "/categories/:categorieId",
+                    path: "/categories/:categoryId",
                     element: <Category />,
                 },
                 {
