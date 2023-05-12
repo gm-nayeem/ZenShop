@@ -13,7 +13,7 @@ const productRoute = require('./router/productRoute')
 const orderRoute = require('./router/orderRoute')
 const categoryRoute = require('./router/categoryRoute')
 const subCategoryRoute = require('./router/subCategoryRoute')
-const paymentRoute = require('./router/stripeRoute')
+const paymentRoute = require('./router/stripeRoute') 
 
 const app = express()
 
@@ -31,7 +31,7 @@ app.use("/api/orders", orderRoute)
 app.use("/api/categories", categoryRoute)
 app.use("/api/subcategories", subCategoryRoute)
 app.use("/api/checkout", paymentRoute)
-
+0
 
 // error handle
 app.use((err, req, res, next) => {

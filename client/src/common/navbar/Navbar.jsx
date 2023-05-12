@@ -3,10 +3,9 @@ import "./navbar.scss";
 import {
     KeyboardArrowDown, FavoriteBorderOutlined, 
     ShoppingCartOutlined, ArrowDropDown
-    // PersonOutlineOutlined
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import enImage from "../../assets/en.png";
+import BDIMG from "../../assets/bd.webp";
 import Cart from "../cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userReducer";
@@ -38,12 +37,15 @@ const Navbar = ({ user }) => {
             <div className="wrapper">
                 <div className="left">
                     <div className="item">
-                        <img src={enImage} alt="" />
+                        <img 
+                            src={BDIMG} 
+                            alt="" 
+                            className="flag"
+                        />
                         <KeyboardArrowDown />
                     </div>
                     <div className="item">
-                        <span>USD</span>
-                        <KeyboardArrowDown />
+                        <Link className="link" to="/">Dashboard</Link>
                     </div>
                     <div className="item">
                         <span>Categoreis</span>
@@ -67,7 +69,7 @@ const Navbar = ({ user }) => {
                                                         to={`/products/${cat.title}`}
                                                         className="link"
                                                     >
-                                                        <li>{cat?.title}</li>
+                                                        <li style={{textTransform: "capitalize"}}>{cat?.title}</li>
                                                     </Link>
                                                 ))
                                             )
@@ -77,20 +79,11 @@ const Navbar = ({ user }) => {
                             )
                         }
                     </div>
-                    {/* <div className="item">
-                        <Link className="link" to="/products/1">Women</Link>
-                    </div>
-                    <div className="item">
-                        <Link className="link" to="/products/2">Men</Link>
-                    </div> */}
                 </div>
                 <div className="center">
                     <Link className="link" to="/">ZenShop</Link>
                 </div>
                 <div className="right">
-                    <div className="item">
-                        <Link className="link" to="/">Homepage</Link>
-                    </div>
                     <div className="item">
                         <Link className="link" to="/about">About</Link>
                     </div>
