@@ -1,8 +1,13 @@
 import React from "react";
 import "./cart.scss";
-import { DeleteOutlined } from "@mui/icons-material";
+import { 
+    DeleteOutlined, AddCircle, 
+    RemoveCircle, RestartAlt
+} from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
-import { removeItem, resetCart } from "../../redux/cartReducer";
+import { 
+    removeItem, resetCart, updateCart 
+} from "../../redux/cartReducer";
 import { userRequest } from "../../utils/makeRequest";
 import { STRIPE_PUBLIC_KEY } from "../../private/URL";
 import { loadStripe } from "@stripe/stripe-js";
@@ -11,6 +16,22 @@ const Cart = () => {
     const user = useSelector(state => state.user?.currentUser?.user);
     const { products } = useSelector(state => state?.cart);
     const dispatch = useDispatch();
+
+    // handle product quantity
+    const handleProductQuantity = (product, action) => {
+        if(action === 'increase') {
+            if(product.quantity < product.availability) {
+                const updatedProduct = {...product, quantity: product.quantity+1}
+                dispatch(updateCart({product: updatedProduct}));
+            }
+        }
+        if(action === 'decrease') {
+            if(product.quantity > 1) {
+                const updatedProduct = {...product, quantity: product.quantity-1}
+                dispatch(updateCart({product: updatedProduct}));
+            } 
+        }
+    };
 
     // set total price
     const totalPrice = () => {
@@ -30,15 +51,15 @@ const Cart = () => {
                 const res = await userRequest.post("/checkout/payment", {
                     products,
                 });
-    
+
                 const stripeId = res.data.stripeSession.id;
-    
+
                 // save stripeSession id
                 localStorage.setItem(
                     "stripeId",
                     JSON.stringify(stripeId)
                 );
-    
+
                 await stripe.redirectToCheckout({
                     sessionId: stripeId,
                 });
@@ -67,10 +88,24 @@ const Cart = () => {
                                             {item.quantity} x ${item.price}
                                         </div>
                                     </div>
-                                    <DeleteOutlined
-                                        className="delete"
-                                        onClick={() => dispatch(removeItem({ id: item.id }))}
-                                    />
+                                    <div className="cartAction">
+                                        <div className="delete">
+                                            <DeleteOutlined
+                                                className="deleteBtn"
+                                                onClick={() => dispatch(removeItem({ id: item.id }))}
+                                            />
+                                        </div>
+                                        <div className="cartControl">
+                                            <RemoveCircle
+                                                className="controlBtn"
+                                                onClick={() => handleProductQuantity(item, 'decrease')}
+                                            />
+                                            <AddCircle
+                                                className="controlBtn"
+                                                onClick={() => handleProductQuantity(item, 'increase')}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             ))
                         }
@@ -81,6 +116,7 @@ const Cart = () => {
                         <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
                         <span className="reset" onClick={() => dispatch(resetCart())}>
                             Reset Cart
+                            <RestartAlt className="resetBtn"/>
                         </span>
                     </>
                 ) : (
@@ -92,6 +128,7 @@ const Cart = () => {
                         </div>
                         <button>PROCEED TO CHECKOUT</button>
                         <span className="reset">
+                            <RestartAlt className="resetBtn"/>
                             Reset Cart
                         </span>
                     </>

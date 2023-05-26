@@ -20,8 +20,8 @@ const Success = () => {
   // set total price
   const totalPrice = () => {
     let total = 0;
-    cart.products.forEach((item) => {
-      total += item.quantity * item.price;
+    cart.products.forEach(item => {
+      total += (item.quantity * item.price);
     });
     return total.toFixed(2);
   };

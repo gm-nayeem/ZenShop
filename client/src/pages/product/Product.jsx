@@ -5,22 +5,37 @@ import {
 } from "@mui/icons-material";
 import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+
 
 
 const Product = ({user}) => {
   const id = useParams().id;
   const [selectedImg, setSelectedImg] = useState("img");
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(1); 
+  const { products } = useSelector(state => state?.cart);
   const dispatch = useDispatch();
 
   const { data, loading, error } = useFetch(`/products/single/${id}`);
 
   // product add to cart
   const handleCart = (cartProduct) => {
+    console.log(cartProduct);
+
     if (user) {
-      dispatch(addToCart(cartProduct));
+      let totalProduct = cartProduct.quantity;
+
+      if(products.length) {
+        const product = products.find(p => p.id === cartProduct.id);
+        if(product) {totalProduct += product.quantity};
+      }
+
+      if(totalProduct > cartProduct.availability) {
+        alert("You select to more product");
+      } else {
+        dispatch(addToCart(cartProduct));
+      }
     } else {
       alert("First login your account");
     }
@@ -75,6 +90,9 @@ const Product = ({user}) => {
                 {quantity}
                 <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
               </div>
+              <div className="availableProduct">
+                Product Availability - <span>{data?.availableProduct}</span>
+              </div>
               <button
                 className="add"
                 onClick={() => handleCart({
@@ -84,6 +102,7 @@ const Product = ({user}) => {
                   img: data.img,
                   quantity,
                   price: data.price,
+                  availability: data.availableProduct
                 })
                 }
               >

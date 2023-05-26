@@ -73,6 +73,21 @@
             }
         }
 
+        .availableProduct {
+            width: max-content;
+            height: auto;
+            background-color: lightgray;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+
+            span {
+                color: #2879fe;
+                font-weight: bold;
+                font-size: 18px;
+            }
+        }
+
         .add {
             width: 250px;
             padding: 10px;

@@ -1,15 +1,52 @@
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 
 const createOrder = async (req, res, next) => {
     const { order } = req.body;
     const newOrder = new Order(order);
 
+    console.log("order", order);
+
     try {
-        await newOrder.save();
-        res.status(201).json({
-            sucess: true,
-            message: 'Order created successfully'
-        });
+        const createOrder = await newOrder.save();
+        const { products } = createOrder;
+
+        const productItems = await Promise.all(
+            products.map(async product => {
+                const id = product.productId;
+                const singleProduct = await Product.findById(id);
+
+                return await Product.findByIdAndUpdate(
+                    id,
+                    {
+                        $set: {
+                            availableProduct: (singleProduct.availableProduct - product.quantity)
+                        }
+                    },
+                    {new: true}
+                );
+            })
+        );
+
+        if(productItems) {
+            res.status(201).json({
+                sucess: true,
+                message: 'Order created successfully'
+            });
+        }
+
+        // update product availability
+        // for (const product of products) {
+        //     const findProduct = Product.findOne({_id: product.id});
+
+        //     await Product.updateOne(
+        //         { _id: product.id}, 
+        //         { $set: { 
+        //             availableProduct: (findProduct.availableProduct - product.quantity) } 
+        //         },
+        //         { new: true }
+        //     );
+        // }
     } catch (err) {
         next(err);
     }

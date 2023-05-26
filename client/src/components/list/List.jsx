@@ -11,22 +11,29 @@ const List = ({ subCats, maxPrice, sort, category }) => {
         )}&maxPrice=${maxPrice}&sort=${sort}`
     );
 
+
     return (
-        <>
+        <div className="lists">
             {
                 loading ? (
                     "Please wait..."
                 ) : error ? (
                     "Something went wrong"
                 ) : (
-                    <div className="list">
-                        {
-                            data && data.map(item => <Card item={item} key={item._id} />)
-                        }
-                    </div>
+                    data?.length ? (
+                        <div className="productList">
+                            {
+                                data?.map(item => <Card item={item} key={item._id} />)
+                            }
+                        </div>
+                    ) : (
+                        <h2 className="productNull">
+                            No Product Available
+                        </h2>
+                    )
                 )
             }
-        </>
+        </div>
     );
 };
 

@@ -13,7 +13,9 @@ const Products = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const { data, loading: categoryLoading, error: categoryError } = useFetch(
+  const { 
+    data, loading: categoryLoading, error: categoryError 
+  } = useFetch(
     `/subcategories/all?category=${category}`
   );
 

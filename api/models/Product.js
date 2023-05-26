@@ -15,6 +15,7 @@ const ProductSchema = mongoose.Schema(
         subCategories: { type: String },
         isUpdated: { type: Boolean, default: false },
         inStock: { type: Boolean, default: true },
+        availableProduct: {type: Number, default: 10},
     },
     { timestamps: true }
 );
