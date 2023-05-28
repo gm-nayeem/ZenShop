@@ -1,12 +1,14 @@
 .products {
-    padding: 30px 50px;
+    height: 100%;
+    padding: 30px;
     display: flex;
 
     .left {
         flex: 1;
+        height: max-content;
+        overflow: hidden;
         position: sticky;
-        height: 100%;
-        top: 50px;
+        top: 20px;
 
         .filterItem {
             margin-bottom: 30px;

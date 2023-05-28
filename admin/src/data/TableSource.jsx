@@ -31,7 +31,6 @@ export const userColumns = [
 ];
 
 export const productColumns = [
-    // { field: "_id", headerName: "ID", width: 220 },
     {
         field: "title",
         headerName: "Title",
@@ -40,7 +39,7 @@ export const productColumns = [
     {
         field: "images",
         headerName: "Prouct Images",
-        width: 180,
+        width: 160,
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
@@ -53,7 +52,7 @@ export const productColumns = [
     {
         field: "type",
         headerName: "Type",
-        width: 120,
+        width: 110,
     },
     {
         field: "price",
@@ -85,8 +84,8 @@ export const orderColumns = [
     },
     {
         field: "products",
-        headerName: "Products Quantity",
-        width: 160,
+        headerName: "Products",
+        width: 120,
         renderCell: (params) => {
             let quan = 0;
             params.row.products.forEach(p => {
@@ -102,13 +101,13 @@ export const orderColumns = [
     },
     {
         field: "amount",
-        headerName: "Total Amount",
-        width: 120,
+        headerName: "Amount",
+        width: 100,
     },
     {
         field: "status",
         headerName: "Status",
-        width: 120,
+        width: 110,
     },
 ];
 
@@ -162,12 +161,12 @@ export const subCategoryColumns = [
     {
         field: "title",
         headerName: "title",
-        width: 140,
+        width: 160,
     },
     {
         field: "categories",
         headerName: "Categories",
-        width: 400,
+        width: 300,
         renderCell: (params) => {
             return (
                 <div>

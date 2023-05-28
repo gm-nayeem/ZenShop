@@ -4,6 +4,7 @@
 
     .container {
         display: flex;
+        gap: 20px;
     
         .sidebar {
             flex: 1;
@@ -11,7 +12,7 @@
     
         .mainContent {
             flex: 4;
-            padding: 20px;
+            padding: 20px 0px;
         }
     }
 }

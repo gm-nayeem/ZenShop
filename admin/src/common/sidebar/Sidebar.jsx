@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/userReducer";
 
-
 const Sidebar = () => {
     const { user } = useSelector(state => state.admin.currentUser);
     const navigate = useNavigate();
