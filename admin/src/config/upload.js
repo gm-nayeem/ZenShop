@@ -1,5 +1,5 @@
 import axios from "axios";
-import {FILE_UPLOAD_URL} from '../private/URL';
+const FILE_UPLOAD_URL = "https://api.cloudinary.com/v1_1/gmnayeem/image/upload";
 
 // use cloudinary website
 const upload = async (file) => {

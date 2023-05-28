@@ -8,10 +8,10 @@ import {
 } from "@mui/icons-material";
 import Chart from '../../components/areaChart/AreaChart';
 import { useParams } from "react-router-dom";
-import { DEFAULT_IMG_URL } from "../../private/URL";
 import UserUpdate from "../../components/userUpdate/UserUpdate";
 import { useEffect, useState } from "react";
 import { userRequest } from "../../utils/makeRequest";
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 
 const User = () => {

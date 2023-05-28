@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { productInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import { userRequest } from "../../utils/makeRequest";
-import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 // firebase
 import {
   getStorage,
@@ -14,6 +13,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from "../../config/firebase";
+const NO_IMG_ICON_URL = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
 
 
 const NewHotel = () => {

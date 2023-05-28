@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { FIREBASE_API_KEY, FIREBASE_APP_ID } from "../private/URL";
+
+const FIREBASE_API_KEY = "AIzaSyD4kwpr4MXiPSPnon_LI4scI_Gfn7dkgJA";
+const FIREBASE_APP_ID = "1:378539980411:web:c6f7494f82828bbf63d4de";
 
 // Web app's Firebase configuration
 const firebaseConfig = {

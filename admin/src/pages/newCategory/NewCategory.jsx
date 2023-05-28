@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { userRequest } from '../../utils/makeRequest';
 import { categoryInputs } from '../../formSource';
-import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 // firebase
 import {
   getStorage,
@@ -13,6 +12,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from "../../config/firebase";
+import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
 const NewUser = () => {
   const [newCategory, setNewCategory] = useState({});

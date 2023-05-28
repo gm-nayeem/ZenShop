@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from "../../redux/userReducer";
 import { Link, useNavigate } from 'react-router-dom';
-import { DEFAULT_IMG_URL } from "../../private/URL";
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 
 const Navbar = () => {

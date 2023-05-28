@@ -74,7 +74,6 @@ export const productInputs = [
     },
 ];
 
-
 export const categoryInputs = [
     {
         name: "title",

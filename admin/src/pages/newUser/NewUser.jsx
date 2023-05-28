@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from '../../utils/makeRequest';
 import { userInputs } from '../../formSource';
-import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 // firebase
 import {
   getStorage,
@@ -13,6 +12,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from "../../config/firebase";
+const NO_IMG_ICON_URL = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
 
 const NewUser = () => {
   const [user, setUser] = useState({});
