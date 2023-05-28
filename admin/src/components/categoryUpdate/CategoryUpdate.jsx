@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './categoryUpdate.scss';
 import { Publish } from "@mui/icons-material";
-import { DEFAULT_IMG_URL } from "../../private/URL";
 import { useNavigate } from 'react-router-dom';
 import { userRequest } from '../../utils/makeRequest';
 // firebase
@@ -12,6 +11,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from '../../config/firebase';
+import { DEFAULT_IMG_URL } from "../../private/URL";
 
 const CategoryUpdate = ({ category }) => {
   const [updatedCategory, setUpdatedCategory] = useState({});

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './productUpdate.scss';
 import { Publish } from "@mui/icons-material";
-import { DEFAULT_IMG_URL } from "../../private/URL";
 import { useNavigate } from 'react-router-dom';
 // firebase
 import {
@@ -12,6 +11,7 @@ import {
 } from "firebase/storage";
 import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
