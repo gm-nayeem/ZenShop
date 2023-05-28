@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Products.scss";
+import "./products.scss";
 import { useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import useFetch from "../../hooks/useFetch";
