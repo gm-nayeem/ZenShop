@@ -11,7 +11,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from '../../config/firebase';
-import { DEFAULT_IMG_URL } from "../../private/URL";
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 const CategoryUpdate = ({ category }) => {
   const [updatedCategory, setUpdatedCategory] = useState({});
