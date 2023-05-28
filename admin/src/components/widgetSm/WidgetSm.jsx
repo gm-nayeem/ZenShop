@@ -1,8 +1,8 @@
 import "./widgetSm.scss";
 import { Visibility } from "@mui/icons-material";
 import useFetch from "../../hooks/useFetch";
-import { DEFAULT_IMG_URL } from "../../private/URL";
 import { Link } from "react-router-dom";
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 const WidgetSm = () => {
     const {
