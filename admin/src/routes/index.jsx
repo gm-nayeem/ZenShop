@@ -25,7 +25,7 @@ import { useSelector } from 'react-redux';
 import {
     userColumns, productColumns, orderColumns,
     categoryColumns, subCategoryColumns
-} from '../datatableSource';
+} from '../data/TableSource';
 
 
 const Index = () => {

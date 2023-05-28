@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { userRequest, publicRequest } from '../../utils/makeRequest';
 
-
 const NewUser = () => {
   const [title, setTitle] = useState("");
   const [selectedCategory, setSelectedCategory] = useState([]);

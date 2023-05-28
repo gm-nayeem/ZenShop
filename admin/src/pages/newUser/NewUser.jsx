@@ -3,7 +3,7 @@ import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from '../../utils/makeRequest';
-import { userInputs } from '../../formSource';
+import { userInputs } from '../../data/FormSource';
 // firebase
 import {
   getStorage,

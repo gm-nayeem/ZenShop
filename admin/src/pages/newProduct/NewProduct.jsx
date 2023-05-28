@@ -2,7 +2,7 @@ import "./newProduct.scss";
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { productInputs } from "../../formSource";
+import { productInputs } from "../../data/FormSource";
 import useFetch from "../../hooks/useFetch";
 import { userRequest } from "../../utils/makeRequest";
 // firebase

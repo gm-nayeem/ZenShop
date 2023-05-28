@@ -31,16 +31,16 @@ export const userColumns = [
 ];
 
 export const productColumns = [
-    { field: "_id", headerName: "ID", width: 220 },
+    // { field: "_id", headerName: "ID", width: 220 },
     {
         field: "title",
         headerName: "Title",
-        width: 160,
+        width: 180,
     },
     {
         field: "images",
         headerName: "Prouct Images",
-        width: 160,
+        width: 180,
         renderCell: (params) => {
             return (
                 <div className="cellWithImg">
@@ -53,17 +53,17 @@ export const productColumns = [
     {
         field: "type",
         headerName: "Type",
-        width: 100,
+        width: 120,
     },
     {
         field: "price",
         headerName: "Price",
-        width: 80,
+        width: 90,
     },
     {
         field: "categories",
         headerName: "Categories",
-        width: 90,
+        width: 100,
     },
     {
         field: "subCategories",
