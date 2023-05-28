@@ -10,7 +10,8 @@ import Cart from "../cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userReducer";
 import useFetch from '../../hooks/useFetch';
-import { DEFAULT_IMG_URL } from "../../private/URL";
+const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
+
 
 const Navbar = ({ user }) => {
     const products = useSelector((state) => state?.cart?.products);

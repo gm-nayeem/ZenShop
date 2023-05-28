@@ -9,8 +9,8 @@ import {
     removeItem, resetCart, updateCart 
 } from "../../redux/cartReducer";
 import { userRequest } from "../../utils/makeRequest";
-import { STRIPE_PUBLIC_KEY } from "../../private/URL";
 import { loadStripe } from "@stripe/stripe-js";
+const STRIPE_PUBLIC_KEY = "pk_test_51MvhhMKIZlg7N7Rai7FYprIdGyE2J2VPc4ALqze3MjbU4t03EN6J57he9SxlyjLodPHmUYOdgr8bCFrgFPGC7zoU00qND6hNuM";
 
 const Cart = () => {
     const user = useSelector(state => state.user?.currentUser?.user);

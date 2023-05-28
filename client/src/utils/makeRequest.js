@@ -1,5 +1,5 @@
 import axios from "axios";
-import {REACT_APP_API_URL} from "../private/URL";
+const REACT_APP_API_URL = "https://zenshop.vercel.app/api";
 
         
 export const publicRequest = axios.create({

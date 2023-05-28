@@ -11,7 +11,6 @@ const List = ({ subCats, maxPrice, sort, category }) => {
         )}&maxPrice=${maxPrice}&sort=${sort}`
     );
 
-
     return (
         <div className="lists">
             {
