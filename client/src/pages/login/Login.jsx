@@ -33,7 +33,7 @@ const Login = () => {
     navigate('/');
 
     setUser({
-      username: "",
+      email: "",
       password: ""
     });
   }
