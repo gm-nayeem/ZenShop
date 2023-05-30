@@ -190,11 +190,27 @@ const ProductUpdate = ({ product }) => {
         <div className="productUpdateRight">
           <div className="productUpdateWrapper">
             <div className="productUpdateUpload">
-              <img
-                className="productUpdateImg"
-                src={product?.img || DEFAULT_IMG_URL}
-                alt=""
-              />
+              {
+                updatedProductFiles ? (
+                  <img
+                    className="productUpdateImg"
+                    src={
+                      updatedProductFiles
+                        ? URL.createObjectURL(updatedProductFiles[0])
+                        : DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    className="productUpdateImg"
+                    src={
+                      product?.img || DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                )
+              }
               <label htmlFor="file">
                 <Publish className="productUpdateIcon" />
               </label>

@@ -29,7 +29,7 @@ import {
 
 
 const Index = () => {
-    const isAdmin = useSelector(state => state.admin.currentUser?.user.isAdmin);
+    const isAdmin = useSelector(state => state.admin?.currentUser?.user.isAdmin);
 
     const Layout = () => {
         return (
@@ -133,7 +133,9 @@ const Index = () => {
         {
             path: "/login",
             element: (
-                !isAdmin ? <Login /> : <Navigate to="/" />
+                !isAdmin 
+                ? <Login /> 
+                : <Navigate to='/' />
             )
         }
     ]);

@@ -13,7 +13,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from "../../config/firebase";
-const NO_IMG_ICON_URL = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
 
 const NewHotel = () => {
@@ -97,7 +97,8 @@ const NewHotel = () => {
             });
 
             count += 1;
-            count === 2 && setFileLoading(false);
+            console.log(items.length)
+            count === (items.length-1) && setFileLoading(false);
             setUploaded(prev => prev + 1);
           });
         }
@@ -111,11 +112,22 @@ const NewHotel = () => {
 
     const productImg = Object.values(files).map(file => file);
 
-    upload([
-      { file: productImg[0], label: "img" },
-      { file: productImg[1], label: "img2" },
-      { file: productImg[2], label: "img3" },
-    ]);
+    if (productImg.length === 3) {
+      upload([
+        { file: productImg[0], label: "img" },
+        { file: productImg[1], label: "img2" },
+        { file: productImg[2], label: "img3" },
+      ]);
+    } else if (productImg.length === 2) {
+      upload([
+        { file: productImg[0], label: "img" },
+        { file: productImg[1], label: "img2" },
+      ]);
+    } else {
+      upload([
+        { file: productImg[0], label: "img" },
+      ]);
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -151,31 +163,34 @@ const NewHotel = () => {
           <div className="leftWrapper">
             <img
               src={
-                files ? URL.createObjectURL(files[0]) : NO_IMG_ICON
+                files.length >= 1 ? URL.createObjectURL(files[0]) : NO_IMG_ICON
               }
               alt=""
             />
             <img
               src={
-                files ? URL.createObjectURL(files[1]) : NO_IMG_ICON
+                files.length >= 2 ? URL.createObjectURL(files[1]) : NO_IMG_ICON
               }
               alt=""
             />
             <img
               src={
-                files ? URL.createObjectURL(files[2]) : NO_IMG_ICON
+                files.length >= 3 ? URL.createObjectURL(files[2]) : NO_IMG_ICON
               }
               alt=""
             />
             {
               fileLoading ? (
                 <button className="productUpdateButton">Uploading...</button>
-              ) : uploaded === 3 ? (
-                <button className="productUpdateButton" onClick={handleSubmit}>Submit</button>
               ) : (
-                <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
+                uploaded === 3 ? (
+                  <button className="productUpdateButton" onClick={handleSubmit}>Submit</button>
+                ) : (
+                  <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
+                )
               )
             }
+
           </div>
         </div>
         <div className="right">

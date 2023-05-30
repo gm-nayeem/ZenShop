@@ -12,7 +12,7 @@ import {
   getDownloadURL
 } from "firebase/storage";
 import app from "../../config/firebase";
-const NO_IMG_ICON_URL = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 
 const NewUser = () => {
   const [user, setUser] = useState({});

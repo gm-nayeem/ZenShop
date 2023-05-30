@@ -8,6 +8,7 @@ import WidgetLg from '../../components/widgetLg/WidgetLg'
 import { useState, useEffect, useMemo } from 'react';
 import { userRequest } from '../../utils/makeRequest';
 
+
 const Home = () => {
   const [userStats, setUserStats] = useState([]);
 
@@ -56,11 +57,11 @@ const Home = () => {
         <AreaChart aspect={2 / 1} title="Last 6  Months (Revenue)" />
       </div>
 
-      <LineChart 
-        data={userStats} 
-        title="User Analytics" 
-        grid 
-        dataKey="Active User" 
+      <LineChart
+        data={userStats}
+        title="User Analytics"
+        grid
+        dataKey="Active User"
       />
 
       <div className="homeWidgets">

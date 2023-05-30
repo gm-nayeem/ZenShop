@@ -126,11 +126,27 @@ const UserUpdate = ({ user }) => {
         </div>
         <div className="userUpdateRight">
           <div className="userUpdateUpload">
-            <img
-              className="userUpdateImg"
-              src={user?.profilePic || DEFAULT_IMG_URL}
-              alt=""
-            />
+            {
+              updatedProfilePic ? (
+                <img
+                  className="userUpdateImg"
+                  src={
+                    updatedProfilePic
+                      ? URL.createObjectURL(updatedProfilePic)
+                      : DEFAULT_IMG_URL
+                  }
+                  alt=""
+                />
+              ) : (
+                <img
+                  className="userUpdateImg"
+                  src={
+                    user?.profilePic || DEFAULT_IMG_URL
+                  }
+                  alt=""
+                />
+              )
+            }
             <label htmlFor="file">
               <Publish className="userUpdateIcon" />
             </label>
