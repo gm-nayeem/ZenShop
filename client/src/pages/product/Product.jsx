@@ -8,8 +8,6 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-
-
 const Product = ({user}) => {
   const id = useParams().id;
   const [selectedImg, setSelectedImg] = useState("img");
@@ -91,7 +89,7 @@ const Product = ({user}) => {
                 <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
               </div>
               <div className="availableProduct">
-                Product Availability - <span>{data?.availableProduct}</span>
+                Product Available - <span>{data?.availableProduct}</span>
               </div>
               <button
                 className="add"

@@ -29,8 +29,13 @@
                     object-fit: cover;
                 }
 
-                .icon {
-                    margin-top: 5px;
+                span {
+                    display: flex;
+                    align-items: center;
+
+                    .icon {
+                        margin-top: 5px;
+                    }
                 }
 
                 .categories {

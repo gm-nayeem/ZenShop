@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import {
-    KeyboardArrowDown, FavoriteBorderOutlined, 
+    KeyboardArrowDown, FavoriteBorderOutlined,
     ShoppingCartOutlined, ArrowDropDown
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,9 +38,9 @@ const Navbar = ({ user }) => {
             <div className="wrapper">
                 <div className="left">
                     <div className="item">
-                        <img 
-                            src={BDIMG} 
-                            alt="" 
+                        <img
+                            src={BDIMG}
+                            alt=""
                             className="flag"
                         />
                         <KeyboardArrowDown />
@@ -49,11 +49,13 @@ const Navbar = ({ user }) => {
                         <Link className="link" to="/">Dashboard</Link>
                     </div>
                     <div className="item">
-                        <span>Categoreis</span>
-                        <KeyboardArrowDown
-                            className="icon"
-                            onClick={() => setCatShow(!catShow)}
-                        />
+                        <span onClick={() => setCatShow(!catShow)}>
+                            Categories
+                            <KeyboardArrowDown
+                                className="icon"
+                            />
+                        </span>
+
                         {
                             catShow && (
                                 <div className="categories">
@@ -70,7 +72,7 @@ const Navbar = ({ user }) => {
                                                         to={`/products/${cat.title}`}
                                                         className="link"
                                                     >
-                                                        <li style={{textTransform: "capitalize"}}>{cat?.title}</li>
+                                                        <li style={{ textTransform: "capitalize" }}>{cat?.title}</li>
                                                     </Link>
                                                 ))
                                             )
@@ -93,7 +95,13 @@ const Navbar = ({ user }) => {
                     </div>
                     <div className="icons">
                         <FavoriteBorderOutlined className="icon" />
-                        <div className="cartIcon" onClick={() => setOpen(!open)}>
+                        <div 
+                            className="cartIcon" 
+                            onClick={() => {
+                                setShow(false);
+                                setOpen(!open);
+                            }}
+                        >
                             <ShoppingCartOutlined className="icon" />
                             {
                                 user ? (
@@ -113,7 +121,10 @@ const Navbar = ({ user }) => {
                     <div className={show ? "profile show" : "profile"}>
                         <ArrowDropDown
                             className="icon"
-                            onClick={() => setShow(!show)}
+                            onClick={() => {
+                                setOpen(false);
+                                setShow(!show);
+                            }}
                         />
                         <div className="options">
                             {
