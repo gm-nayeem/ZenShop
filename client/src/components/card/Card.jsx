@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
 const Card = ({ item }) => {
-    const { user } = useSelector(state => state.user?.currentUser);
-    const { products } = useSelector(state => state?.cart);
+    const user = useSelector(state => state.user?.currentUser?.user);
+    const products = useSelector(state => state?.cart?.products);
 
     const dispatch = useDispatch();
 

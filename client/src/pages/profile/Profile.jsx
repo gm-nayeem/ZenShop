@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 const Profile = () => {
-  const { user } = useSelector(state => state.user?.currentUser);
+  const user = useSelector(state => state.user?.currentUser?.user);
 
   // get date from createdAt
   const getFullDate = (time) => {

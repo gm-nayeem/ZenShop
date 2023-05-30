@@ -16,7 +16,7 @@ import { loginSuccessful } from '../../redux/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ProfileUpdate = () => {
-  const { user } = useSelector(state => state.user?.currentUser);
+  const user  = useSelector(state => state.user?.currentUser?.user);
 
   const [updatedUser, setUpdatedUser] = useState({});
   const [updatedProfilePic, setUpdatedProfilePic] = useState(null);

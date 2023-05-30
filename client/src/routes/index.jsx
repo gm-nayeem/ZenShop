@@ -46,7 +46,9 @@ const Index = () => {
         },
         {
           path: "/profile/:id",
-          element: <Profile />,
+          element: (
+            user ? <Profile /> : <Navigate to="/" />
+          ),
         },
         {
           path: "/about",
