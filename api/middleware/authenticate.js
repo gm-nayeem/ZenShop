@@ -23,7 +23,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    if ((req.user.id === req.params.id) || req.user.isAdmin) {
+    if ((req.user?.id === req.params?.id) || req.user?.isAdmin) {
       next();
     } else {
       return next(createError(403, "You are not authorized!"));

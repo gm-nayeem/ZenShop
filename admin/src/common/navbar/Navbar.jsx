@@ -12,7 +12,7 @@ const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
 
 const Navbar = () => {
-  const { user } = useSelector(state => state.admin.currentUser);
+  const { user } = useSelector(state => state.admin?.currentUser);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();

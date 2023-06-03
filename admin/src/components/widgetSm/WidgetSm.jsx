@@ -9,6 +9,9 @@ const WidgetSm = () => {
         data, loading, error
     } = useFetch("/users/all", "userRequest");
 
+    console.log("wsm : ", data);
+    console.log("wsm er: ", error);
+
 
     return (
         <div className="widgetSm">

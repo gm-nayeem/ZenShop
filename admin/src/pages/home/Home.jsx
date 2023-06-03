@@ -34,6 +34,7 @@ const Home = () => {
     const getStats = async () => {
       try {
         const res = await userRequest.get("/users/stats");
+        console.log("home: ", res.data);
         res.data.map(item =>
           setUserStats(prev => [
             ...prev,
