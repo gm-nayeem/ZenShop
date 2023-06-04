@@ -26,10 +26,10 @@ const Login = () => {
     })
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = login(dispatch, user);
+    const res = await login(dispatch, user);
     setUser({
       email: "",
       password: ""

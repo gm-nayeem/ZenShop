@@ -9,9 +9,11 @@ import BDIMG from "../../assets/bd.webp";
 import Cart from "../cart/Cart";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userReducer";
+import { logout as logoutApi } from "../../redux/apiCalls";
 import useFetch from '../../hooks/useFetch';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 import { flags } from '../../data/flags';
+import { toast } from "react-toastify";
 
 
 const Navbar = ({ user }) => {
@@ -31,18 +33,28 @@ const Navbar = ({ user }) => {
 
     // logout
     const handleLogout = () => {
-        dispatch(logout());
         setShow(!show);
-        navigate('/');
-    }
 
+        const res = logoutApi();
+
+        if (res.status !== 200) {
+            return toast.error("Something went wrong!", { autoClose: 3000 });
+        }
+
+        toast.success(res.message, { autoClose: 1500 });
+
+        setTimeout(() => {
+            dispatch(logout());
+            navigate('/');
+        }, 2000);
+    }
 
     return (
         <div className="navbar">
             <div className="wrapper">
                 <div className="left">
                     <div className="item">
-                        <span 
+                        <span
                             onClick={() => {
                                 setOpen(false)
                                 setShow(false)
@@ -88,7 +100,7 @@ const Navbar = ({ user }) => {
                         <Link className="link" to="/">Dashboard</Link>
                     </div>
                     <div className="item">
-                        <span 
+                        <span
                             onClick={() => {
                                 setFlagShow(false)
                                 setOpen(false)

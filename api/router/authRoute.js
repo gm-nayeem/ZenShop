@@ -10,7 +10,7 @@ const {
 
 router.post('/register', registerController);
 router.post('/login', loginController);
-router.post('/logout', logoutController);
+router.get('/logout', logoutController);
 
 // forgot password
 router.post('/sendpasswordlink', sendPasswordLink);

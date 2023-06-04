@@ -23,7 +23,7 @@ export const login = async (dispatch, user) => {
         if (res.data) {
             dispatch(loginSuccessful(res.data));
             return res.data;
-        } 
+        }
     } catch (err) {
         dispatch(loginFailure());
         return err.response.data;
@@ -33,10 +33,10 @@ export const login = async (dispatch, user) => {
 // logout
 export const logout = async () => {
     try {
-        const res = await publicRequest.post("/auth/logout");
-        console.log(res.data);
+        const res = await publicRequest.get("/auth/logout");
+        return res.data;
     } catch (err) {
-        console.log(err);
+        return err.response.data;
     }
 }
 

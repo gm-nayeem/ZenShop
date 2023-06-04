@@ -85,7 +85,10 @@ const loginController = async (req, res, next) => {
 
 // logout
 const logoutController = (req, res) => {
-    console.log("logout");
+    res.status(200).send({
+        status: 200,
+        message: "User has been loggedout!",
+    });
 }
 
 // send link through email for reset password

@@ -25,7 +25,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Index = () => {
   const user = useSelector(state => state.user?.currentUser?.user);
-
+  console.log("user: ", user);
   const Layout = () => {
 
     return (
@@ -33,7 +33,7 @@ const Index = () => {
         <Navbar user={user} />
         <Outlet />
         <Footer />
-        <ToastContainer theme="light"/>
+        <ToastContainer />
       </div>
     );
   };
