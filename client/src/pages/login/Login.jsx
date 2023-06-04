@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { login } from "../../redux/apiCalls";
 import { toast } from "react-toastify";
+import { loginSuccessful } from '../../redux/userReducer';
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -46,6 +47,7 @@ const Login = () => {
     toast.success(res.message, { autoClose: 1500 });
 
     setTimeout(() => {
+      dispatch(loginSuccessful(res));
       navigate('/');
     }, 2000);
   }

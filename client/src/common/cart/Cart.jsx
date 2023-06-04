@@ -11,6 +11,8 @@ import {
 import { userRequest } from "../../utils/makeRequest";
 import { loadStripe } from "@stripe/stripe-js";
 const STRIPE_PUBLIC_KEY = "pk_test_51MvhhMKIZlg7N7Rai7FYprIdGyE2J2VPc4ALqze3MjbU4t03EN6J57he9SxlyjLodPHmUYOdgr8bCFrgFPGC7zoU00qND6hNuM";
+import { toast } from 'react-toastify';
+
 
 const Cart = () => {
     const user = useSelector(state => state.user?.currentUser?.user);
@@ -92,7 +94,10 @@ const Cart = () => {
                                         <div className="delete">
                                             <DeleteOutlined
                                                 className="deleteBtn"
-                                                onClick={() => dispatch(removeItem({ id: item.id }))}
+                                                onClick={() => {
+                                                    toast("Product removed from cart!", { autoClose: 3000 });
+                                                    dispatch(removeItem({ id: item.id }))
+                                                }}
                                             />
                                         </div>
                                         <div className="cartControl">
@@ -114,7 +119,13 @@ const Cart = () => {
                             <span>${totalPrice()}</span>
                         </div>
                         <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
-                        <span className="reset" onClick={() => dispatch(resetCart())}>
+                        <span 
+                            className="reset" 
+                            onClick={() => {
+                                products.length && toast("Cart reset!", { autoClose: 3000 });
+                                dispatch(resetCart());
+                            }}
+                        >
                             Reset Cart
                             <RestartAlt className="resetBtn"/>
                         </span>

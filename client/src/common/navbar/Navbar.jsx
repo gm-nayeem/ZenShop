@@ -32,10 +32,10 @@ const Navbar = ({ user }) => {
     const dispatch = useDispatch();
 
     // logout
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setShow(!show);
 
-        const res = logoutApi();
+        const res = await logoutApi();
 
         if (res.status !== 200) {
             return toast.error("Something went wrong!", { autoClose: 3000 });
