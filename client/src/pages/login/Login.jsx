@@ -3,7 +3,7 @@ import './login.scss';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { login } from "../../redux/apiCalls";
-
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -29,13 +29,25 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    login(dispatch, user);
-    navigate('/');
-
+    const res = login(dispatch, user);
     setUser({
       email: "",
       password: ""
     });
+
+    if (res.status === 422) {
+      return toast.warn(res.message, { autoClose: 3000 });
+    }
+
+    if (res.status === 404 || res.status === 400) {
+      return toast.error(res.message, { autoClose: 3000 });
+    }
+
+    toast.success(res.message, { autoClose: 1500 });
+
+    setTimeout(() => {
+      navigate('/');
+    }, 2000);
   }
 
   return (

@@ -30,10 +30,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if(user.password !== user.cpassword) {
-      return toast.error("Password doesn't match!", {autoClose: 3000});
-    }
-
     const res = await register(user);
 
     setUser({
@@ -43,14 +39,21 @@ const Register = () => {
       cpassword: ""
     });
 
-    if (res.status === 201) {
-      toast.success(res.message, {autoClose: 1500});
+    if (res.status === 422) {
+      return toast.warn(res.message, { autoClose: 3000 });
+    }
 
-      setTimeout(() => {
-        navigate('/login');
-      }, 2000);
-    } 
+    if (res.status === 404 || res.status === 400) {
+      return toast.error(res.message, { autoClose: 3000 });
+    }
+
+    toast.success(res.message, { autoClose: 1500 });
+
+    setTimeout(() => {
+      navigate('/login');
+    }, 2000);
   }
+
 
   return (
     <>
@@ -69,7 +72,6 @@ const Register = () => {
                 value={user.username}
                 placeholder='enter username'
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="form_input">
@@ -79,7 +81,7 @@ const Register = () => {
                 value={user.email}
                 placeholder='enter email'
                 onChange={handleChange}
-                required
+                
               />
             </div>
             <div className="form_input">
@@ -91,10 +93,9 @@ const Register = () => {
                   onChange={handleChange}
                   name="password" id="password"
                   placeholder='enter password'
-                  required
                 />
-                <div 
-                  className="showpass" 
+                <div
+                  className="showpass"
                   onClick={() => setPassShow(!passShow)}>
                   {!passShow ? "Show" : "Hide"}
                 </div>
@@ -109,10 +110,9 @@ const Register = () => {
                   onChange={handleChange}
                   name="cpassword" id="cpassword"
                   placeholder='confirm password'
-                  required
                 />
-                <div 
-                  className="showpass" 
+                <div
+                  className="showpass"
                   onClick={() => setCPassShow(!cpassShow)}>
                   {!cpassShow ? "Show" : "Hide"}
                 </div>
