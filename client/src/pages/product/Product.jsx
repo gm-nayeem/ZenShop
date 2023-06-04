@@ -7,11 +7,12 @@ import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+import { toast } from 'react-toastify';
 
-const Product = ({user}) => {
+const Product = ({ user }) => {
   const id = useParams().id;
   const [selectedImg, setSelectedImg] = useState("img");
-  const [quantity, setQuantity] = useState(1); 
+  const [quantity, setQuantity] = useState(1);
   const { products } = useSelector(state => state?.cart);
   const dispatch = useDispatch();
 
@@ -19,23 +20,24 @@ const Product = ({user}) => {
 
   // product add to cart
   const handleCart = (cartProduct) => {
-    console.log(cartProduct);
+    // console.log(cartProduct);
 
     if (user) {
       let totalProduct = cartProduct.quantity;
 
-      if(products.length) {
+      if (products.length) {
         const product = products.find(p => p.id === cartProduct.id);
-        if(product) {totalProduct += product.quantity};
+        if (product) { totalProduct += product.quantity };
       }
 
-      if(totalProduct > cartProduct.availability) {
-        alert("You select to more product");
+      if (totalProduct > cartProduct.availability) {
+        toast.warn("You select too more product", {autoClose: 3000});
       } else {
         dispatch(addToCart(cartProduct));
+        toast.success("Product added successfully", {autoClose: 3000});
       }
     } else {
-      alert("First login your account");
+      toast.warn("First login your account", {autoClose: 3000});
     }
   }
 

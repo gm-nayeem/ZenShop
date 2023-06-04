@@ -19,6 +19,8 @@ import Success from "../pages/success/Success";
 import Cancel from "../pages/cancel/Cancel";
 import { useSelector } from "react-redux";
 import Protected from '../routes/Protected';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Index = () => {
@@ -31,6 +33,7 @@ const Index = () => {
         <Navbar user={user} />
         <Outlet />
         <Footer />
+        <ToastContainer theme="light"/>
       </div>
     );
   };

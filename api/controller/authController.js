@@ -17,11 +17,11 @@ const registerController = async (req, res, next) => {
         const preuser = await User.findOne({ email: email });
 
         if (preuser) {
-            return next(createError(404, "User not found!"));
+            return next(createError(404, "Already have an account!"));
         }
 
         if (password !== cpassword) {
-            return next(createError(400, "Wrong password or username!"));
+            return next(createError(400, "Password doesn't match!"));
         }
 
         const hashPassword = await bcrypt.hash(password, 10);

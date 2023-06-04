@@ -3,6 +3,7 @@ import './register.scss';
 import { NavLink } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../redux/apiCalls';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -18,19 +19,22 @@ const Register = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setUser(() => {
+    setUser(prev => {
       return {
-        ...user,
+        ...prev,
         [name]: value
       }
     })
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    register(user);
-    navigate('/login');
+    if(user.password !== user.cpassword) {
+      return toast.error("Password doesn't match!", {autoClose: 3000});
+    }
+
+    const res = await register(user);
 
     setUser({
       username: "",
@@ -38,6 +42,14 @@ const Register = () => {
       password: "",
       cpassword: ""
     });
+
+    if (res.status === 201) {
+      toast.success(res.message, {autoClose: 1500});
+
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+    } 
   }
 
   return (
@@ -57,6 +69,7 @@ const Register = () => {
                 value={user.username}
                 placeholder='enter username'
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="form_input">
@@ -66,6 +79,7 @@ const Register = () => {
                 value={user.email}
                 placeholder='enter email'
                 onChange={handleChange}
+                required
               />
             </div>
             <div className="form_input">
@@ -77,8 +91,11 @@ const Register = () => {
                   onChange={handleChange}
                   name="password" id="password"
                   placeholder='enter password'
+                  required
                 />
-                <div className="showpass" onClick={() => setPassShow(!passShow)}>
+                <div 
+                  className="showpass" 
+                  onClick={() => setPassShow(!passShow)}>
                   {!passShow ? "Show" : "Hide"}
                 </div>
               </div>
@@ -92,8 +109,11 @@ const Register = () => {
                   onChange={handleChange}
                   name="cpassword" id="cpassword"
                   placeholder='confirm password'
+                  required
                 />
-                <div className="showpass" onClick={() => setCPassShow(!cpassShow)}>
+                <div 
+                  className="showpass" 
+                  onClick={() => setCPassShow(!cpassShow)}>
                   {!cpassShow ? "Show" : "Hide"}
                 </div>
               </div>
