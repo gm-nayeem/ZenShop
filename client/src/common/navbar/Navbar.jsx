@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/userReducer";
 import useFetch from '../../hooks/useFetch';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
+import { flags } from '../../data/flags';
 
 
 const Navbar = ({ user }) => {
@@ -18,6 +19,8 @@ const Navbar = ({ user }) => {
     const [open, setOpen] = useState(false)
     const [show, setShow] = useState(false);
     const [catShow, setCatShow] = useState(false);
+    const [flag, setFlag] = useState(BDIMG);
+    const [flagShow, setFlagShow] = useState(false);
 
     const {
         data, loading, error
@@ -33,23 +36,66 @@ const Navbar = ({ user }) => {
         navigate('/');
     }
 
+
     return (
         <div className="navbar">
             <div className="wrapper">
                 <div className="left">
                     <div className="item">
-                        <img
-                            src={BDIMG}
-                            alt=""
-                            className="flag"
-                        />
-                        <KeyboardArrowDown />
+                        <span 
+                            onClick={() => {
+                                setOpen(false)
+                                setShow(false)
+                                setCatShow(false)
+                                setFlagShow(!flagShow)
+                            }}
+                        >
+                            <img
+                                src={flag}
+                                alt=""
+                                className="flag"
+                            />
+                            <KeyboardArrowDown />
+                        </span>
+
+                        {
+                            flagShow && (
+                                <div className="flags">
+                                    <ul>
+                                        {
+                                            flags && flags.map((f, i) => (
+                                                <li
+                                                    key={i}
+                                                    onClick={() => {
+                                                        setFlag(f.flag)
+                                                        setFlagShow(false)
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={f.flag}
+                                                        alt=""
+                                                        className="flag"
+                                                    />
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                </div>
+                            )
+                        }
                     </div>
                     <div className="item">
                         <Link className="link" to="/">Dashboard</Link>
                     </div>
                     <div className="item">
-                        <span onClick={() => setCatShow(!catShow)}>
+                        <span 
+                            onClick={() => {
+                                setFlagShow(false)
+                                setOpen(false)
+                                setShow(false)
+                                setCatShow(!catShow)
+                            }}
+                        >
                             Categories
                             <KeyboardArrowDown
                                 className="icon"
@@ -95,10 +141,12 @@ const Navbar = ({ user }) => {
                     </div>
                     <div className="icons">
                         <FavoriteBorderOutlined className="icon" />
-                        <div 
-                            className="cartIcon" 
+                        <div
+                            className="cartIcon"
                             onClick={() => {
                                 setShow(false);
+                                setCatShow(false)
+                                setFlagShow(false)
                                 setOpen(!open);
                             }}
                         >
@@ -122,7 +170,9 @@ const Navbar = ({ user }) => {
                         <ArrowDropDown
                             className="icon"
                             onClick={() => {
-                                setOpen(false);
+                                setCatShow(false)
+                                setFlagShow(false)
+                                setOpen(false)
                                 setShow(!show);
                             }}
                         />
