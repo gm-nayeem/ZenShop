@@ -3,6 +3,7 @@ import "./products.scss";
 import { useParams } from "react-router-dom";
 import List from "../../components/list/List";
 import useFetch from "../../hooks/useFetch";
+const defaultCatImg = "https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
 const Products = () => {
   const { category } = useParams();
@@ -12,6 +13,9 @@ const Products = () => {
   const [selectedSubCats, setSelectedSubCats] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [catImg, setCatImg] = useState("");
+
+  const { data: singleCat} = useFetch(`/categories/single?cat=${category}`);
 
   const { 
     data, loading: categoryLoading, error: categoryError 
@@ -19,6 +23,12 @@ const Products = () => {
     `/subcategories/all?category=${category}`
   );
 
+  // set cat img
+  useEffect(() => {
+    singleCat && setCatImg(singleCat?.img);
+  }, [singleCat]);
+
+  // set product data
   useEffect(() => {
     setLoading(categoryLoading);
     setSubCategories(data);
@@ -104,7 +114,7 @@ const Products = () => {
       <div className="right">
         <img
           className="catImg"
-          src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          src={catImg || defaultCatImg}
           alt=""
         />
         <List category={category} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats} />

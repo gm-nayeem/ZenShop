@@ -1,55 +1,88 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./categories.scss";
 import { Link } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
 
 const Categories = () => {
-    const categoryImages = {
+    const [cat, setCat] = useState([{}]);
+    const { data} = useFetch(`/categories/all`);
+
+    useEffect(() => {
+        const demoCat = [];
+        data && data.map(d => (
+            demoCat.push({
+                title: d.title,
+                img: d.img
+            })
+        ))
+        setCat(demoCat);
+    }, [data]);
+
+    const categories = {
         col1: {
-            row1: "https://images.pexels.com/photos/818992/pexels-photo-818992.jpeg/auto=compress&cs=tinysrgb&w=1600",
-            row2: "https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg/auto=compress&cs=tinysrgb&w=1600"
+            row1: {
+                title:  cat[0]?.title,
+                img:  cat[0]?.img
+            },
+            row2: {
+                title:  cat[1]?.title,
+                img:  cat[1]?.img
+            }
         },
         col2: {
-            row1: "https://images.pexels.com/photos/1813947/pexels-photo-1813947.jpeg/auto=compress&cs=tinysrgb&w=1600"
+            row1: {
+                title:  cat[2]?.title,
+                img:  cat[2]?.img
+            }
         },
         col3: {
-            row1: {
-                col1: "https://images.pexels.com/photos/1192609/pexels-photo-1192609.jpeg/auto=compress&cs=tinysrgb&w=1600",
-                col2: "https://images.pexels.com/photos/2703202/pexels-photo-2703202.jpeg/auto=compress&cs=tinysrgb&w=1600"
+            row1: {              
+                col1: {
+                    title:  cat[2]?.title,
+                    img:  cat[2]?.img
+                },
+                col2: {
+                    title:  cat[2]?.title,
+                    img:  cat[2]?.img
+                }
             },
-            row2: "https://images.pexels.com/photos/1159670/pexels-photo-1159670.jpeg/auto=compress&cs=tinysrgb&w=1600"
+            row2: {
+                title:  cat[2]?.title,
+                img:  cat[2]?.img
+            }
         }
     }
 
-    const {col1, col2, col3} = categoryImages;
+    const {col1, col2, col3} = categories;
 
     return (
         <div className="categories">
             <div className="col">
                 <div className="row">
                     <img
-                        src={col1.row1}
+                        src={col1.row1.img}
                         alt=""
                     />
                     <button>
                         <Link 
                             className="link" 
-                            to={`/products/sale`}
+                            to={`/products/${col1.row1.title}`}
                         >
-                            Sale
+                            {col1.row1.title}
                         </Link>
                     </button>
                 </div>
                 <div className="row">
                     <img
-                        src={col1.row2}
+                        src={col1.row2.img}
                         alt=""
                     />
                     <button>
                         <Link 
                             className="link"
-                            to={`/products/women`}
+                            to={`/products/${col1.row2.title}`}
                         >
-                            Women
+                            {col1.row2.title}
                         </Link>
                     </button>
                 </div>
@@ -58,15 +91,15 @@ const Categories = () => {
                 <div className="row">
                     {" "}
                     <img
-                        src={col2.row1}
+                        src={col2.row1.img}
                         alt=""
                     />
                     <button>
                         <Link 
                             className="link"
-                            to={`/products/newSession`}
+                            to={`/products/${col2.row1.title}`}
                         >
-                            New Season
+                            {col2.row1.title}
                         </Link>
                     </button>
                 </div>
@@ -76,15 +109,15 @@ const Categories = () => {
                     <div className="col">
                         <div className="row">
                             <img
-                                src={col3.row1.col1}
+                                src={col3.row1.col1.img}
                                 alt=""
                             />
                             <button>
                                 <Link 
                                     className="link"
-                                    to={`/products/men`}
+                                    to={`/products/${col3.row1.col1.title}`}
                                 >
-                                    Men
+                                    {col3.row1.col1.title}
                                 </Link>
                             </button>
                         </div>
@@ -93,15 +126,15 @@ const Categories = () => {
                         <div className="row">
                             {" "}
                             <img
-                                src={col3.row1.col2}
+                                src={col3.row1.col2.img}
                                 alt=""
                             />
                             <button>
                                 <Link 
                                     className="link"
-                                    to={`/products/children`}
+                                    to={`/products/${col3.row1.col2.title}`}
                                 >
-                                    Children
+                                    {col3.row1.col2.title}
                                 </Link>
                             </button>
                         </div>
@@ -109,15 +142,15 @@ const Categories = () => {
                 </div>
                 <div className="row">
                     <img
-                        src={col3.row2}
+                        src={col3.row2.img}
                         alt=""
                     />
                     <button>
                         <Link 
                             className="link"
-                            to={`/products/shoes`}
+                            to={`/products/${col3.row2.title}`}
                         >
-                            Shoes
+                            {col3.row2.title}
                         </Link>
                     </button>
                 </div>

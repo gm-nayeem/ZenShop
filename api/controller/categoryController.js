@@ -49,6 +49,17 @@ const getSingleCategory = async (req, res, next) => {
     }
 }
 
+const querySingleCategory = async (req, res, next) => {
+    const cat = req.query?.cat;
+
+    try {
+        const category = await Category.findOne({title: cat});
+        res.status(200).json(category);
+    } catch (err) {
+        next(err);
+    }
+}
+
 const getAllCategory = async (req, res, next) => {
     const query = req.query?.new;
     try {
@@ -66,5 +77,6 @@ module.exports = {
     deleteCategory,
     updateCategory,
     getSingleCategory,
+    querySingleCategory,
     getAllCategory
 }

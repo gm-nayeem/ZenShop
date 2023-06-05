@@ -4,6 +4,7 @@ const {
     deleteCategory,
     updateCategory,
     getSingleCategory,
+    querySingleCategory,
     getAllCategory
 } = require('../controller/categoryController');
 
@@ -16,6 +17,7 @@ router.post('/', verifyTokenAndAdmin, createCategory);
 router.put('/:id', verifyTokenAndAdmin, updateCategory);
 router.delete('/:id', verifyTokenAndAdmin, deleteCategory);
 router.get('/single/:id', getSingleCategory);
+router.get('/single', querySingleCategory);
 router.get('/all', getAllCategory);
 
 
