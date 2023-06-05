@@ -19,6 +19,8 @@ const Cart = () => {
     const { products } = useSelector(state => state?.cart);
     const dispatch = useDispatch();
 
+    const baseUrl = window.location.origin.toString();
+
     // handle product quantity
     const handleProductQuantity = (product, action) => {
         if(action === 'increase') {
@@ -55,6 +57,7 @@ const Cart = () => {
             const stripe = await stripePromise;
             const res = await userRequest.post("/checkout/payment", {
                 products,
+                baseUrl
             });
 
             const stripeId = res.data.stripeSession.id;

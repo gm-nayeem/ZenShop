@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_KEY);
 const Product = require('../models/Product');
 
 const payment = async (req, res, next) => {
-    const { products } = req.body;
+    const { products, baseUrl } = req.body;
 
     // custom products info 
     const lineItems = await Promise.all(
@@ -26,8 +26,8 @@ const payment = async (req, res, next) => {
         const session = await stripe.checkout.sessions.create({
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${process.env.SUCCESS_URL}`,
-            cancel_url: `${process.env.CANCEL_URL}`,
+            success_url: `${baseUrl}/success`,
+            cancel_url: `${baseUrl}/cancel`,
             shipping_address_collection: { allowed_countries: ["US", "CA", "BD"] },
             payment_method_types: ["card"],
         });
