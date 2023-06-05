@@ -4,17 +4,17 @@ import { Link } from "react-router-dom";
 import { AddShoppingCart } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
+import { toast } from 'react-toastify';
+
 
 const Card = ({ item }) => {
     const user = useSelector(state => state.user?.currentUser?.user);
     const products = useSelector(state => state?.cart?.products);
-
     const dispatch = useDispatch();
-
 
     // product add to cart
     const handleCart = (cartProduct) => {
-        console.log(cartProduct);
+        // console.log(cartProduct);
 
         if (user) {
             let totalProduct = cartProduct.quantity;
@@ -25,12 +25,13 @@ const Card = ({ item }) => {
             }
 
             if (totalProduct > cartProduct.availability) {
-                alert("You select to more product");
+                toast.warn("You select too more product", {autoClose: 3000});
             } else {
                 dispatch(addToCart(cartProduct));
+                toast.success("Product added successfully", {autoClose: 3000});
             }
         } else {
-            alert("First login your account");
+            toast.warn("First login your account", {autoClose: 3000});
         }
     }
 

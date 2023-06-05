@@ -47,29 +47,29 @@ const Cart = () => {
     const stripePromise = loadStripe(STRIPE_PUBLIC_KEY);
 
     const handlePayment = async () => {
-        if (products.length > 0) {
-            try {
-                const stripe = await stripePromise;
-                const res = await userRequest.post("/checkout/payment", {
-                    products,
-                });
+        if (products.length <= 0) {
+            return toast.warn("You didn't select any product!!");
+        }
 
-                const stripeId = res.data.stripeSession.id;
+        try {
+            const stripe = await stripePromise;
+            const res = await userRequest.post("/checkout/payment", {
+                products,
+            });
 
-                // save stripeSession id
-                localStorage.setItem(
-                    "stripeId",
-                    JSON.stringify(stripeId)
-                );
+            const stripeId = res.data.stripeSession.id;
 
-                await stripe.redirectToCheckout({
-                    sessionId: stripeId,
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        } else {
-            alert("You didn't select any product!!");
+            // save stripeSession id
+            localStorage.setItem(
+                "stripeId",
+                JSON.stringify(stripeId)
+            );
+
+            await stripe.redirectToCheckout({
+                sessionId: stripeId,
+            });
+        } catch (err) {
+            console.log(err);
         }
     };
 
