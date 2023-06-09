@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { publicRequest, userRequest } from "../utils/makeRequest";
+import { publicRequest } from "../utils/makeRequest";
 
 
-const useFetch = (url, requestType = "") => {
+const useFetch = (url) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -12,15 +12,9 @@ const useFetch = (url, requestType = "") => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                if (requestType === "userRequest") {
-                    const res = await userRequest.get(url);
-                    setData(res.data);
-                    setLoading(false);
-                } else {
-                    const res = await publicRequest.get(url);
-                    setData(res.data);
-                    setLoading(false);
-                }
+                const res = await publicRequest.get(url);
+                setData(res.data);
+                setLoading(false);
             } catch (err) {
                 setError(err);
                 setLoading(false);

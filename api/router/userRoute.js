@@ -14,7 +14,7 @@ const {
 
 router.put('/:id', verifyTokenAndAuthorization, updateUser);
 router.delete('/:id', verifyTokenAndAuthorization, deleteUser);
-router.get('/single/:id', verifyTokenAndAdmin, getSingleUser);
+router.get('/single/:id', getSingleUser);
 router.get('/all', verifyTokenAndAdmin, getAllUser);
 router.get('/stats', verifyTokenAndAdmin, getUserStats);
 

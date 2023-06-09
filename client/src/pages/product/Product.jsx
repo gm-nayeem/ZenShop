@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 import { toast } from 'react-toastify';
+import Reviews from '../../components/reviews/Reviews';
 
 const Product = ({ user }) => {
   const id = useParams().id;
@@ -31,13 +32,13 @@ const Product = ({ user }) => {
       }
 
       if (totalProduct > cartProduct.availability) {
-        toast.warn("You select too more product", {autoClose: 3000});
+        toast.warn("You select too more product", { autoClose: 3000 });
       } else {
         dispatch(addToCart(cartProduct));
-        toast.success("Product added successfully", {autoClose: 3000});
+        toast.success("Product added successfully", { autoClose: 3000 });
       }
     } else {
-      toast.warn("First login your account", {autoClose: 3000});
+      toast.warn("First login your account", { autoClose: 3000 });
     }
   }
 
@@ -51,28 +52,33 @@ const Product = ({ user }) => {
         ) : (
           <>
             <div className="left">
-              <div className="images">
-                <img
-                  src={data?.img}
-                  alt=""
-                  onClick={() => setSelectedImg("img")}
-                />
-                <img
-                  src={data?.img2}
-                  alt=""
-                  onClick={() => setSelectedImg("img2")}
-                />
-                <img
-                  src={data?.img3}
-                  alt=""
-                  onClick={() => setSelectedImg("img3")}
-                />
+              <div className="leftWrapper">
+                <div className="images">
+                  <img
+                    src={data?.img}
+                    alt=""
+                    onClick={() => setSelectedImg("img")}
+                  />
+                  <img
+                    src={data?.img2}
+                    alt=""
+                    onClick={() => setSelectedImg("img2")}
+                  />
+                  <img
+                    src={data?.img3}
+                    alt=""
+                    onClick={() => setSelectedImg("img3")}
+                  />
+                </div>
+                <div className="mainImg">
+                  <img
+                    src={data && data[selectedImg]}
+                    alt=""
+                  />
+                </div>
               </div>
-              <div className="mainImg">
-                <img
-                  src={data && data[selectedImg]}
-                  alt=""
-                />
+              <div className="reviews">
+                <Reviews productId={id} />
               </div>
             </div>
             <div className="right">
