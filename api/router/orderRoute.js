@@ -1,5 +1,6 @@
 const router = require("express").Router();
 
+const { verify } = require("jsonwebtoken");
 const {
     createOrder,
     updateOrder,
@@ -24,7 +25,7 @@ router.delete('/:id', verifyTokenAndAdmin, deleteOrder);
 
 router.get('/find/:id', verifyTokenAndAdmin, findOrder);
 
-router.get('/single/:userId', verifyTokenAndAuthorization, getSingleOrder);
+router.get('/single/:id', verifyTokenAndAuthorization, getSingleOrder);
 
 router.get('/all', verifyTokenAndAdmin, getAllOrder);
 

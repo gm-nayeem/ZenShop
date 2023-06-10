@@ -48,7 +48,7 @@ const Login = () => {
 
     setTimeout(() => {
       dispatch(loginSuccessful(res));
-      navigate('/');
+      navigate('/', {state: { refresh: true} });
     }, 2000);
   }
 

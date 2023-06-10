@@ -8,13 +8,14 @@ import { userRequest } from '../../utils/makeRequest';
 
 const Reviews = ({ productId }) => {
     const user = useSelector(state => state.user?.currentUser?.user);
-    const [review, setReview] = useState({desc: "", star: ""});
+    const [review, setReview] = useState({ desc: "", star: "" });
     const [reviews, setReviews] = useState([]);
+    const [orderedProducts, setOrderedProducts] = useState([]);
 
     // fetch product review
     const { data, loading, error } = useFetch(`/reviews/${productId}`);
 
-    const handleChange = (e) =>{
+    const handleChange = (e) => {
         setReview(prev => (
             {
                 ...prev,
@@ -28,7 +29,7 @@ const Reviews = ({ productId }) => {
         e.preventDefault();
 
         const newReview = {
-            productId, 
+            productId,
             ...review
         };
 
@@ -40,8 +41,14 @@ const Reviews = ({ productId }) => {
             }
         ))
 
-        if(!user) {
+        if (!user) {
             return toast.warn("First login your account", { autoClose: 3000 });
+        }
+
+        const isAvailable = orderedProducts.includes(productId);
+
+        if (!isAvailable) {
+            return toast.warn("First buy this product", { autoClose: 3000 });
         }
 
         try {
@@ -50,8 +57,8 @@ const Reviews = ({ productId }) => {
                 [res?.data.review, ...prev]
             ));
 
-            toast.success(res?.data.message, { autoClose: 3000 });           
-        } catch(err) {
+            toast.success(res?.data.message, { autoClose: 3000 });
+        } catch (err) {
             const res = err?.response?.data;
             if (res.status === 422 || res.status === 404) {
                 return toast.warn(res.message, { autoClose: 3000 });
@@ -63,6 +70,18 @@ const Reviews = ({ productId }) => {
         data && setReviews(data);
     }, [data]);
 
+    // get all ordered products
+    useEffect(() => {
+        const getUserOrders = async () => {
+            const res = await userRequest.get(`/orders/single/${user?._id}`);
+
+            const pId = res?.data.flatMap(order => order.products.map(p => p.productId));
+            setOrderedProducts(pId);
+        }
+        getUserOrders();
+    }, [user?._id]);
+
+
     return (
         <div className="reviews">
             <h2>Reviews</h2>
@@ -72,23 +91,23 @@ const Reviews = ({ productId }) => {
                     : error
                         ? "something went wrong!"
                         : (
-                            reviews.length ? 
-                            reviews.map(r => (
-                                <Review review={r} key={r?._id} />
-                            )) : (
-                                <span className='noReview'>No review found!!</span>
-                            )
+                            reviews.length ?
+                                reviews.map(r => (
+                                    <Review review={r} key={r?._id} />
+                                )) : (
+                                    <span className='noReview'>No review found!!</span>
+                                )
                         )
             }
 
             <div className="add">
                 <h3>Add a review</h3>
                 <form className="addForm">
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         name="desc"
                         value={review.desc}
-                        placeholder='write your opinion' 
+                        placeholder='write your opinion'
                         onChange={handleChange}
                     />
                     <select name="star" id="star" onChange={handleChange}>

@@ -42,6 +42,7 @@ const Navbar = ({ user }) => {
         }
 
         toast.success(res.message, { autoClose: 1500 });
+        localStorage.removeItem('hasRefreshed');
 
         setTimeout(() => {
             dispatch(logout());

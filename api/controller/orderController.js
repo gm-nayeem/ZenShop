@@ -90,7 +90,7 @@ const findOrder = async (req, res, next) => {
 }
 
 const getSingleOrder = async (req, res, next) => {
-    const userId = req.params.userId;
+    const userId = req.params.id;
 
     try {
         const orders = await Order.find({ userId });
