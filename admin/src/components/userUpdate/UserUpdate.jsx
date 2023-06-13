@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './userUpdate.scss';
-import { useNavigate } from 'react-router-dom';
 import { Publish } from "@mui/icons-material";
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 
@@ -13,13 +12,14 @@ import {
 } from "firebase/storage";
 import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
-
+import { useNavigate } from 'react-router-dom';
 
 const UserUpdate = ({ user }) => {
   const [updatedUser, setUpdatedUser] = useState({});
   const [updatedProfilePic, setUpdatedProfilePic] = useState(null);
   const [fileLoading, setFileLoading] = useState(false);
   const [uploaded, setUploaded] = useState(0);
+
   const navigate = useNavigate();
 
   // handle change
@@ -80,7 +80,8 @@ const UserUpdate = ({ user }) => {
 
     try {
       const res = await userRequest.put(`/users/${user._id}`, sendUser);
-      res && navigate("/users");
+
+      res && navigate('/users');
     } catch (err) {
       console.log(err);
     }
@@ -91,79 +92,85 @@ const UserUpdate = ({ user }) => {
     <div className="userUpdate">
       <span className="userUpdateTitle">Edit</span>
       <form className="userUpdateForm">
-        <div className="userUpdateLeft">
-          <div className="userUpdateItem">
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder={user?.username}
-              className="userUpdateInput"
-              required
-              onChange={handleChange}
-            />
+        <div className="userUpdateFormWrapper">
+          <div className="userUpdateLeft">
+            <div className="userUpdateItem">
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder={user?.username}
+                className="userUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="userUpdateItem">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder={user?.email}
+                className="userUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="userUpdateItem">
+              <label>Phone</label>
+              <input
+                type="text"
+                name="phone"
+                placeholder={user?.phone || "+8880 1728 276823"}
+                className="userUpdateInput"
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div className="userUpdateItem">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder={user?.email}
-              className="userUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="userUpdateItem">
-            <label>Phone</label>
-            <input
-              type="text"
-              name="phone"
-              placeholder={user?.phone || "+8880 1728 276823"}
-              className="userUpdateInput"
-            />
-          </div>
-        </div>
-        <div className="userUpdateRight">
-          <div className="userUpdateUpload">
+          <div className="userUpdateRight">
+            <div className="userUpdateUpload">
+              {
+                updatedProfilePic ? (
+                  <img
+                    className="userUpdateImg"
+                    src={
+                      updatedProfilePic
+                        ? URL.createObjectURL(updatedProfilePic)
+                        : DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    className="userUpdateImg"
+                    src={
+                      user?.profilePic || DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                )
+              }
+              <label htmlFor="file">
+                <Publish className="userUpdateIcon" />
+              </label>
+              <input type="file" name="file" id="file"
+                style={{ display: "none" }}
+                onChange={(e) => setUpdatedProfilePic(e.target.files[0])}
+              />
+            </div>
             {
-              updatedProfilePic ? (
-                <img
-                  className="userUpdateImg"
-                  src={
-                    updatedProfilePic
-                      ? URL.createObjectURL(updatedProfilePic)
-                      : DEFAULT_IMG_URL
-                  }
-                  alt=""
-                />
+              fileLoading ? (
+                <button className="userUpdateButton">Uploading...</button>
+              ) : uploaded === 1 ? (
+                <button className="userUpdateButton">Uploaded</button>
               ) : (
-                <img
-                  className="userUpdateImg"
-                  src={
-                    user?.profilePic || DEFAULT_IMG_URL
-                  }
-                  alt=""
-                />
+                <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
               )
             }
-            <label htmlFor="file">
-              <Publish className="userUpdateIcon" />
-            </label>
-            <input type="file" name="file" id="file"
-              style={{ display: "none" }}
-              onChange={(e) => setUpdatedProfilePic(e.target.files[0])}
-            />
           </div>
-          {
-            fileLoading ? (
-              <button className="userUpdateButton">Uploading...</button>
-            ) : uploaded === 1 ? (
-              <button className="userUpdateButton" onClick={handleUpdate}>Update</button>
-            ) : (
-              <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
-            )
-          }
+        </div>
+        <div className="submit">
+          <button onClick={handleUpdate}>Update</button>
         </div>
       </form>
     </div>

@@ -21,6 +21,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     setShow(!show);
+    localStorage.removeItem('hasRefreshedAdmin');
     navigate('/login');
   }
 

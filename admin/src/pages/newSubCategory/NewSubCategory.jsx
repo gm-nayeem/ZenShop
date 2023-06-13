@@ -22,6 +22,10 @@ const NewUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(!title || !selectedCategory.length) {
+      return alert("Select all the filed!");
+    }
+
     const newSubCategory = {
       title, 
       categories: selectedCategory
@@ -75,7 +79,7 @@ const NewUser = () => {
               }
             </select>
           </div>
-          <button className="subCategoryUpdateButton" onClick={handleSubmit}>Update</button>
+          <button className="submit" onClick={handleSubmit}>Create</button>
         </form>
       </div>
     </div>

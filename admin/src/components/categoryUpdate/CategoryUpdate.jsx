@@ -76,7 +76,7 @@ const CategoryUpdate = ({ category }) => {
       ...category,
       ...updatedCategory
     }
-    
+
     // console.log("sendCategory", sendCategory);
 
     try {
@@ -91,57 +91,78 @@ const CategoryUpdate = ({ category }) => {
     <div className="categoryUpdate">
       <span className="categoryUpdateTitle">Edit</span>
       <form className="categoryUpdateForm">
-        <div className="categoryUpdateLeft">
-          <div className="categoryUpdateItem">
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              placeholder={category?.title}
-              className="categoryUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="categoryUpdateItem">
-            <label>Description</label>
-            <input
-              type="text"
-              name="desc"
-              placeholder={category?.desc}
-              className="categoryUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-        </div>
-        <div className="categoryUpdateRight">
-          <div className="categoryUpdateWrapper">
-            <div className="categoryUpdateUpload">
-              <img
-                className="categoryUpdateImg"
-                src={category?.img || DEFAULT_IMG_URL}
-                alt=""
-              />
-              <label htmlFor="file">
-                <Publish className="categoryUpdateIcon" />
-              </label>
-              <input type="file"
-                name="file" id="file"
-                style={{ display: "none" }}
-                onChange={(e) => setUpdatedCategoryFile(e.target.files[0])}
+        <div className="categoryUpdateFormWrapper">
+          <div className="categoryUpdateLeft">
+            <div className="categoryUpdateItem">
+              <label>Title</label>
+              <input
+                type="text"
+                name="title"
+                placeholder={category?.title}
+                className="categoryUpdateInput"
+                required
+                onChange={handleChange}
               />
             </div>
-            {
-              fileLoading ? (
-                <button className="categoryUpdateButton">Uploading...</button>
-              ) : uploaded === 1 ? (
-                <button className="categoryUpdateButton" onClick={handleUpdate}>Update</button>
-              ) : (
-                <button className="categoryUpdateButton" onClick={handleUpload}>Upload</button>
-              )
-            }
+            <div className="categoryUpdateItem">
+              <label>Description</label>
+              <input
+                type="text"
+                name="desc"
+                placeholder={category?.desc}
+                className="categoryUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
           </div>
+          <div className="categoryUpdateRight">
+            <div className="categoryUpdateWrapper">
+              <div className="categoryUpdateUpload">
+                {
+                  updatedCategoryFile ? (
+                    <img
+                      className="categoryUpdateImg"
+                      src={
+                        updatedCategoryFile
+                          ? URL.createObjectURL(updatedCategoryFile)
+                          : DEFAULT_IMG_URL
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      className="categoryUpdateImg"
+                      src={
+                        category?.profilePic || DEFAULT_IMG_URL
+                      }
+                      alt=""
+                    />
+                  )
+                }
+                <label htmlFor="file">
+                  <Publish className="categoryUpdateIcon" />
+                </label>
+                <input type="file"
+                  name="file" id="file"
+                  style={{ display: "none" }}
+                  onChange={(e) => setUpdatedCategoryFile(e.target.files[0])}
+                />
+              </div>
+              {
+                fileLoading ? (
+                  <button className="categoryUpdateButton">Uploading...</button>
+                ) : uploaded === 1 ? (
+                  <button className="categoryUpdateButton">Uploaded</button>
+                ) : (
+                  <button className="categoryUpdateButton" onClick={handleUpload}>Upload</button>
+                )
+              }
+            </div>
+          </div>
+        </div>
+        <div className="submit">
+          <button onClick={handleUpdate}>Update</button>
         </div>
       </form>
     </div>

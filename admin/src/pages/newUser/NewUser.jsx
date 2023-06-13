@@ -76,16 +76,20 @@ const NewUser = () => {
       username, email, password, cpassword, profilePic
     } = user;
 
-    try {
-      const newUser = {
-        username,
-        email,
-        password,
-        cpassword,
-        profilePic
-      };
+    if (!username || !email || !password || !cpassword) {
+      return alert("Select all the filed!");
+    }
 
-      const res = await publicRequest.post("/auth/register", newUser);
+    if(password !== cpassword) {
+      return alert("Password are not match!");
+    }
+
+    if(!profilePic) {
+      return alert("Select Profile Picture!");
+    }
+
+    try {
+      const res = await publicRequest.post("/auth/register", user);
       res && navigate("/users");
     } catch (err) {
       console.log(err);
@@ -99,50 +103,55 @@ const NewUser = () => {
         <h1>ADD NEW USER</h1>
       </div>
       <div className="bottom">
-        <div className="left">
-          <div className="leftWrapper">
-            <img
-              src={
-                file ? URL.createObjectURL(file) : NO_IMG_ICON
+        <div className="newWrapper">
+          <div className="left">
+            <div className="leftWrapper">
+              <img
+                src={
+                  file ? URL.createObjectURL(file) : NO_IMG_ICON
+                }
+                alt=""
+              />
+              {
+                fileLoading ? (
+                  <button className="userUpdateButton">Uploading...</button>
+                ) : uploaded === 1 ? (
+                  <button className="userUpdateButton">Uploaded</button>
+                ) : (
+                  <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
+                )
               }
-              alt=""
-            />
-            {
-              fileLoading ? (
-                <button className="userUpdateButton">Uploading...</button>
-              ) : uploaded === 1 ? (
-                <button className="userUpdateButton" onClick={handleSubmit}>Update</button>
-              ) : (
-                <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
-              )
-            }
+            </div>
+          </div>
+          <div className="right">
+            <form>
+              <div className="formInput">
+                <label htmlFor='file'>
+                  Image: <DriveFolderUploadOutlined className='icon' />
+                </label>
+                <input type="file" name="file" id='file'
+                  style={{ display: "none" }}
+                  onChange={e => setFile(e.target.files[0])}
+                />
+              </div>
+              {
+                userInputs.map((input, i) => (
+                  <div className="formInput" key={i}>
+                    <label>{input.label}</label>
+                    <input
+                      type={input.type}
+                      name={input.name}
+                      placeholder={input.placeholder}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))
+              }
+            </form>
           </div>
         </div>
-        <div className="right">
-          <form>
-            <div className="formInput">
-              <label htmlFor='file'>
-                Image: <DriveFolderUploadOutlined className='icon' />
-              </label>
-              <input type="file" name="file" id='file'
-                style={{ display: "none" }}
-                onChange={e => setFile(e.target.files[0])}
-              />
-            </div>
-            {
-              userInputs.map((input, i) => (
-                <div className="formInput" key={i}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    name={input.name}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                  />
-                </div>
-              ))
-            }
-          </form>
+        <div className="submit">
+          <button onClick={handleSubmit}>Create</button>
         </div>
       </div>
     </div>

@@ -111,125 +111,130 @@ const ProductUpdate = ({ product }) => {
     <div className="productUpdate">
       <span className="productUpdateTitle">Edit</span>
       <form className="productUpdateForm">
-        <div className="productUpdateLeft">
-          <div className="productUpdateItem">
-            <label>Title</label>
-            <input
-              type="text"
-              name="title"
-              placeholder={product?.title}
-              className="productUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="productUpdateItem">
-            <label>Description</label>
-            <input
-              type="text"
-              name="desc"
-              placeholder={product?.desc}
-              className="productUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="productUpdateItem">
-            <label>Price</label>
-            <input
-              type="text"
-              name="price"
-              placeholder={product?.price}
-              className="productUpdateInput"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="productUpdateItem">
-            <label>Size</label>
-            <input
-              type="text"
-              name="size"
-              placeholder={product?.size}
-              className="productUpdateInput"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="productUpdateItem">
-            <label>Color</label>
-            <input
-              type="text"
-              name="color"
-              placeholder={product?.color}
-              className="productUpdateInput"
-              onChange={handleChange}
-            />
-          </div>
-          <div className="productUpdateItem">
-            <label style={{ marginBottom: "5px" }}>Type</label>
-            <select name="type" id="type" onChange={handleChange}>
-              <option value="normal">Normal</option>
-              <option value="featured">Featured</option>
-              <option value="trending">Trending</option>
-            </select>
-          </div>
-          <div className="productUpdateItem">
-            <label style={{ marginBottom: "5px" }}>IsNew?</label>
-            <select name="isUpdated" id="isUpdated" onChange={handleChange}>
-              <option value={true}>true</option>
-              <option value={false}>false</option>
-            </select>
-          </div>
-          <div className="productUpdateItem">
-            <label style={{ marginBottom: "5px" }}>InStock?</label>
-            <select name="inStock" id="inStock" onChange={handleChange}>
-              <option value={true}>true</option>
-              <option value={false}>false</option>
-            </select>
-          </div>
-        </div>
-        <div className="productUpdateRight">
-          <div className="productUpdateWrapper">
-            <div className="productUpdateUpload">
-              {
-                updatedProductFiles ? (
-                  <img
-                    className="productUpdateImg"
-                    src={
-                      updatedProductFiles
-                        ? URL.createObjectURL(updatedProductFiles[0])
-                        : DEFAULT_IMG_URL
-                    }
-                    alt=""
-                  />
-                ) : (
-                  <img
-                    className="productUpdateImg"
-                    src={
-                      product?.img || DEFAULT_IMG_URL
-                    }
-                    alt=""
-                  />
-                )
-              }
-              <label htmlFor="file">
-                <Publish className="productUpdateIcon" />
-              </label>
-              <input multiple type="file"
-                name="file" id="file"
-                style={{ display: "none" }}
-                onChange={(e) => setUpdatedProductFiles(e.target.files)}
+        <div className="productUpdateFormWrapper">
+          <div className="productUpdateLeft">
+            <div className="productUpdateItem">
+              <label>Title</label>
+              <input
+                type="text"
+                name="title"
+                placeholder={product?.title}
+                className="productUpdateInput"
+                required
+                onChange={handleChange}
               />
             </div>
-            {
-              fileLoading ? (
-                <button className="productUpdateButton">Uploading...</button>
-              ) : uploaded === 2 ? (
-                <button className="productUpdateButton" onClick={handleUpdate}>Update</button>
-              ) : (
-                <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
-              )
-            }
+            <div className="productUpdateItem">
+              <label>Description</label>
+              <input
+                type="text"
+                name="desc"
+                placeholder={product?.desc}
+                className="productUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="productUpdateItem">
+              <label>Price</label>
+              <input
+                type="text"
+                name="price"
+                placeholder={product?.price}
+                className="productUpdateInput"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="productUpdateItem">
+              <label>Size</label>
+              <input
+                type="text"
+                name="size"
+                placeholder={product?.size}
+                className="productUpdateInput"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="productUpdateItem">
+              <label>Color</label>
+              <input
+                type="text"
+                name="color"
+                placeholder={product?.color}
+                className="productUpdateInput"
+                onChange={handleChange}
+              />
+            </div>
+            <div className="productUpdateItem">
+              <label style={{ marginBottom: "5px" }}>Type</label>
+              <select name="type" id="type" onChange={handleChange}>
+                <option value="normal">Normal</option>
+                <option value="featured">Featured</option>
+                <option value="trending">Trending</option>
+              </select>
+            </div>
+            <div className="productUpdateItem">
+              <label style={{ marginBottom: "5px" }}>IsNew?</label>
+              <select name="isUpdated" id="isUpdated" onChange={handleChange}>
+                <option value={true}>true</option>
+                <option value={false}>false</option>
+              </select>
+            </div>
+            <div className="productUpdateItem">
+              <label style={{ marginBottom: "5px" }}>InStock?</label>
+              <select name="inStock" id="inStock" onChange={handleChange}>
+                <option value={true}>true</option>
+                <option value={false}>false</option>
+              </select>
+            </div>
           </div>
+          <div className="productUpdateRight">
+            <div className="productUpdateWrapper">
+              <div className="productUpdateUpload">
+                {
+                  updatedProductFiles ? (
+                    <img
+                      className="productUpdateImg"
+                      src={
+                        updatedProductFiles
+                          ? URL.createObjectURL(updatedProductFiles[0])
+                          : DEFAULT_IMG_URL
+                      }
+                      alt=""
+                    />
+                  ) : (
+                    <img
+                      className="productUpdateImg"
+                      src={
+                        product?.img || DEFAULT_IMG_URL
+                      }
+                      alt=""
+                    />
+                  )
+                }
+                <label htmlFor="file">
+                  <Publish className="productUpdateIcon" />
+                </label>
+                <input multiple type="file"
+                  name="file" id="file"
+                  style={{ display: "none" }}
+                  onChange={(e) => setUpdatedProductFiles(e.target.files)}
+                />
+              </div>
+              {
+                fileLoading ? (
+                  <button className="productUpdateButton">Uploading...</button>
+                ) : uploaded === 2 ? (
+                  <button className="productUpdateButton">Uploaded</button>
+                ) : (
+                  <button className="productUpdateButton"  onClick={handleUpload}>Upload</button>
+                )
+              }
+            </div>
+          </div>
+        </div>
+        <div className="submit">
+          <button onClick={handleUpdate}>Update</button>
         </div>
       </form>
     </div>

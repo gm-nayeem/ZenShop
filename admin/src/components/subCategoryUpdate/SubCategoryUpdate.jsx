@@ -25,7 +25,7 @@ const CategoryUpdate = ({ subCategory }) => {
     const sendSubCategory = {
       ...subCategory,
       title: title ? title : subCategory?.title,
-      categories: selectedCategory
+      categories: selectedCategory.length ? selectedCategory : subCategory.categories
     }
     // console.log("sendSubCategory", sendSubCategory);
 
@@ -77,7 +77,7 @@ const CategoryUpdate = ({ subCategory }) => {
             }
           </select>
         </div>
-        <button className="subCategoryUpdateButton" onClick={handleUpdate}>Update</button>
+        <button className="submit" onClick={handleUpdate}>Update</button>
       </form>
     </div>
   )

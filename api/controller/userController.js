@@ -16,9 +16,9 @@ const updateUser = async (req, res, next) => {
             },
             { new: true }
         );
-        console.log("updated User: ", updatedUser);
-
-        res.status(200).json(updatedUser);
+        
+        const { password, ...others } = updatedUser._doc;
+        res.status(200).json(others);
     } catch (err) {
         next(err);
     }

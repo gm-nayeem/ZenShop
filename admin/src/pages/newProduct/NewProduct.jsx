@@ -98,7 +98,7 @@ const NewHotel = () => {
 
             count += 1;
             console.log(items.length)
-            count === (items.length-1) && setFileLoading(false);
+            count === (items.length - 1) && setFileLoading(false);
             setUploaded(prev => prev + 1);
           });
         }
@@ -136,15 +136,23 @@ const NewHotel = () => {
     const colorArr = product?.color?.split(",");
     const sizeArr = product?.size?.split(",");
 
-    try {
-      const newProduct = {
-        ...product,
-        color: colorArr,
-        size: sizeArr,
-        categories: categories[0],
-        subCategories: subCategories[0]
-      };
+    const {
+      title, desc, price
+    } = product;
+    
+    if (!title || !desc || !price || !colorArr.length || !sizeArr.length || !categories[0] || subCategories[0]) {
+      return alert("Select all the filed!");
+    }
+    
+    const newProduct = {
+      ...product,
+      color: colorArr,
+      size: sizeArr,
+      categories: categories[0],
+      subCategories: subCategories[0]
+    };
 
+    try {
       const res = await userRequest.post("/products", newProduct);
       res && navigate("/products");
     } catch (err) {
@@ -152,140 +160,147 @@ const NewHotel = () => {
     }
   };
 
-
   return (
     <div className='new'>
       <div className="top">
         <h1>Add New Product</h1>
       </div>
       <div className="bottom">
-        <div className="left">
-          <div className="leftWrapper">
-            <img
-              src={
-                files.length >= 1 ? URL.createObjectURL(files[0]) : NO_IMG_ICON
-              }
-              alt=""
-            />
-            <img
-              src={
-                files.length >= 2 ? URL.createObjectURL(files[1]) : NO_IMG_ICON
-              }
-              alt=""
-            />
-            <img
-              src={
-                files.length >= 3 ? URL.createObjectURL(files[2]) : NO_IMG_ICON
-              }
-              alt=""
-            />
-            {
-              fileLoading ? (
-                <button className="productUpdateButton">Uploading...</button>
-              ) : (
-                uploaded === 3 ? (
-                  <button className="productUpdateButton" onClick={handleSubmit}>Submit</button>
+        <div className="newWrapper">
+          <div className="left">
+            <div className="leftWrapper">
+              <img
+                src={
+                  files.length >= 1 ? URL.createObjectURL(files[0]) : NO_IMG_ICON
+                }
+                alt=""
+              />
+              <img
+                src={
+                  files.length >= 2 ? URL.createObjectURL(files[1]) : NO_IMG_ICON
+                }
+                alt=""
+              />
+              <img
+                src={
+                  files.length >= 3 ? URL.createObjectURL(files[2]) : NO_IMG_ICON
+                }
+                alt=""
+              />
+              {
+                fileLoading ? (
+                  <button className="productUpdateButton">Uploading...</button>
                 ) : (
-                  <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
+                  uploaded === 3 ? (
+                    <button className="productUpdateButton" onClick={handleSubmit}>Uploaded</button>
+                  ) : (
+                    <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
+                  )
                 )
-              )
-            }
+              }
 
+            </div>
+          </div>
+          <div className="right">
+            <form>
+              <div className="formInput">
+                <label htmlFor='file'>
+                  Image: <DriveFolderUploadOutlined className='icon' />
+                </label>
+                <input
+                  type="file"
+                  name="file"
+                  id='file'
+                  multiple
+                  onChange={e => setFiles(e.target.files)}
+                  style={{ display: "none" }}
+                />
+              </div>
+              {
+                productInputs.map((input, i) => (
+                  <div className="formInput" key={i}>
+                    <label>{input.label}</label>
+                    <input
+                      type={input.type}
+                      name={input.name}
+                      placeholder={input.placeholder}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))
+              }
+              <div className="formInput2">
+                <label style={{ marginBottom: "5px" }}>Type</label>
+                <select name="type" id="type" onChange={handleChange}>
+                  <option>Type</option>
+                  <option value="normal">Normal</option>
+                  <option value="featured">Featured</option>
+                  <option value="trending">Trending</option>
+                </select>
+              </div>
+              <div className="formInput2">
+                <label style={{ marginBottom: "5px" }}>IsNew?</label>
+                <select name="isUpdated" id="isUpdated" onChange={handleChange}>
+                  <option>IsNew?</option>
+                  <option value={true}>true</option>
+                  <option value={false}>false</option>
+                </select>
+              </div>
+              <div className="formInput2">
+                <label style={{ marginBottom: "5px" }}>InStock?</label>
+                <select name="inStock" id="inStock" onChange={handleChange}>
+                  <option>InStock?</option>
+                  <option value={true}>true</option>
+                  <option value={false}>false</option>
+                </select>
+              </div>
+              <div className="formInput3">
+                <label>Categories</label>
+                <select
+                  name="categories" id="categories"
+                  multiple onChange={handleCategories}
+                >
+                  {
+                    categoryLoading ? (
+                      "Loading please wait..."
+                    ) : categoryError ? (
+                      "Something went wrong!!"
+                    ) : (
+                      categoryData && categoryData.map(cat => (
+                        <option key={cat._id} value={cat.title}>
+                          {cat.title}
+                        </option>
+                      ))
+                    )
+                  }
+                </select>
+              </div>
+              <div className="formInput3">
+                <label>Sub categories</label>
+                <select
+                  name="subCategories" id="subCategories"
+                  multiple onChange={handleSubCategories}
+                >
+                  {
+                    subCategoryLoading ? (
+                      "Loading please wait..."
+                    ) : subCategoryError ? (
+                      "Something went wrong!!"
+                    ) : (
+                      subCategoryData && subCategoryData.map(subCat => (
+                        <option key={subCat._id} value={subCat.title}>
+                          {subCat.title}
+                        </option>
+                      ))
+                    )
+                  }
+                </select>
+              </div>
+            </form>
           </div>
         </div>
-        <div className="right">
-          <form>
-            <div className="formInput">
-              <label htmlFor='file'>
-                Image: <DriveFolderUploadOutlined className='icon' />
-              </label>
-              <input
-                type="file"
-                name="file"
-                id='file'
-                multiple
-                onChange={e => setFiles(e.target.files)}
-                style={{ display: "none" }}
-              />
-            </div>
-            {
-              productInputs.map((input, i) => (
-                <div className="formInput" key={i}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    name={input.name}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                  />
-                </div>
-              ))
-            }
-            <div className="formInput2">
-              <label style={{ marginBottom: "5px" }}>Type</label>
-              <select name="type" id="type" onChange={handleChange}>
-                <option value="normal">Normal</option>
-                <option value="featured">Featured</option>
-                <option value="trending">Trending</option>
-              </select>
-            </div>
-            <div className="formInput2">
-              <label style={{ marginBottom: "5px" }}>IsNew?</label>
-              <select name="isUpdated" id="isUpdated" onChange={handleChange}>
-                <option value={true}>true</option>
-                <option value={false}>false</option>
-              </select>
-            </div>
-            <div className="formInput2">
-              <label style={{ marginBottom: "5px" }}>InStock?</label>
-              <select name="inStock" id="inStock" onChange={handleChange}>
-                <option value={true}>true</option>
-                <option value={false}>false</option>
-              </select>
-            </div>
-            <div className="formInput3">
-              <label>Categories</label>
-              <select
-                name="categories" id="categories"
-                multiple onChange={handleCategories}
-              >
-                {
-                  categoryLoading ? (
-                    "Loading please wait..."
-                  ) : categoryError ? (
-                    "Something went wrong!!"
-                  ) : (
-                    categoryData && categoryData.map(cat => (
-                      <option key={cat._id} value={cat.title}>
-                        {cat.title}
-                      </option>
-                    ))
-                  )
-                }
-              </select>
-            </div>
-            <div className="formInput3">
-              <label>Sub categories</label>
-              <select
-                name="subCategories" id="subCategories"
-                multiple onChange={handleSubCategories}
-              >
-                {
-                  subCategoryLoading ? (
-                    "Loading please wait..."
-                  ) : subCategoryError ? (
-                    "Something went wrong!!"
-                  ) : (
-                    subCategoryData && subCategoryData.map(subCat => (
-                      <option key={subCat._id} value={subCat.title}>
-                        {subCat.title}
-                      </option>
-                    ))
-                  )
-                }
-              </select>
-            </div>
-          </form>
+        <div className="submit">
+          <button onClick={handleSubmit}>Create</button>
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ const Sidebar = () => {
     // handle logout
     const handleLogout = () => {
         dispatch(logout());
+        localStorage.removeItem('hasRefreshedAdmin');
         navigate('/login');
     }
 

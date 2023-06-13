@@ -108,13 +108,13 @@ const User = () => {
             </div> */}
                 </div>
               </div>
-              {
+              {/* {
                 !user?.isAdmin && (
                   <div className="userRight">
                     <Chart aspect={2.5 / 1} title="User Spending (Last 6 Months)" />
                   </div>
                 )
-              }
+              } */}
             </div>
             <div className="userBottom">
               <UserUpdate user={user} />

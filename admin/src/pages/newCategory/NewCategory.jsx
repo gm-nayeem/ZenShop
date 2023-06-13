@@ -72,6 +72,14 @@ const NewUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const {
+      title, desc, img
+    } = newCategory;
+
+    if(!title || !desc || !img) {
+      return alert("Fill all the details");
+    }
+
     // console.log(newCategory);
 
     try {
@@ -89,50 +97,55 @@ const NewUser = () => {
         <h1>ADD NEW CATEGORY</h1>
       </div>
       <div className="bottom">
-        <div className="left">
-          <div className="leftWrapper">
-            <img
-              src={
-                file ? URL.createObjectURL(file) : NO_IMG_ICON
+        <div className="wrapper">
+          <div className="left">
+            <div className="leftWrapper">
+              <img
+                src={
+                  file ? URL.createObjectURL(file) : NO_IMG_ICON
+                }
+                alt=""
+              />
+              {
+                fileLoading ? (
+                  <button className="userUpdateButton">Uploading...</button>
+                ) : uploaded === 1 ? (
+                  <button className="userUpdateButton">Uploaded</button>
+                ) : (
+                  <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
+                )
               }
-              alt=""
-            />
-            {
-              fileLoading ? (
-                <button className="userUpdateButton">Uploading...</button>
-              ) : uploaded === 1 ? (
-                <button className="userUpdateButton" onClick={handleSubmit}>Update</button>
-              ) : (
-                <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
-              )
-            }
+            </div>
+          </div>
+          <div className="right">
+            <form>
+              <div className="formInput">
+                <label htmlFor='file'>
+                  Image: <DriveFolderUploadOutlined className='icon' />
+                </label>
+                <input type="file" name="file" id='file'
+                  style={{ display: "none" }}
+                  onChange={e => setFile(e.target.files[0])}
+                />
+              </div>
+              {
+                categoryInputs.map((input, i) => (
+                  <div className="formInput" key={i}>
+                    <label>{input.label}</label>
+                    <input
+                      type={input.type}
+                      name={input.name}
+                      placeholder={input.placeholder}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))
+              }
+            </form>
           </div>
         </div>
-        <div className="right">
-          <form>
-            <div className="formInput">
-              <label htmlFor='file'>
-                Image: <DriveFolderUploadOutlined className='icon' />
-              </label>
-              <input type="file" name="file" id='file'
-                style={{ display: "none" }}
-                onChange={e => setFile(e.target.files[0])}
-              />
-            </div>
-            {
-              categoryInputs.map((input, i) => (
-                <div className="formInput" key={i}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    name={input.name}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                  />
-                </div>
-              ))
-            }
-          </form>
+        <div className="submit">
+          <button onClick={handleSubmit}>Create</button>
         </div>
       </div>
     </div>

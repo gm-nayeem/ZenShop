@@ -29,6 +29,16 @@ const Home = () => {
     ]
   ), []);
 
+  useEffect(() => {
+    console.log("Refreshed!!");
+    const hasRefreshed = localStorage.getItem('hasRefreshedAdmin');
+
+    if (!hasRefreshed) {
+      localStorage.setItem('hasRefreshedAdmin', 'true');
+      window.location.reload();
+    }
+  }, []);
+
   // set user stats
   useEffect(() => {
     const getStats = async () => {
