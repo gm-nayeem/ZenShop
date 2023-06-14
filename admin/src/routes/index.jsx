@@ -1,8 +1,10 @@
 import React from 'react'
 import {
-    createBrowserRouter, RouterProvider, 
+    createBrowserRouter, RouterProvider,
     Outlet, Navigate
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // pages
 import Home from '../pages/home/Home'
@@ -43,6 +45,7 @@ const Index = () => {
                         <Outlet />
                     </div>
                 </div>
+                <ToastContainer />
             </div>
         )
     }
@@ -133,9 +136,9 @@ const Index = () => {
         {
             path: "/login",
             element: (
-                !isAdmin 
-                ? <Login /> 
-                : <Navigate to='/' />
+                isAdmin === undefined
+                    ? <Login />
+                    : <Navigate to='/' />
             )
         }
     ]);

@@ -18,7 +18,11 @@ const updateUser = async (req, res, next) => {
         );
         
         const { password, ...others } = updatedUser._doc;
-        res.status(200).json(others);
+        res.status(200).json({
+            status: 200,
+            message: "User updated successfully",
+            user: others
+        });
     } catch (err) {
         next(err);
     }

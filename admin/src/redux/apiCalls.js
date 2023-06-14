@@ -1,7 +1,7 @@
 import { publicRequest } from "../utils/makeRequest";
 
 import {
-    loginStart, loginSuccessful, 
+    loginStart,
     loginFailure
 } from './userReducer';
 
@@ -11,9 +11,10 @@ export const login = async (dispatch, user) => {
     dispatch(loginStart());
     try{
         const res = await publicRequest.post("/auth/login", user);  
-        res && dispatch(loginSuccessful(res.data));
+        return res.data;
     } catch(err) {
         dispatch(loginFailure());
+        return err.response.data;
     }
 }
 

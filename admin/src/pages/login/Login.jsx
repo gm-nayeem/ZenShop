@@ -1,34 +1,49 @@
 import { useState } from "react";
 import "./login.css";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from "../../redux/apiCalls";
-import {Link} from 'react-router-dom';
+import { loginSuccessful } from '../../redux/userReducer';
+import { toast, ToastContainer } from 'react-toastify';
 // import { mobile } from "../responsive";
 
-
 const Login = () => {
-  const [user, setUser] = useState({email: "", password: ""});
-  const {email, password} = user;
+  const [user, setUser] = useState({ email: "", password: "" });
+  const { email, password } = user;
 
   const dispatch = useDispatch();
   // const {isFetching, isError} = useSelector(state => state.admin);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setUser(
-      {...user, [name]: value}
+      { ...user, [name]: value }
     );
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    login(dispatch, {email, password});
+    const res = await login(dispatch, { email, password });
 
     setUser({
       email: "",
       password: ""
     });
+
+    if (res.status === 422) {
+      return toast.warn(res.message, { autoClose: 3000 });
+    }
+
+    if (res.status === 404 || res.status === 400) {
+      return toast.error(res.message, { autoClose: 3000 });
+    }
+
+    toast.success(res.message, { autoClose: 1500 });
+
+    setTimeout(() => {
+      dispatch(loginSuccessful(res));
+      navigate('/');
+    }, 2000);
   }
 
 
@@ -37,11 +52,11 @@ const Login = () => {
       <div className="loginWrapper">
         <h1 className="loginTitle">SIGN IN</h1>
         <form className="loginForm">
-          <input type="email" placeholder="email" value={email} name="email" 
-            required onChange={handleChange}        
+          <input type="email" placeholder="email" value={email} name="email"
+            required onChange={handleChange}
           />
-          <input placeholder="password" type="password" name="password" value={password} 
-            required onChange={handleChange} 
+          <input placeholder="password" type="password" name="password" value={password}
+            required onChange={handleChange}
           />
           <button className="loginButton" onClick={handleSubmit}>
             LOGIN
@@ -51,6 +66,7 @@ const Login = () => {
           } */}
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

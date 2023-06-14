@@ -13,6 +13,7 @@ import {
 import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserUpdate = ({ user }) => {
   const [updatedUser, setUpdatedUser] = useState({});
@@ -81,7 +82,15 @@ const UserUpdate = ({ user }) => {
     try {
       const res = await userRequest.put(`/users/${user._id}`, sendUser);
 
-      res && navigate('/users');
+      if (res.data?.status !== 200) {
+        return toast.error("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 2000 });
+
+      setTimeout(() => {
+        res && navigate('/users');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

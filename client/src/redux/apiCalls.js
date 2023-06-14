@@ -1,6 +1,5 @@
 import {
     loginStart,
-    loginSuccessful,
     loginFailure
 } from './userReducer';
 import { publicRequest } from "../utils/makeRequest";
