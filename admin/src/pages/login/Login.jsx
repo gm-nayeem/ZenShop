@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./login.css";
-import { useDispatch, useNavigate } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 import { login } from "../../redux/apiCalls";
 import { loginSuccessful } from '../../redux/userReducer';
 import { toast, ToastContainer } from 'react-toastify';
