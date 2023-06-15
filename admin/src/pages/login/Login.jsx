@@ -26,6 +26,7 @@ const Login = () => {
     e.preventDefault();
 
     const res = await login(dispatch, { email, password });
+    console.log("login: ", res);
 
     setUser({
       email: "",
