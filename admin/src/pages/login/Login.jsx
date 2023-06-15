@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./login.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useNavigate } from 'react-redux';
 import { login } from "../../redux/apiCalls";
 import { loginSuccessful } from '../../redux/userReducer';
 import { toast, ToastContainer } from 'react-toastify';
@@ -11,6 +11,7 @@ const Login = () => {
   const { email, password } = user;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // const {isFetching, isError} = useSelector(state => state.admin);
 
   const handleChange = (e) => {

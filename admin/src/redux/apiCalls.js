@@ -23,7 +23,7 @@ export const login = async (dispatch, user) => {
         return res.data;
     } catch(err) {
         dispatch(loginFailure());
-        return err.response.data;
+        return err.response?.data;
     }
 }
 
