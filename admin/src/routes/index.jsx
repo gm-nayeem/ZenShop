@@ -31,7 +31,7 @@ import {
 
 
 const Index = () => {
-    const isAdmin = useSelector(state => state.admin?.currentUser?.user.isAdmin);
+    const isAdmin = useSelector(state => state.admin?.currentUser?.user?.isAdmin);
 
     const Layout = () => {
         return (
@@ -52,7 +52,7 @@ const Index = () => {
 
     const ProtectedRoute = ({ children }) => {
         if (!isAdmin) {
-            return <Navigate to='/login' replace />
+            return <Navigate to='/login' />
         }
 
         return children;
@@ -138,7 +138,7 @@ const Index = () => {
             element: (
                 isAdmin === undefined
                     ? <Login />
-                    : <Navigate to='/' />
+                    : <Navigate to='/' replace/>
             )
         }
     ]);
