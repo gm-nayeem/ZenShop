@@ -6,7 +6,7 @@ const createCategory = async (req, res, next) => {
 
     try {
         await newCategory.save();
-        res.status(200).json("Category created successfully");
+        res.status(200).json({status: 201, message: "Category created successfully"});
     } catch (err) {
         next(err);
     }
@@ -22,7 +22,7 @@ const updateCategory = async (req, res, next) => {
             },
             { new: true }
         );
-        res.status(200).json(updatedCategory);
+        res.status(200).json({status: 200, message: "Category updatded successfully"});
     } catch (err) {
         next(err);
     }
@@ -32,7 +32,7 @@ const deleteCategory = async (req, res, next) => {
     const id = req.params.id;
     try {
         await Category.findByIdAndDelete(id);
-        res.status(200).json("Category has been deleted...");
+        res.status(200).json({status: 200, message: "Category has been deleted!"});
     } catch (err) {
         next(err);
     }

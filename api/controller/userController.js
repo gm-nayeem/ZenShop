@@ -33,7 +33,7 @@ const deleteUser = async (req, res, next) => {
 
     try {
         await User.findByIdAndDelete(id);
-        res.status(200).json("User has been deleted...");
+        res.status(200).json({status: 200, message: "User has been deleted!"});
     } catch (err) {
         next(err);
     }

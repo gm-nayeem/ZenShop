@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './subCategoryUpdate.scss';
 import { useNavigate } from 'react-router-dom';
 import { userRequest, publicRequest } from '../../utils/makeRequest';
+import { toast } from 'react-toastify';
 
 const CategoryUpdate = ({ subCategory }) => {
   const [title, seTitle] = useState("");
@@ -22,6 +23,10 @@ const CategoryUpdate = ({ subCategory }) => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
+    if(!title && !selectedCategory.length) {
+      return toast.warn("Filled any updatd value!", { autoClose: 3000 });
+    }
+
     const sendSubCategory = {
       ...subCategory,
       title: title ? title : subCategory?.title,
@@ -34,7 +39,16 @@ const CategoryUpdate = ({ subCategory }) => {
         `/subcategories/${subCategory._id}`, 
         sendSubCategory
       );
-      res && navigate("/subcategories");
+
+      if (res.data?.status !== 200) {
+        return toast.error("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 2000 });
+
+      setTimeout(() => {
+        res && navigate('/subcategories');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

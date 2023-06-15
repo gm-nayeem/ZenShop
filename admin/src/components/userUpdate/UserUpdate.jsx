@@ -36,6 +36,10 @@ const UserUpdate = ({ user }) => {
   const handleUpload = (e) => {
     e.preventDefault();
 
+    if (!updatedProfilePic?.name) {
+      return toast.warn("Select Profile Picture!", { autoClose: 3000 });
+    }
+
     setFileLoading(true);
 
     // firebase setup
@@ -73,6 +77,12 @@ const UserUpdate = ({ user }) => {
   // handle update
   const handleUpdate = async (e) => {
     e.preventDefault();
+
+    const len =  Object.keys(updatedUser).length;
+
+    if (!len) {
+      return toast.warn("Filled any updated value!", { autoClose: 3000 });
+    }
 
     const sendUser = {
       ...user,

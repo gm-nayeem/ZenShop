@@ -2,7 +2,6 @@ import './newUser.scss';
 import { DriveFolderUploadOutlined } from "@mui/icons-material";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { publicRequest } from '../../utils/makeRequest';
 import { userInputs } from '../../data/FormSource';
 // firebase
 import {
@@ -13,6 +12,9 @@ import {
 } from "firebase/storage";
 import app from "../../config/firebase";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
+import { toast } from 'react-toastify';
+import { register } from '../../redux/apiCalls';
+
 
 const NewUser = () => {
   const [user, setUser] = useState({});
@@ -33,6 +35,10 @@ const NewUser = () => {
   // file upload using firebase
   const handleUpload = (e) => {
     e.preventDefault();
+
+    if (!file?.name) {
+      return toast.warn("Select Profile Picture!", { autoClose: 3000 });
+    }
 
     setFileLoading(true);
 
@@ -72,28 +78,25 @@ const NewUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const {
-      username, email, password, cpassword, profilePic
-    } = user;
-
-    if (!username || !email || !password || !cpassword) {
-      return alert("Select all the filed!");
+    if (!user?.profilePic) {
+      return toast.warn("Select Profile Picture!", { autoClose: 3000 });
     }
 
-    if(password !== cpassword) {
-      return alert("Password are not match!");
+    const res = await register(user);
+
+    if (res.status === 422) {
+      return toast.warn(res.message, { autoClose: 3000 });
     }
 
-    if(!profilePic) {
-      return alert("Select Profile Picture!");
+    if (res.status === 404 || res.status === 400) {
+      return toast.error(res.message, { autoClose: 3000 });
     }
 
-    try {
-      const res = await publicRequest.post("/auth/register", user);
-      res && navigate("/users");
-    } catch (err) {
-      console.log(err);
-    }
+    toast.success(res.message, { autoClose: 1500 });
+
+    setTimeout(() => {
+      navigate('/users');
+    }, 2000);
   };
 
 

@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useFetch from '../../hooks/useFetch';
 import { userRequest } from '../../utils/makeRequest';
+import { toast } from 'react-toastify';
 
 const List = ({ columns }) => {
   const location = useLocation();
@@ -23,7 +24,14 @@ const List = ({ columns }) => {
   // handle delete
   const handleDelete = async (id) => {
     try {
-      await userRequest.delete(`/${path}/${id}`);
+      const res = await userRequest.delete(`/${path}/${id}`);
+      
+      if (res.data?.status !== 200) {
+        return toast.error("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 2000 });
+
       setLists(lists.filter(list => list._id !== id));
     } catch (err) {
       console.log(err);

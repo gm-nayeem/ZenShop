@@ -12,6 +12,7 @@ import {
 } from "firebase/storage";
 import app from '../../config/firebase';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
+import { toast } from 'react-toastify';
 
 const CategoryUpdate = ({ category }) => {
   const [updatedCategory, setUpdatedCategory] = useState({});
@@ -33,6 +34,10 @@ const CategoryUpdate = ({ category }) => {
   // file upload using firebase
   const handleUpload = (e) => {
     e.preventDefault();
+
+    if (!updatedCategoryFile?.name) {
+      return toast.warn("Select category picture!", { autoClose: 3000 });
+    }
 
     setFileLoading(true);
 
@@ -72,6 +77,12 @@ const CategoryUpdate = ({ category }) => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
+    const len =  Object.keys(updatedCategory).length;
+
+    if (!len) {
+      return toast.warn("Filled any updated value!", { autoClose: 3000 });
+    }
+
     const sendCategory = {
       ...category,
       ...updatedCategory
@@ -81,7 +92,16 @@ const CategoryUpdate = ({ category }) => {
 
     try {
       const res = await userRequest.put(`/categories/${category._id}`, sendCategory);
-      res && navigate("/categories");
+
+      if (res.data?.status !== 200) {
+        return toast.error("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 2000 });
+
+      setTimeout(() => {
+        res && navigate('/categories');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }
@@ -134,7 +154,7 @@ const CategoryUpdate = ({ category }) => {
                     <img
                       className="categoryUpdateImg"
                       src={
-                        category?.profilePic || DEFAULT_IMG_URL
+                        category?.img || DEFAULT_IMG_URL
                       }
                       alt=""
                     />

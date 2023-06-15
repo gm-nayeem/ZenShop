@@ -19,6 +19,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/userReducer";
+import { logout as logoutApi } from "../../redux/apiCalls";
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
     const { user } = useSelector(state => state.admin.currentUser);
@@ -26,10 +28,20 @@ const Sidebar = () => {
     const dispatch = useDispatch();
 
     // handle logout
-    const handleLogout = () => {
-        dispatch(logout());
+    const handleLogout = async () => {
+        const res = await logoutApi();
+
+        if (res.status !== 200) {
+          return toast.error("Something went wrong!", { autoClose: 3000 });
+        }
+    
+        toast.success(res.message, { autoClose: 1500 });
         localStorage.removeItem('hasRefreshedAdmin');
-        navigate('/login');
+    
+        setTimeout(() => {
+          dispatch(logout());
+          navigate('/login');
+        }, 2000);
     }
 
     return (

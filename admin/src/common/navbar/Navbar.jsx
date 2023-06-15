@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import "./navbar.scss";
 import {
-  NotificationsNone, Language, ArrowDropDown, 
-  DarkModeOutlined, ChatBubbleOutlineOutlined, 
+  NotificationsNone, Language, ArrowDropDown,
+  DarkModeOutlined, ChatBubbleOutlineOutlined,
   ListOutlined, FullscreenExitOutlined
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from "../../redux/userReducer";
 import { Link, useNavigate } from 'react-router-dom';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
-
+import { logout as logoutApi } from "../../redux/apiCalls";
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
   const { user } = useSelector(state => state.admin?.currentUser);
@@ -18,11 +19,22 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   // handle logout
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
     setShow(!show);
+
+    const res = await logoutApi();
+
+    if (res.status !== 200) {
+      return toast.error("Something went wrong!", { autoClose: 3000 });
+    }
+
+    toast.success(res.message, { autoClose: 1500 });
     localStorage.removeItem('hasRefreshedAdmin');
-    navigate('/login');
+
+    setTimeout(() => {
+      dispatch(logout());
+      navigate('/login');
+    }, 2000);
   }
 
   return (

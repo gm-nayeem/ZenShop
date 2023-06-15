@@ -14,6 +14,7 @@ import {
 } from "firebase/storage";
 import app from "../../config/firebase";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
+import { toast } from 'react-toastify';
 
 
 const NewHotel = () => {
@@ -68,6 +69,7 @@ const NewHotel = () => {
   // multiple file upload using firebase
   const upload = (items) => {
     let count = 0;
+
     setFileLoading(true);
 
     items.forEach(item => {
@@ -112,6 +114,10 @@ const NewHotel = () => {
 
     const productImg = Object.values(files).map(file => file);
 
+    if (!productImg.length) {
+      return toast.warn("Select product pictures!", { autoClose: 3000 });
+    }
+
     if (productImg.length === 3) {
       upload([
         { file: productImg[0], label: "img" },
@@ -139,11 +145,15 @@ const NewHotel = () => {
     const {
       title, desc, price
     } = product;
-    
-    if (!title || !desc || !price || !colorArr.length || !sizeArr.length || !categories[0] || subCategories[0]) {
-      return alert("Select all the filed!");
+
+    if (!title || !desc || !price || !colorArr.length || !sizeArr.length || !categories.length || !subCategories.length) {
+      return toast.warn("Filled all the details!", { autoClose: 3000 });
     }
-    
+
+    if (!product?.img || !product?.img2 || !product?.img3) {
+      return toast.warn("Select all the product picture!", { autoClose: 3000 });
+    }
+
     const newProduct = {
       ...product,
       color: colorArr,
@@ -154,9 +164,18 @@ const NewHotel = () => {
 
     try {
       const res = await userRequest.post("/products", newProduct);
-      res && navigate("/products");
+
+      if (res.data?.status !== 201) {
+        return toast.err("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 1500 });
+      setTimeout(() => {
+        navigate('/products');
+      }, 2000);
     } catch (err) {
       console.log(err)
+      return toast.error("Something went wrong!", { autoClose: 3000 });
     }
   };
 

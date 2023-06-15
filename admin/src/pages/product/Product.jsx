@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import "./product.scss";
-import Chart from "../../components/lineChart/LineChart";
+// import Chart from "../../components/lineChart/LineChart";
 import { useState, useEffect, useMemo } from "react";
 import { userRequest } from "../../utils/makeRequest";
 import ProductUpdate from "../../components/productUpdate/ProductUpdate";
@@ -31,45 +31,45 @@ const Product = () => {
         getProduct();
     }, [productId]);
 
-    const MONTHS = useMemo(() => (
-        [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-        ]
-    ), []);
+    // const MONTHS = useMemo(() => (
+    //     [
+    //         "Jan",
+    //         "Feb",
+    //         "Mar",
+    //         "Apr",
+    //         "May",
+    //         "Jun",
+    //         "Jul",
+    //         "Aug",
+    //         "Sep",
+    //         "Oct",
+    //         "Nov",
+    //         "Dec"
+    //     ]
+    // ), []);
 
-    // set product stats
-    useEffect(() => {
-        const getStats = async () => {
-            try {
-                const res = await userRequest.get("/orders/income?pid=" + productId);
-                const list = res.data.sort((a, b) => {
-                    return (
-                        a._id - b._id
-                    )
-                });
-                list.map(item =>
-                    setPStats(prev => [
-                        ...prev,
-                        { name: MONTHS[item._id - 1], Sales: item.total }
-                    ])
-                );
-            } catch (err) {
-                console.log(err.message);
-            }
-        }
-        getStats();
-    }, [productId, MONTHS]);
+    // // set product stats
+    // useEffect(() => {
+    //     const getStats = async () => {
+    //         try {
+    //             const res = await userRequest.get("/orders/income?pid=" + productId);
+    //             const list = res.data.sort((a, b) => {
+    //                 return (
+    //                     a._id - b._id
+    //                 )
+    //             });
+    //             list.map(item =>
+    //                 setPStats(prev => [
+    //                     ...prev,
+    //                     { name: MONTHS[item._id - 1], Sales: item.total }
+    //                 ])
+    //             );
+    //         } catch (err) {
+    //             console.log(err.message);
+    //         }
+    //     }
+    //     getStats();
+    // }, [productId, MONTHS]);
 
 
     return (
@@ -85,13 +85,13 @@ const Product = () => {
                             <h2 className="productTitle">Product</h2>
                         </div>
                         <div className="productTop">
-                            <div className="productTopLeft">
+                            {/* <div className="productTopLeft">
                                 <Chart
                                     data={pStats}
                                     title="Sales Performance"
                                     dataKey="Sales"
                                 />
-                            </div>
+                            </div> */}
                             <div className="productTopRight">
                                 <div className="productInfoTop">
                                     <img src={product?.img} alt="" className="productInfoImg" />

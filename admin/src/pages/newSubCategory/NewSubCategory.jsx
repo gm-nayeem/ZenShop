@@ -2,6 +2,7 @@ import './newSubCategory.scss';
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { userRequest, publicRequest } from '../../utils/makeRequest';
+import { toast } from 'react-toastify';
 
 const NewUser = () => {
   const [title, setTitle] = useState("");
@@ -23,7 +24,7 @@ const NewUser = () => {
     e.preventDefault();
 
     if(!title || !selectedCategory.length) {
-      return alert("Select all the filed!");
+      return toast.warn("Filled all the details!", { autoClose: 3000 });
     }
 
     const newSubCategory = {
@@ -34,7 +35,16 @@ const NewUser = () => {
 
     try {
       const res = await userRequest.post("/subcategories", newSubCategory);
-      res && navigate("/subcategories");
+      
+      if (res.data?.status !== 201) {
+        return toast.err("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 1500 });
+
+      setTimeout(() => {
+        navigate('/subcategories');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

@@ -12,6 +12,8 @@ import {
 import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
+import { toast } from 'react-toastify';
+
 
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
@@ -74,6 +76,10 @@ const ProductUpdate = ({ product }) => {
   const handleUpload = async (e) => {
     e.preventDefault();
 
+    if (updatedProductFiles === null) {
+      return toast.warn("Select Product Pictures!", { autoClose: 3000 });
+    }
+
     const files = Object.values(updatedProductFiles).map(file => file);
 
     upload([
@@ -93,6 +99,12 @@ const ProductUpdate = ({ product }) => {
       updatedProduct["size"] = updatedProduct?.size?.split(",");
     }
 
+    const len =  Object.keys(updatedProduct).length;
+
+    if (!len) {
+      return toast.warn("Filled any updated value!", { autoClose: 3000 });
+    }
+
     const sendProduct = {
       ...product,
       ...updatedProduct
@@ -101,7 +113,16 @@ const ProductUpdate = ({ product }) => {
 
     try {
       const res = await userRequest.put(`/products/${product._id}`, sendProduct);
-      res && navigate("/products");
+
+      if (res.data?.status !== 200) {
+        return toast.error("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 2000 });
+
+      setTimeout(() => {
+        res && navigate('/products');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

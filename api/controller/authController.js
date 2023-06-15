@@ -87,7 +87,7 @@ const loginController = async (req, res, next) => {
 const logoutController = (req, res) => {
     res.status(200).send({
         status: 200,
-        message: "User has been loggedout!",
+        message: "User has been logged out!",
     });
 }
 

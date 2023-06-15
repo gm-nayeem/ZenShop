@@ -13,6 +13,7 @@ import {
 } from "firebase/storage";
 import app from "../../config/firebase";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
+import { toast } from 'react-toastify';
 
 const NewUser = () => {
   const [newCategory, setNewCategory] = useState({});
@@ -33,6 +34,10 @@ const NewUser = () => {
   // file upload using firebase
   const handleUpload = (e) => {
     e.preventDefault();
+
+    if (!file?.name) {
+      return toast.warn("Select category picture!", { autoClose: 3000 });
+    }
 
     setFileLoading(true);
 
@@ -77,14 +82,23 @@ const NewUser = () => {
     } = newCategory;
 
     if(!title || !desc || !img) {
-      return alert("Fill all the details");
+      return toast.warn("Filled all the details!", { autoClose: 3000 });
     }
 
     // console.log(newCategory);
 
     try {
       const res = await userRequest.post("/categories", newCategory);
-      res && navigate("/categories");
+
+      if (res.data?.status !== 201) {
+        return toast.err("Something went wrong!", { autoClose: 3000 });
+      }
+
+      toast.success(res.data?.message, { autoClose: 1500 });
+
+      setTimeout(() => {
+        navigate('/categories');
+      }, 2000);
     } catch (err) {
       console.log(err);
     }

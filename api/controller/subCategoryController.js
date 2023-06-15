@@ -5,7 +5,7 @@ const createSubCategory = async (req, res, next) => {
 
     try {
         const savedSubCategory = await newSubCategory.save();
-        res.status(200).json({ savedSubCategory });
+        res.status(200).json({ status: 201, message: "Subcategory created successfully" });
     } catch (err) {
         next(err);
     }
@@ -21,7 +21,7 @@ const updateSubCategory = async (req, res, next) => {
             },
             { new: true }
         );
-        res.status(200).json(updatedSubCategory);
+        res.status(200).json({status: 200, message: "Subcategory updated successfully"});
     } catch (err) {
         next(err);
     }
@@ -31,7 +31,7 @@ const deleteSubCategory = async (req, res, next) => {
     const id = req.params.id;
     try {
         await SubCategory.findByIdAndDelete(id);
-        res.status(200).json("SubCategory has been deleted...");
+        res.status(200).json({status: 200, message: "Subcategory has been deleted!"});
     } catch (err) {
         next(err);
     }

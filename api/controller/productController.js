@@ -5,7 +5,7 @@ const createProduct = async (req, res, next) => {
 
     try {
         await newProduct.save();
-        res.status(200).json("Product created successfully");
+        res.status(200).json({status: 201, message: "Product created successfully"});
     } catch (err) {
         next(err);
     }
@@ -21,7 +21,7 @@ const updateProduct = async (req, res, next) => {
             },
             { new: true }
         );
-        res.status(200).json(updatedProduct);
+        res.status(200).json({status: 200, message: "Product updated successfully"});
     } catch (err) {
         next(err);
     }
@@ -31,7 +31,7 @@ const deleteProduct = async (req, res, next) => {
     const id = req.params.id;
     try {
         await Product.findByIdAndDelete(id);
-        res.status(200).json("Product has been deleted...");
+        res.status(200).json({status: 200, message: "Product has been deleted!"});
     } catch (err) {
         next(err);
     }
