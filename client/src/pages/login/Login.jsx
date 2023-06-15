@@ -47,7 +47,7 @@ const Login = () => {
     toast.success(res.message, { autoClose: 1500 });
 
     setTimeout(() => {
-      dispatch(loginSuccessful(res));
+      dispatch(loginSuccessful(res.user));
       navigate('/', {state: { refresh: true} });
     }, 2000);
   }
