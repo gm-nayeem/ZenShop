@@ -26,7 +26,6 @@ const Login = () => {
     e.preventDefault();
 
     const res = await login(dispatch, { email, password });
-    console.log("login: ", res);
 
     setUser({
       email: "",
@@ -41,10 +40,10 @@ const Login = () => {
       return toast.error(res.message, { autoClose: 3000 });
     }
 
-    toast.success(res.message, { autoClose: 1500 });
+    toast.success(res?.message, { autoClose: 1500 });
 
     setTimeout(() => {
-      dispatch(loginSuccessful(res.user));
+      dispatch(loginSuccessful(res));
       navigate('/');
     }, 2000);
   }
