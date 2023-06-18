@@ -26,18 +26,18 @@ const Success = () => {
     return total.toFixed(2);
   };
 
-  order.userId = user.currentUser.user._id;
+  order.userId = user?.currentUser?.user?._id;
   order.amount = totalPrice();
   order.stripeId = JSON.parse(localStorage.getItem("stripeId"));
 
   // insert products into order
-  cart.products.map(p => order.products.push(
+  cart?.products.map(p => order.products.push(
     {
-      productId: p.id,
-      title: p.title,
-      desc: p.desc,
-      quantity: p.quantity,
-      price: p.price
+      productId: p?.id,
+      title: p?.title,
+      desc: p?.desc,
+      quantity: p?.quantity,
+      price: p?.price
     }
   ));
 

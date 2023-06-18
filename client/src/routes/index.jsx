@@ -95,16 +95,12 @@ const Index = () => {
         },
         {
           path: "/success",
-          element: (
-            <Protected user={user}>
-              <Success />
-            </Protected>
-          ),
+          element:  <Success />
         },
         {
           path: "/cancel",
           element: (
-            <Protected user={user}>
+            <Protected>
               <Cancel />
             </Protected>
           ),
