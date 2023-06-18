@@ -14,6 +14,10 @@ const Widget = () => {
     const handleMail = async (e) => {
         e.preventDefault();
 
+        if (!user) {
+            return toast.warn("First login your account!", { autoClose: 3000 });
+        }
+
         const mailInfo = {
             username: user?.username,
             email: user?.email,
