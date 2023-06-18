@@ -38,7 +38,7 @@ const contactController = async (req, res, next) => {
                 return res.status(201).send({ statusCode: 401, error });
             }
             console.log('Email sent: ' + info.response);
-            res.status(201).send({ statusCode: 201, info });
+            res.status(201).send({ statusCode: 201, message: "Contact send successfully" });
         });
 
     } catch (error) {

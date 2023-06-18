@@ -38,7 +38,7 @@ export const logout = async () => {
 }
 
 // contact
-export const contact = async (info) => {
+export const sendContact = async (info) => {
     try {
         const res = await userRequest.post("/contact", info);
         return res.data;
