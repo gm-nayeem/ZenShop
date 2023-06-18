@@ -14,43 +14,43 @@ let order = {
 };
 
 const Success = () => {
-  const { user, cart } = useSelector(state => state);
-  const dispatch = useDispatch();
+  // const { user, cart } = useSelector(state => state);
+  // const dispatch = useDispatch();
 
-  // set total price
-  const totalPrice = () => {
-    let total = 0;
-    cart.products.forEach(item => {
-      total += (item.quantity * item.price);
-    });
-    return total.toFixed(2);
-  };
+  // // set total price
+  // const totalPrice = () => {
+  //   let total = 0;
+  //   cart.products.forEach(item => {
+  //     total += (item.quantity * item.price);
+  //   });
+  //   return total.toFixed(2);
+  // };
 
-  order.userId = user?.currentUser?.user?._id;
-  order.amount = totalPrice();
-  order.stripeId = JSON.parse(localStorage.getItem("stripeId"));
+  // order.userId = user?.currentUser?.user?._id;
+  // order.amount = totalPrice();
+  // order.stripeId = JSON.parse(localStorage.getItem("stripeId"));
 
-  // insert products into order
-  cart?.products.map(p => order.products.push(
-    {
-      productId: p?.id,
-      title: p?.title,
-      desc: p?.desc,
-      quantity: p?.quantity,
-      price: p?.price
-    }
-  ));
+  // // insert products into order
+  // cart?.products.map(p => order.products.push(
+  //   {
+  //     productId: p?.id,
+  //     title: p?.title,
+  //     desc: p?.desc,
+  //     quantity: p?.quantity,
+  //     price: p?.price
+  //   }
+  // ));
 
-  // create order
-  useEffect(() => {
-    const orderCreate = async () => {
-      await userRequest.post('/orders', { order });
+  // // create order
+  // useEffect(() => {
+  //   const orderCreate = async () => {
+  //     await userRequest.post('/orders', { order });
 
-      dispatch(resetCart());
-      localStorage.removeItem("stripeId");
-    }
-    orderCreate();
-  }, []);
+  //     dispatch(resetCart());
+  //     localStorage.removeItem("stripeId");
+  //   }
+  //   orderCreate();
+  // }, []);
 
 
   return (

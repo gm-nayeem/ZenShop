@@ -5,8 +5,6 @@ const createOrder = async (req, res, next) => {
     const { order } = req.body;
     const newOrder = new Order(order);
 
-    console.log("order", order);
-
     try {
         const createOrder = await newOrder.save();
         const { products } = createOrder;
