@@ -3,17 +3,36 @@ import "./widget.scss";
 import {
     Facebook, Instagram, Twitter, Google, Pinterest
 } from "@mui/icons-material";
-
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { sendMail } from '../../redux/apiCalls';
 
 const Widget = () => {
     const [mail, setMail] = useState("");
+    const user = useSelector(state => state.user?.currentUser?.user);
 
-    const handleMail = (e) => {
+    const handleMail = async (e) => {
         e.preventDefault();
 
-        console.log(mail);
+        const mailInfo = {
+            username: user?.username,
+            email: user?.email,
+            phone: user?.phone ? user?.phone : "",
+            message: mail,
+        }
 
+        const res = await sendMail(mailInfo);
         setMail("");
+
+        if (res.status === 422) {
+            return toast.warn(res.message, { autoClose: 3000 });
+        }
+
+        if (res.status === 401) {
+            return toast.error("Mail not sent!", { autoClose: 3000 });
+        }
+
+        toast.success(res.message, { autoClose: 2000 });
     };
 
     return (
@@ -21,9 +40,9 @@ const Widget = () => {
             <div className="wrapper">
                 <span>BE IN TOUCH WITH US:</span>
                 <div className="mail">
-                    <input type="text" value={mail}
-                        placeholder="Enter your email..." 
-                        onChange={(e)=> setMail(e.target.value)}
+                    <input type="email" value={mail}
+                        placeholder="Enter your email..."
+                        onChange={(e) => setMail(e.target.value)}
                     />
                     <button onClick={handleMail}>JOIN US</button>
                 </div>

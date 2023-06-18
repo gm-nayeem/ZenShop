@@ -2,7 +2,7 @@ import {
     loginStart,
     loginFailure
 } from './userReducer';
-import { publicRequest } from "../utils/makeRequest";
+import { publicRequest, userRequest } from "../utils/makeRequest";
 
 // register
 export const register = async (user) => {
@@ -36,6 +36,27 @@ export const logout = async () => {
         return err.response.data;
     }
 }
+
+// contact
+export const contact = async (info) => {
+    try {
+        const res = await userRequest.post("/contact", info);
+        return res.data;
+    } catch (err) {
+        return err.response.data;
+    }
+}
+
+// contact
+export const sendMail = async (info) => {
+    try {
+        const res = await userRequest.post("/contact/mail", info);
+        return res.data;
+    } catch (err) {
+        return err.response.data;
+    }
+}
+
 
 // add order
 // export const addOrder = async (order, dispatch) => {
