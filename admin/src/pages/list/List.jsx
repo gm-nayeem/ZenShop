@@ -86,7 +86,7 @@ const List = ({ columns }) => {
               columns={columns.concat(actionColumn)}
               disableRowSelectionOnClick
               disableSelectionOnClick
-              pageSize={7}
+              pageSize={10}
               getRowId={row => row._id}
               rowsPerPageOptions={[5]}
               checkboxSelection

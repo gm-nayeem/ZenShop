@@ -63,10 +63,10 @@ const Home = () => {
     <div className='home'>
       <FeaturedInfo />
 
-      <div className="charts">
+      {/* <div className="charts">
         <Featured />
         <AreaChart aspect={2 / 1} title="Last 6  Months (Revenue)" />
-      </div>
+      </div> */}
 
       <LineChart
         data={userStats}

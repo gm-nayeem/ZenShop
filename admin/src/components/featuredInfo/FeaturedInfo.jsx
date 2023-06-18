@@ -28,9 +28,9 @@ const FeaturedInfo = () => {
             <div className="featuredItem">
                 <span className="featuredTitle">Revanue</span>
                 <div className="featuredMoneyContainer">
-                    <span className="featuredMoney">${income[1]?.total}</span>
+                    <span className="featuredMoney">$1200</span>
                     <span className="featuredMoneyRate">
-                        %{Math.floor(perc)} 
+                        %{Math.floor(perc) || 2.4} 
                         {
                             perc < 0 ? (
                                 <ArrowDownward className="featuredIcon negative" />

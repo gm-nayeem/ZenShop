@@ -53,17 +53,17 @@ const Navbar = () => {
           <div className="topbarIconContainer">
             <DarkModeOutlined />
           </div>
-          <div className="topbarIconContainer">
+          {/* <div className="topbarIconContainer">
             <FullscreenExitOutlined />
-          </div>
-          <div className="topbarIconContainer">
+          </div> */}
+          {/* <div className="topbarIconContainer">
             <NotificationsNone />
             <span className="topIconBadge">2</span>
           </div>
           <div className="topbarIconContainer">
             <ChatBubbleOutlineOutlined />
             <span className="topIconBadge">2</span>
-          </div>
+          </div> */}
           <div className="topbarIconContainer">
             <ListOutlined />
           </div>
