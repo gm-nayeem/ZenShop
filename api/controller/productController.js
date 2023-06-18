@@ -71,7 +71,7 @@ const getAllProduct = async (req, res, next) => {
         let products;
 
         if (qType) {
-            products = await Product.find({ type: qType }).sort({ createdAt: -1 }).limit(4);
+            products = await Product.find({ type: qType }).sort({ createdAt: -1 }).limit(6);
         }
         else if (qNew) {
             products = await Product.find().sort({ createdAt: -1 });
