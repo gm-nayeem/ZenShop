@@ -34,14 +34,6 @@ section {
                 font-size: 15px;
                 margin-top: 9px;
             }
-
-            @include mobile {
-                text-align: center;
-
-                h1 {
-                    font-size: 26px;
-                }
-            }
         }
 
         form {
@@ -121,12 +113,6 @@ section {
             p {
                 text-align: center;
                 margin-top: 20px;
-
-                @include mobile {
-                    & {
-                        font-size: 14px;
-                    }
-                }
             }
         
             a {
@@ -134,12 +120,6 @@ section {
                 color: #718096;
                 border-bottom: 2px solid #8694a8;
             }
-
-            @include mobile {
-                & {
-                    padding: 10px 20px;
-                }
-            }     
         }
     }
 }
