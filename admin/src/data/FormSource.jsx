@@ -60,18 +60,18 @@ export const productInputs = [
         type: "text",
         placeholder: "70",
     },
-    {
-        name: "size",
-        label: "Size",
-        type: "text",
-        placeholder: "M,L,XL",
-    },
-    {
-        name: "color",
-        label: "Color",
-        type: "text",
-        placeholder: "red,green,blue",
-    },
+    // {
+    //     name: "size",
+    //     label: "Size",
+    //     type: "text",
+    //     placeholder: "M,L,XL",
+    // },
+    // {
+    //     name: "color",
+    //     label: "Color",
+    //     type: "text",
+    //     placeholder: "red,green,blue",
+    // },
 ];
 
 export const categoryInputs = [

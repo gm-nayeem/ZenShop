@@ -15,7 +15,7 @@ import {
 import app from "../../config/firebase";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 import { toast } from 'react-toastify';
-
+import SubmitBtn from '../../common/submitBtn/SubmitBtn';
 
 const NewHotel = () => {
   const [product, setProduct] = useState({});
@@ -118,13 +118,7 @@ const NewHotel = () => {
       return toast.warn("Select product pictures!", { autoClose: 3000 });
     }
 
-    if (productImg.length === 3) {
-      upload([
-        { file: productImg[0], label: "img" },
-        { file: productImg[1], label: "img2" },
-        { file: productImg[2], label: "img3" },
-      ]);
-    } else if (productImg.length === 2) {
+    if (productImg.length === 2) {
       upload([
         { file: productImg[0], label: "img" },
         { file: productImg[1], label: "img2" },
@@ -139,25 +133,23 @@ const NewHotel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const colorArr = product?.color?.split(",");
-    const sizeArr = product?.size?.split(",");
+    // const colorArr = product?.color?.split(",");
+    // const sizeArr = product?.size?.split(",");
 
     const {
       title, desc, price
     } = product;
 
-    if (!title || !desc || !price || !colorArr.length || !sizeArr.length || !categories.length || !subCategories.length) {
+    if (!title || !desc || !price || !categories.length || !subCategories.length) {
       return toast.warn("Filled all the details!", { autoClose: 3000 });
     }
 
-    if (!product?.img || !product?.img2 || !product?.img3) {
+    if (!product?.img || !product?.img2) {
       return toast.warn("Select all the product picture!", { autoClose: 3000 });
     }
 
     const newProduct = {
       ...product,
-      color: colorArr,
-      size: sizeArr,
       categories: categories[0],
       subCategories: subCategories[0]
     };
@@ -200,17 +192,11 @@ const NewHotel = () => {
                 }
                 alt=""
               />
-              <img
-                src={
-                  files.length >= 3 ? URL.createObjectURL(files[2]) : NO_IMG_ICON
-                }
-                alt=""
-              />
               {
                 fileLoading ? (
                   <button className="productUpdateButton">Uploading...</button>
                 ) : (
-                  uploaded === 3 ? (
+                  uploaded === 2 ? (
                     <button className="productUpdateButton" onClick={handleSubmit}>Uploaded</button>
                   ) : (
                     <button className="productUpdateButton" onClick={handleUpload}>Upload</button>
@@ -318,9 +304,10 @@ const NewHotel = () => {
             </form>
           </div>
         </div>
-        <div className="submit">
+          <SubmitBtn submit={handleSubmit} title="Create" type="end" />
+        {/* <div className="submit">
           <button onClick={handleSubmit}>Create</button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

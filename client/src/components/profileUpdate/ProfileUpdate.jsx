@@ -16,7 +16,7 @@ import { loginSuccessful } from '../../redux/userReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ProfileUpdate = () => {
-  const user  = useSelector(state => state.user?.currentUser?.user);
+  const user = useSelector(state => state.user?.currentUser?.user);
 
   const [updatedUser, setUpdatedUser] = useState({});
   const [updatedProfilePic, setUpdatedProfilePic] = useState(null);
@@ -93,88 +93,93 @@ const ProfileUpdate = () => {
     <div className="userUpdate">
       <span className="userUpdateTitle">Edit</span>
       <form className="userUpdateForm">
-        <div className="userUpdateLeft">
-          <div className="userUpdateItem">
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder={user?.username}
-              className="userUpdateInput"
-              required
-              onChange={handleChange}
-            />
+        <div className="userUpdateFormWrapper">
+          <div className="userUpdateLeft">
+            <div className="userUpdateItem">
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder={user?.username}
+                className="userUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="userUpdateItem">
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                placeholder={user?.email}
+                className="userUpdateInput"
+                required
+                onChange={handleChange}
+              />
+            </div>
+            <div className="userUpdateItem">
+              <label>Phone</label>
+              <input
+                type="text"
+                name="phone"
+                placeholder={user?.phone || "+8880 1728 276823"}
+                className="userUpdateInput"
+              />
+            </div>
+            <div className="userUpdateItem">
+              <label>Address</label>
+              <input
+                type="text"
+                name="phone"
+                placeholder={user?.address || "Bogra, Bangladesh"}
+                className="userUpdateInput"
+              />
+            </div>
           </div>
-          <div className="userUpdateItem">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder={user?.email}
-              className="userUpdateInput"
-              required
-              onChange={handleChange}
-            />
-          </div>
-          <div className="userUpdateItem">
-            <label>Phone</label>
-            <input
-              type="text"
-              name="phone"
-              placeholder={user?.phone || "+8880 1728 276823"}
-              className="userUpdateInput"
-            />
-          </div>
-          <div className="userUpdateItem">
-            <label>Address</label>
-            <input
-              type="text"
-              name="phone"
-              placeholder={user?.address || "Bogra, Bangladesh"}
-              className="userUpdateInput"
-            />
-          </div>
-        </div>
-        <div className="userUpdateRight">
-          <div className="userUpdateUpload">
+          <div className="userUpdateRight">
+            <div className="userUpdateUpload">
+              {
+                updatedProfilePic ? (
+                  <img
+                    className="userUpdateImg"
+                    src={
+                      updatedProfilePic
+                        ? URL.createObjectURL(updatedProfilePic)
+                        : DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                ) : (
+                  <img
+                    className="userUpdateImg"
+                    src={
+                      user?.profilePic || DEFAULT_IMG_URL
+                    }
+                    alt=""
+                  />
+                )
+              }
+              <label htmlFor="file">
+                <Publish className="userUpdateIcon" />
+              </label>
+              <input type="file" name="file" id="file"
+                style={{ display: "none" }}
+                onChange={(e) => setUpdatedProfilePic(e.target.files[0])}
+              />
+            </div>
             {
-              updatedProfilePic ? (
-                <img
-                  className="userUpdateImg"
-                  src={
-                    updatedProfilePic
-                      ? URL.createObjectURL(updatedProfilePic)
-                      : DEFAULT_IMG_URL
-                  }
-                  alt=""
-                />
+              fileLoading ? (
+                <button className="userUpdateButton">Uploading...</button>
+              ) : uploaded === 1 ? (
+                <button className="userUpdateButton">Uploaded</button>
               ) : (
-                <img
-                  className="userUpdateImg"
-                  src={
-                    user?.profilePic || DEFAULT_IMG_URL
-                  }
-                  alt=""
-                />
+                <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
               )
             }
-            <label htmlFor="file">
-              <Publish className="userUpdateIcon" />
-            </label>
-            <input type="file" name="file" id="file"
-              style={{ display: "none" }}
-              onChange={(e) => setUpdatedProfilePic(e.target.files[0])}
-            />
           </div>
-          {
-            fileLoading ? (
-              <button className="userUpdateButton">Uploading...</button>
-            ) : uploaded === 1 ? (
-              <button className="userUpdateButton" onClick={handleUpdate}>Update</button>
-            ) : (
-              <button className="userUpdateButton" onClick={handleUpload}>Upload</button>
-            )
-          }
+        </div>
+        <div className="submit">
+          <button onClick={handleUpdate}>Update</button>
         </div>
       </form>
     </div>

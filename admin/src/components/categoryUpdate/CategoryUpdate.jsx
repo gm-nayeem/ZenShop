@@ -13,6 +13,7 @@ import {
 import app from '../../config/firebase';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 import { toast } from 'react-toastify';
+import SubmitBtn from '../../common/submitBtn/SubmitBtn';
 
 const CategoryUpdate = ({ category }) => {
   const [updatedCategory, setUpdatedCategory] = useState({});
@@ -181,9 +182,11 @@ const CategoryUpdate = ({ category }) => {
             </div>
           </div>
         </div>
-        <div className="submit">
+        <SubmitBtn submit={handleUpdate} title="Update" type="start" />
+
+        {/* <div className="submit">
           <button onClick={handleUpdate}>Update</button>
-        </div>
+        </div> */}
       </form>
     </div>
   )

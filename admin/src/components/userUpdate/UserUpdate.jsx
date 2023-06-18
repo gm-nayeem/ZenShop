@@ -14,6 +14,7 @@ import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import SubmitBtn from '../../common/submitBtn/SubmitBtn';
 
 const UserUpdate = ({ user }) => {
   const [updatedUser, setUpdatedUser] = useState({});
@@ -188,9 +189,11 @@ const UserUpdate = ({ user }) => {
             }
           </div>
         </div>
-        <div className="submit">
+        <SubmitBtn submit={handleUpdate} title="Update" type="start" />
+
+        {/* <div className="submit">
           <button onClick={handleUpdate}>Update</button>
-        </div>
+        </div> */}
       </form>
     </div>
   )

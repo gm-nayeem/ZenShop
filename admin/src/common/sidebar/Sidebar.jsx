@@ -32,15 +32,15 @@ const Sidebar = () => {
         const res = await logoutApi();
 
         if (res.status !== 200) {
-          return toast.error("Something went wrong!", { autoClose: 3000 });
+            return toast.error("Something went wrong!", { autoClose: 3000 });
         }
-    
+
         toast.success(res.message, { autoClose: 1500 });
         localStorage.removeItem('hasRefreshedAdmin');
-    
+
         setTimeout(() => {
-          dispatch(logout());
-          navigate('/login');
+            dispatch(logout());
+            navigate('/login');
         }, 2000);
     }
 
@@ -55,7 +55,7 @@ const Sidebar = () => {
                                 <Dashboard className="sidebarIcon" />
                                 Dashboard
                             </li>
-                    </Link>
+                        </Link>
                         <li className="sidebarListItem">
                             <Timeline className="sidebarIcon" />
                             Analytics
@@ -97,7 +97,7 @@ const Sidebar = () => {
                             </li>
                         </Link>
 
-                        <h3 className="sidebarTitle">USEFUL</h3>
+                        {/* <h3 className="sidebarTitle">USEFUL</h3>
                         <li className="sidebarListItem">
                             <InsertChart className="sidebarIcon" />
                             Stats
@@ -113,9 +113,9 @@ const Sidebar = () => {
                         <li className="sidebarListItem">
                             <BarChart className="sidebarIcon" />
                             Reports
-                        </li>
+                        </li> */}
 
-                        <h3 className="sidebarTitle">NOTIFICATIONS</h3>
+                        {/* <h3 className="sidebarTitle">NOTIFICATIONS</h3>
                         <li className="sidebarListItem">
                             <MailOutline className="sidebarIcon" />
                             Mail
@@ -127,10 +127,10 @@ const Sidebar = () => {
                         <li className="sidebarListItem">
                             <ChatBubbleOutline className="sidebarIcon" />
                             Messages
-                        </li>
+                        </li> */}
 
                         <h3 className="sidebarTitle">USER</h3>
-                        <Link 
+                        <Link
                             to={`/users/${user._id}`}
                             className="link"
                         >

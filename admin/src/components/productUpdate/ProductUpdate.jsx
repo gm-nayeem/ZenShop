@@ -13,7 +13,7 @@ import app from '../../config/firebase';
 import { userRequest } from '../../utils/makeRequest';
 const DEFAULT_IMG_URL = "https://i.ibb.co/MBtjqXQ/no-avatar.gif";
 import { toast } from 'react-toastify';
-
+import SubmitBtn from '../../common/submitBtn/SubmitBtn';
 
 const ProductUpdate = ({ product }) => {
   const [updatedProduct, setUpdatedProduct] = useState({});
@@ -167,26 +167,6 @@ const ProductUpdate = ({ product }) => {
               />
             </div>
             <div className="productUpdateItem">
-              <label>Size</label>
-              <input
-                type="text"
-                name="size"
-                placeholder={product?.size}
-                className="productUpdateInput"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="productUpdateItem">
-              <label>Color</label>
-              <input
-                type="text"
-                name="color"
-                placeholder={product?.color}
-                className="productUpdateInput"
-                onChange={handleChange}
-              />
-            </div>
-            <div className="productUpdateItem">
               <label style={{ marginBottom: "5px" }}>Type</label>
               <select name="type" id="type" onChange={handleChange}>
                 <option value="normal">Normal</option>
@@ -254,9 +234,10 @@ const ProductUpdate = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className="submit">
+        <SubmitBtn submit={handleUpdate} title="Update" type="start" />
+        {/* <div className="submit">
           <button onClick={handleUpdate}>Update</button>
-        </div>
+        </div> */}
       </form>
     </div>
   )

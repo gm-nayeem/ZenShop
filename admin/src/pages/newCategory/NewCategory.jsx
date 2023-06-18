@@ -14,6 +14,7 @@ import {
 import app from "../../config/firebase";
 import NO_IMG_ICON from "../../assets/no-image-icon.jpeg";
 import { toast } from 'react-toastify';
+import SubmitBtn from '../../common/submitBtn/SubmitBtn';
 
 const NewUser = () => {
   const [newCategory, setNewCategory] = useState({});
@@ -158,9 +159,10 @@ const NewUser = () => {
             </form>
           </div>
         </div>
-        <div className="submit">
+        <SubmitBtn submit={handleSubmit} title="Create" type="end" />
+        {/* <div className="submit">
           <button onClick={handleSubmit}>Create</button>
-        </div>
+        </div> */}
       </div>
     </div>
   )
