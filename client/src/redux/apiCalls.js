@@ -47,7 +47,7 @@ export const contact = async (info) => {
     }
 }
 
-// contact
+// nodemail
 export const sendMail = async (info) => {
     try {
         const res = await userRequest.post("/contact/mail", info);
