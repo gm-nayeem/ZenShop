@@ -3,11 +3,11 @@ const {
     contactController, mailController
 } = require('../controller/contactController');
 
-const {verifyTokenAndAuthorization} = require('../middleware/authenticate');
+const {verifyToken} = require('../middleware/authenticate');
 
-router.post('/', verifyTokenAndAuthorization, contactController);
+router.post('/', verifyToken, contactController);
 
-router.post('/mail', verifyTokenAndAuthorization, mailController);
+router.post('/mail', verifyToken, mailController);
 
 module.exports = router;
 
