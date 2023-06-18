@@ -13,7 +13,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const {isFetching, isError} = useSelector(state => state.admin);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
