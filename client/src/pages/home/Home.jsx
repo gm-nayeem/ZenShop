@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import "./home.scss";
 import Categories from '../../components/categories/Categories'
-import Contact from '../../components/contact/Contact'
+import Widget from '../../components/widget/Widget'
 import FeaturedProducts from '../../components/featuredProducts/FeaturedProducts'
 import Slider from '../../components/slider/Slider'
 import { useLocation } from 'react-router-dom';
@@ -28,7 +28,7 @@ const Home = () => {
             <FeaturedProducts type="featured" />
             <Categories />
             <FeaturedProducts type="trending" />
-            <Contact />
+            <Widget />
         </div>
     )
 }

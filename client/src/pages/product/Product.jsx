@@ -64,11 +64,11 @@ const Product = ({ user }) => {
                     alt=""
                     onClick={() => setSelectedImg("img2")}
                   />
-                  <img
+                  {/* <img
                     src={data?.img3}
                     alt=""
                     onClick={() => setSelectedImg("img3")}
-                  />
+                  /> */}
                 </div>
                 <div className="mainImg">
                   <img

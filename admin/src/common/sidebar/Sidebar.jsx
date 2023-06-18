@@ -55,7 +55,7 @@ const Sidebar = () => {
                                 <Dashboard className="sidebarIcon" />
                                 Dashboard
                             </li>
-                        </Link>
+                    </Link>
                         <li className="sidebarListItem">
                             <Timeline className="sidebarIcon" />
                             Analytics

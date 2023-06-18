@@ -1,3 +1,5 @@
+@import '../../app.scss';
+
 .product {
     padding: 20px 50px;
     display: flex;
@@ -119,6 +121,15 @@
                 color: #2879fe;
                 font-size: 14px;
             }
+
+            @include mobile {
+                gap: 20px;
+
+                .item {
+                    gap: 5px;
+                    font-size: 12px;
+                }
+            }
         }
 
         .info {
@@ -139,5 +150,52 @@
             border: 1px solid rgb(238, 237, 237);
         }
 
+    }
+
+    @include mobile {
+        & {
+            padding: 20px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            
+            .right {
+                .info {
+                    display: none;
+                }
+            }
+        }
+
+    }
+
+    @include tablet {
+        & {
+            padding: 30px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            
+            .right {
+                .info {
+                    display: none;
+                }
+            }
+        }
+
+    }
+
+    @include laptop {
+        & {
+            // padding: 30px 30px;
+            display: flex;
+            flex-direction: row;
+            gap: 50px;
+            
+            .right {
+                .info {
+                    display: flex;
+                }
+            }
+        }
     }
 }

@@ -1,6 +1,9 @@
+@import '../../app.scss';
+
 .user {
     width: 100%;
     padding: 30px;
+    margin-bottom: 30px;
 
     .userTitleContainer {
         color: gray;
@@ -69,6 +72,54 @@
 
         .userRight {
             width: 70%;
+        }
+
+        @include mobile {
+            & {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+
+                .userLeft {
+                    width: 100%;
+                }
+
+                .userRight {
+                    width: 100%;
+                }
+            }
+        }
+
+        @include tablet {
+            & {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+
+                .userLeft {
+                    width: 100%;
+                }
+
+                .userRight {
+                    width: 100%;
+                }
+            }
+        }
+
+        @include laptop {
+            & {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+
+                .userLeft {
+                    width: 30%;
+                }
+
+                .userRight {
+                    width: 70%;
+                }
+            }
         }
     }
 }

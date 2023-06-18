@@ -32,7 +32,7 @@ import {
 
 const Index = () => {
     const isAdmin = useSelector(state => state.admin?.currentUser?.user?.isAdmin);
-    console.log("isadmin: ", isAdmin);
+    
     const Layout = () => {
         return (
             <div className="layout">

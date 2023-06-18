@@ -54,7 +54,7 @@ const Navbar = ({ user }) => {
         <div className="navbar">
             <div className="wrapper">
                 <div className="left">
-                    <div className="item">
+                    <div className="item flag">
                         <span
                             onClick={() => {
                                 setOpen(false)
@@ -66,7 +66,6 @@ const Navbar = ({ user }) => {
                             <img
                                 src={flag}
                                 alt=""
-                                className="flag"
                             />
                             <KeyboardArrowDown />
                         </span>
@@ -97,8 +96,10 @@ const Navbar = ({ user }) => {
                             )
                         }
                     </div>
-                    <div className="item">
-                        <Link className="link" to="/">Dashboard</Link>
+                    <div className="item dash">
+                        <span>
+                            <Link className="link" to="/">Dashboard</Link>
+                        </span>
                     </div>
                     <div className="item">
                         <span
@@ -146,14 +147,14 @@ const Navbar = ({ user }) => {
                     <Link className="link" to="/">ZenShop</Link>
                 </div>
                 <div className="right">
-                    <div className="item">
+                    {/* <div className="item">
                         <Link className="link" to="/about">About</Link>
-                    </div>
+                    </div> */}
                     <div className="item">
                         <Link className="link" to="/contact">Contact</Link>
                     </div>
                     <div className="icons">
-                        <FavoriteBorderOutlined className="icon" />
+                        {/* <FavoriteBorderOutlined className="icon fav" /> */}
                         <div
                             className="cartIcon"
                             onClick={() => {

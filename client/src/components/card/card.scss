@@ -1,9 +1,12 @@
+@import '../../app.scss';
+
 .card {
-    width: 280px;
+    width: 30%;
+    // flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     background-color: whitesmoke;
 
     .cardWrapper {
@@ -45,6 +48,12 @@
                 font-weight: 500;
                 font-size: 12px;
             }
+
+            @include mobile {
+                & {
+                    height: 440px;
+                }
+            }
         }
 
         h2 {
@@ -82,5 +91,23 @@
         cursor: pointer;
         border: none;
         font-weight: 500;
+    }
+
+    @include mobile {
+        & {
+            width: 100%;
+        }
+    }
+
+    @include tablet {
+        & {
+            width: 45%;
+        }
+    }
+
+    @include laptop {
+        & {
+            width: 30%;
+        }
     }
 }

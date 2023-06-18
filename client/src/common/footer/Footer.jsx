@@ -44,11 +44,13 @@ const Footer = () => {
             </div>
             <div className="bottom">
                 <div className="left">
-                    <Link to="/" className="link">
-                        <span className="logo">ZenShop</span>
-                    </Link>
+                    <div className="logo">
+                        <Link to="/" className="link">
+                            <span>ZenShop</span>
+                        </Link>
+                    </div>
                     <span className="copyright">
-                        © Copyright 2023. All Rights Reserved
+                        © Copyright reserved by Golam Mostafa
                     </span>
                 </div>
                 <div className="right">

@@ -45,5 +45,25 @@
                 gap: 20px;
             }
         }
+        
+        @include tablet {
+            & {
+                span {
+                    display: none;
+                }
+            }
+        }
+
+        @include laptop {
+            & {
+                span {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    @include laptop {
+        margin-bottom: 40px;
     }
 }
