@@ -95,7 +95,11 @@ const Index = () => {
         },
         {
           path: "/success",
-          element:  <Success />
+          element: (
+            <Protected>
+              <Success />
+            </Protected>
+          ),
         },
         {
           path: "/cancel",
