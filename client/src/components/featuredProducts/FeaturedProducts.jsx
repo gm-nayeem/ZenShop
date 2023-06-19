@@ -2,7 +2,7 @@ import Card from "../card/Card";
 import "./featuredProducts.scss";
 import useFetch from "../../hooks/useFetch";
 
-const FeaturedProducts = ({ type }) => {
+const FeaturedProducts = ({ type, state }) => {
     const { data, loading, error } = useFetch(
         `/products/all?type=${type}`
     );
@@ -12,8 +12,7 @@ const FeaturedProducts = ({ type }) => {
             <div className="top">
                 <h1>{type} products</h1>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                    {state}
                 </p>
             </div>
             {

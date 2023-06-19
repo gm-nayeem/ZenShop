@@ -122,7 +122,7 @@ const Product = ({ user }) => {
                   <Balance /> ADD TO COMPARE
                 </div>
               </div>
-              <div className="info">
+              {/* <div className="info">
                 <span>Vendor: Polo</span>
                 <span>Product Type: T-Shirt</span>
                 <span>Tag: T-Shirt, Women, Top</span>
@@ -134,7 +134,7 @@ const Product = ({ user }) => {
                 <span>ADDITIONAL INFORMATION</span>
                 <hr />
                 <span>FAQ</span>
-              </div>
+              </div> */}
             </div>
           </>
         )
