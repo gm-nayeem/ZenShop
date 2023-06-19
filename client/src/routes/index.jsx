@@ -96,7 +96,7 @@ const Index = () => {
         {
           path: "/success",
           element: (
-            <Protected>
+            <Protected user={user}>
               <Success />
             </Protected>
           ),
@@ -104,7 +104,7 @@ const Index = () => {
         {
           path: "/cancel",
           element: (
-            <Protected>
+            <Protected user={user}>
               <Cancel />
             </Protected>
           ),
