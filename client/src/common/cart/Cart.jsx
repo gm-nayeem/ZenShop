@@ -9,9 +9,10 @@ import {
     removeItem, resetCart, updateCart 
 } from "../../redux/cartReducer";
 import { userRequest } from "../../utils/makeRequest";
+import { toast } from 'react-toastify';
+
 import { loadStripe } from "@stripe/stripe-js";
 const STRIPE_PUBLIC_KEY = "pk_test_51MvhhMKIZlg7N7Rai7FYprIdGyE2J2VPc4ALqze3MjbU4t03EN6J57he9SxlyjLodPHmUYOdgr8bCFrgFPGC7zoU00qND6hNuM";
-import { toast } from 'react-toastify';
 
 
 const Cart = () => {
