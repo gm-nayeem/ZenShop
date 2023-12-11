@@ -33,7 +33,6 @@ app.use("/api/orders", orderRoute)
 app.use("/api/categories", categoryRoute)
 app.use("/api/subcategories", subCategoryRoute)
 app.use("/api/checkout", paymentRoute)
-0
 
 // error handle
 app.use((err, req, res, next) => {
