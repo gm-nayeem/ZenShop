@@ -18,7 +18,6 @@ const verifyToken = (req, res, next) => {
     req.user = user;
     next();
   });
-
 };
 
 const verifyTokenAndAuthorization = (req, res, next) => {
